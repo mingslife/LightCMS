@@ -8,24 +8,24 @@ import org.springframework.web.servlet.ModelAndView;
 
 public class PermissionInterceptor implements HandlerInterceptor {
 	@Override
-	public void afterCompletion(HttpServletRequest arg0,
-			HttpServletResponse arg1, Object arg2, Exception arg3)
+	public void afterCompletion(HttpServletRequest request,
+			HttpServletResponse response, Object handler, Exception exception)
 			throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
-	
+
 	@Override
-	public void postHandle(HttpServletRequest arg0, HttpServletResponse arg1,
-			Object arg2, ModelAndView arg3) throws Exception {
+	public void postHandle(HttpServletRequest request, HttpServletResponse response,
+			Object handler, ModelAndView modelAndView) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
-	
+
 	@Override
-	public boolean preHandle(HttpServletRequest arg0, HttpServletResponse arg1,
-			Object arg2) throws Exception {
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
+			Object handler) throws Exception {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 }

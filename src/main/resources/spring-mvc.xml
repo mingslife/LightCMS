@@ -21,8 +21,7 @@
 		</property>
 	</bean> -->
 	<!-- 启动SpringMVC的注解功能，完成请求和注解POJO的映射 -->
-	<bean
-		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
 		<!-- <property name="messageConverters">
 			<list>
 				<ref bean="mappingJacksonHttpMessageConverter" />	JSON转换器
@@ -84,5 +83,8 @@
       <!-- 这里配置将使用上面国际化配置的messageSource -->
       <property name="validationMessageSource" ref="messageSource" />
     </bean> 
+    
+    <!-- 事件监听器 -->
+    <bean id="emailListener" class="com.mingslife.web.event.listener.EmailListener"></bean>
 
 </beans>
