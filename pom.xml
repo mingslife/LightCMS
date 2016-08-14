@@ -193,6 +193,12 @@
       <artifactId>c3p0</artifactId>
       <version>0.9.1.2</version>
     </dependency>
+    <!-- 中文分词 -->
+    <dependency>
+      <groupId>org.lionsoul</groupId>
+      <artifactId>jcseg-core</artifactId>
+      <version>1.9.9</version>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
