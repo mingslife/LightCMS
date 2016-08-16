@@ -52,23 +52,25 @@
   </delete>
   <insert id="insert" parameterType="com.mingslife.model.Article" useGeneratedKeys="true" keyProperty="id">
     insert into articles (
-      id, uuid, author_id,
-      category_id, publish_date, month,
-      read_number, comment_number, is_visible,
-      can_comment, has_password, password,
-      has_attachment, has_image, has_video,
-      cover, keywords, summary,
-      content, on_top, create_date,
-      update_date, create_operator, update_operator
+      id, uuid, title,
+      author_id, category_id, publish_date,
+      month, read_number, comment_number,
+      is_visible, can_comment, has_password,
+      password, has_attachment, has_image,
+      has_video, cover, keywords,
+      summary, content, on_top,
+      create_date, update_date, create_operator,
+      update_operator
     ) values (
-      #{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{authorId,jdbcType=INTEGER},
-      #{categoryId,jdbcType=INTEGER}, #{publishDate,jdbcType=TIMESTAMP}, #{month,jdbcType=INTEGER},
-      #{readNumber,jdbcType=BIGINT}, #{commentNumber,jdbcType=BIGINT}, #{isVisible,jdbcType=BIT},
-      #{canComment,jdbcType=BIT}, #{hasPassword,jdbcType=BIT}, #{password,jdbcType=VARCHAR},
-      #{hasAttachment,jdbcType=BIT}, #{hasImage,jdbcType=BIT}, #{hasVideo,jdbcType=BIT},
-      #{cover,jdbcType=VARCHAR}, #{keywords,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR},
-      #{content,jdbcType=LONGVARCHAR}, #{onTop,jdbcType=BIT}, #{createDate,jdbcType=TIMESTAMP},
-      #{updateDate,jdbcType=TIMESTAMP}, #{createOperator,jdbcType=INTEGER}, #{updateOperator,jdbcType=INTEGER}
+      #{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR},
+      #{authorId,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{publishDate,jdbcType=TIMESTAMP},
+      #{month,jdbcType=INTEGER}, #{readNumber,jdbcType=BIGINT}, #{commentNumber,jdbcType=BIGINT},
+      #{isVisible,jdbcType=BIT}, #{canComment,jdbcType=BIT}, #{hasPassword,jdbcType=BIT},
+      #{password,jdbcType=VARCHAR}, #{hasAttachment,jdbcType=BIT}, #{hasImage,jdbcType=BIT},
+      #{hasVideo,jdbcType=BIT}, #{cover,jdbcType=VARCHAR}, #{keywords,jdbcType=VARCHAR},
+      #{summary,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}, #{onTop,jdbcType=BIT},
+      #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, #{createOperator,jdbcType=INTEGER},
+      #{updateOperator,jdbcType=INTEGER}
     )
   </insert>
   <insert id="insertSelective" parameterType="com.mingslife.model.Article">
@@ -79,6 +81,9 @@
       </if>
       <if test="uuid != null">
         uuid,
+      </if>
+      <if test="title != null">
+        title,
       </if>
       <if test="authorId != null">
         author_id,
@@ -385,5 +390,21 @@
   </select>
   <select id="find" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
     select ${parameters} from articles where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <resultMap id="POJO" type="com.mingslife.pojo.ArticleForIndexPOJO">
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="uuid" property="uuid" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="author_id" property="authorId" jdbcType="INTEGER" />
+    <result column="category_id" property="categoryId" jdbcType="INTEGER" />
+    <result column="publish_date" property="publishDate" jdbcType="TIMESTAMP" />
+    <result column="read_number" property="readNumber" jdbcType="BIGINT" />
+    <result column="comment_number" property="commentNumber" jdbcType="BIGINT" />
+    <result column="summary" property="summary" jdbcType="VARCHAR" />
+    <result column="category_name" property="categoryName" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="loadForIndex" resultMap="POJO">
+    select a.id, a.uuid, a.title, a.author_id, a.category_id, a.publish_date, a.comment_number, a.summary, c.category_name from articles a left join categories c on a.category_id = c.id where a.is_visible = 1 order by id desc limit #{limit,jdbcType=INTEGER}
   </select>
 </mapper>

@@ -28,7 +28,7 @@ public class EmailListener implements ApplicationListener {
 		System.out.println("正在发送邮件...");
 		System.out.println("地址: " + event.getAddress());
 		System.out.println("标题: " + event.getSubject());
-		System.out.print("内容:" + event.getContent());
+		System.out.println("内容:\n" + event.getContent());
 		/*try {
 			Thread.sleep(500L);
 		} catch (InterruptedException e) {
@@ -54,7 +54,7 @@ public class EmailListener implements ApplicationListener {
 		final MimeMessage message = new MimeMessage(session);
 		try {
 			message.setFrom(new InternetAddress(MimeUtility.encodeText("测试账号") + " <test@mingslife.com>"));
-			message.setRecipient(RecipientType.TO, new InternetAddress("642203604@qq.com"));
+			message.setRecipient(RecipientType.TO, new InternetAddress(address));
 			message.setSubject(subject);
 			message.setContent(content, "text/html; charset=UTF-8");
 			Transport.send(message);

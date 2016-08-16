@@ -1,13 +1,23 @@
 package com.mingslife.controller;
 
+import java.util.Date;
 import java.util.Set;
+import java.util.UUID;
 
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.mingslife.dto.TestDTO;
+import com.mingslife.model.Article;
+import com.mingslife.service.IArticleService;
 import com.mingslife.util.JcsegUtil;
 import com.mingslife.web.controller.BaseController;
 import com.mingslife.web.event.EmailEvent;
@@ -15,6 +25,9 @@ import com.mingslife.web.event.EmailEvent;
 @Controller
 @RequestMapping("/test")
 public class TestController extends BaseController {
+	@Autowired
+	private IArticleService articleService;
+
 	@RequestMapping(value = "/email", method = RequestMethod.GET)
 	public ResponseEntity<String> email() {
 		System.out.println(System.currentTimeMillis());
@@ -53,5 +66,59 @@ public class TestController extends BaseController {
 		System.out.println(keywords);
 		System.out.println(System.currentTimeMillis());
 		return new ResponseEntity<String>("{}", HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/article", method = RequestMethod.GET)
+	public ResponseEntity<String> article() {
+		Article article = new Article();
+		article.setUuid(UUID.randomUUID().toString());
+		article.setTitle("测试");
+		article.setAuthorId(1);
+		article.setCategoryId(1);
+		article.setPublishDate(new Date());
+		article.setMonth(201608);
+		article.setReadNumber(0L);
+		article.setCommentNumber(0L);
+		article.setIsVisible(true);
+		article.setCanComment(true);
+		article.setHasPassword(false);
+		article.setPassword(null);
+		article.setHasAttachment(false);
+		article.setHasImage(false);
+		article.setHasVideo(false);
+		article.setCover(null);
+		article.setSummary("测试");
+		article.setContent("测试");
+		article.setOnTop(false);
+		articleService.save(article);
+		return new ResponseEntity<String>("{}", HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/api", method = RequestMethod.GET)
+	public ResponseEntity<String> testGet(@Valid @ModelAttribute TestDTO testDTO, @RequestParam("type") int type) {
+		if (type == 1) return new ResponseEntity<String>("{\"error\":\"error!!\",\"type\":\"GET\"}", HttpStatus.BAD_REQUEST);
+		applicationContext.publishEvent(new EmailEvent(testDTO.getEmail(), testDTO.getSubject(), testDTO.getContent()));
+		return new ResponseEntity<String>("{\"msg\":\"Sent to " + testDTO.getEmail() + " successfully.\",\"type\":\"GET\"}", HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/api", method = RequestMethod.POST)
+	public ResponseEntity<String> testPost(@Valid @ModelAttribute TestDTO testDTO, @RequestParam("type") int type) {
+		if (type == 1) return new ResponseEntity<String>("{\"error\":\"error!!\",\"type\":\"POST\"}", HttpStatus.BAD_REQUEST);
+		applicationContext.publishEvent(new EmailEvent(testDTO.getEmail(), testDTO.getSubject(), testDTO.getContent()));
+		return new ResponseEntity<String>("{\"msg\":\"Sent to " + testDTO.getEmail() + " successfully.\",\"type\":\"POST\"}", HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/api", method = RequestMethod.PUT)
+	public ResponseEntity<String> testPut(@Valid @ModelAttribute TestDTO testDTO, @RequestParam("type") int type) {
+		if (type == 1) return new ResponseEntity<String>("{\"error\":\"error!!\",\"type\":\"PUT\"}", HttpStatus.BAD_REQUEST);
+		applicationContext.publishEvent(new EmailEvent(testDTO.getEmail(), testDTO.getSubject(), testDTO.getContent()));
+		return new ResponseEntity<String>("{\"msg\":\"Sent to " + testDTO.getEmail() + " successfully.\",\"type\":\"PUT\"}", HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/api", method = RequestMethod.DELETE)
+	public ResponseEntity<String> testDelete(@Valid @ModelAttribute TestDTO testDTO, @RequestParam("type") int type) {
+		if (type == 1) return new ResponseEntity<String>("{\"error\":\"error!!\",\"type\":\"DELETE\"}", HttpStatus.BAD_REQUEST);
+		applicationContext.publishEvent(new EmailEvent(testDTO.getEmail(), testDTO.getSubject(), testDTO.getContent()));
+		return new ResponseEntity<String>("{\"msg\":\"Sent to " + testDTO.getEmail() + " successfully.\",\"type\":\"DELETE\"}", HttpStatus.OK);
 	}
 }
