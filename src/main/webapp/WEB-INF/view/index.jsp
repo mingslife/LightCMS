@@ -5,11 +5,11 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 	<head>
 		<base href="<%= basePath %>">
 
-		<title>Black &amp; White</title>
+		<title>Ming's Life</title>
 
 		<!-- meta -->
 		<meta charset="UTF-8">

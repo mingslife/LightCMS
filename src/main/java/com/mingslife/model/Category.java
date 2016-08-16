@@ -8,6 +8,7 @@ public class Category implements Serializable {
 
 	private Integer id;
 	private String categoryName;
+	private Integer position;
 	private Date createDate;
 	private Date updateDate;
 	private Integer createOperator;
@@ -27,6 +28,14 @@ public class Category implements Serializable {
 
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
+	}
+
+	public Integer getPosition() {
+		return position;
+	}
+
+	public void setPosition(Integer position) {
+		this.position = position;
 	}
 
 	public Date getCreateDate() {
