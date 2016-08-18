@@ -89,6 +89,7 @@ public class CodeGenerator {
 		private String serviceImplPackage;
 		private String controllerPackage;
 		private String targetClassName;
+		private String tableName;
 		
 		private Class<?> targetClass;
 		private List<ClassField> classFields;
@@ -115,7 +116,8 @@ public class CodeGenerator {
 			result.append("  <sql id=\"BaseColumnList\">" + CRLF);
 			result.append("    ");
 			for (int i = 0; i < classFieldsSize; i++) {
-				String columnName = classFields.get(i).getColumnName();
+				ClassField classField = classFields.get(i);
+				String columnName = classField.getColumnName();
 				result.append(columnName + ", ");
 				if ((i + 1) % 6 == 0) {
 					result.setLength(result.length() - 1);
@@ -126,6 +128,47 @@ public class CodeGenerator {
 			result.setLength(result.length() - 2);
 			result.append(CRLF);
 			result.append("  </sql>" + CRLF);
+			result.append("  <select id=\"selectByPrimaryKey\" resultMap=\"ResultMapWithBLOBs\" parameterType=\"java.lang.Integer\">" + CRLF);
+			result.append("    select" + CRLF);
+			result.append("      <include refid=\"BaseColumnList\" />" + CRLF);
+			result.append("    from " + tableName + CRLF);
+			result.append("  </select>" + CRLF);
+			result.append("  <delete id=\"deleteByPrimaryKey\" parameterType=\"java.lang.Integer\">" + CRLF);
+			result.append("    delete from " + tableName + CRLF);
+			result.append("    where id = #{id,jdbcType=INTEGER}" + CRLF);
+			result.append("  </delete>" + CRLF);
+			result.append("  <insert id=\"insert\" parameterType=\"" + targetClass.getName() + "\" useGeneratedKeys=\"true\" keyProperty=\"id\">" + CRLF);
+			result.append("    insert into " + tableName + " (" + CRLF);
+			result.append("      ");
+			for (int i = 0; i < classFieldsSize; i++) {
+				ClassField classField = classFields.get(i);
+				String columnName = classField.getColumnName();
+				result.append(columnName + ", ");
+				if ((i + 1) % 3 == 0) {
+					result.setLength(result.length() - 1);
+					result.append(CRLF);
+					result.append("      ");
+				}
+			}
+			result.setLength(result.length() - 2);
+			result.append(CRLF);
+			result.append("    ) values (" + CRLF);
+			result.append("      ");
+			for (int i = 0; i < classFieldsSize; i++) {
+				ClassField classField = classFields.get(i);
+				String name = classField.getName();
+				String jdbcType = classField.getJdbcType();
+				result.append("#{" + name + ",jdbcType=" + jdbcType + "}, ");
+				if ((i + 1) % 3 == 0) {
+					result.setLength(result.length() - 1);
+					result.append(CRLF);
+					result.append("      ");
+				}
+			}
+			result.setLength(result.length() - 2);
+			result.append(CRLF);
+			result.append("    )" + CRLF);
+			result.append("  </insert>" + CRLF);
 			result.append("</mapper>" + CRLF);
 			
 			System.out.println(result);
@@ -151,7 +194,7 @@ public class CodeGenerator {
 			}
 		}
 		
-		public Generator(String projectPath, String javaPath, String modelPackage, String mappingPackage, String daoPackage, String servicePackage, String serviceImplPackage, String controllerPackage, String targetClassName) {
+		public Generator(String projectPath, String javaPath, String modelPackage, String mappingPackage, String daoPackage, String servicePackage, String serviceImplPackage, String controllerPackage, String targetClassName, String tableName) {
 			this.projectPath = projectPath;
 			this.javaPath = javaPath;
 			this.modelPackage = modelPackage;
@@ -161,6 +204,7 @@ public class CodeGenerator {
 			this.serviceImplPackage = serviceImplPackage;
 			this.controllerPackage = controllerPackage;
 			this.targetClassName = targetClassName;
+			this.tableName = tableName;
 			
 			init();
 		}
@@ -177,8 +221,9 @@ public class CodeGenerator {
 		final String controllerPackage = "com.mingslife.controller";
 		
 		String targetClassName = "Category";
+		String tableName = "categories";
 		
-		Generator generator = new Generator(projectPath, javaPath, modelPackage, mappingPackage, daoPackage, servicePackage, serviceImplPackage, controllerPackage, targetClassName);
+		Generator generator = new Generator(projectPath, javaPath, modelPackage, mappingPackage, daoPackage, servicePackage, serviceImplPackage, controllerPackage, targetClassName, tableName);
 		generator.generateMappingFile();
 	}
 }
