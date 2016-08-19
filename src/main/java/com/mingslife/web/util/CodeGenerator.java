@@ -169,6 +169,98 @@ public class CodeGenerator {
 			result.append(CRLF);
 			result.append("    )" + CRLF);
 			result.append("  </insert>" + CRLF);
+			result.append("  <insert id=\"insertSelective\" parameterType=\"" + targetClass.getName() + "\">" + CRLF);
+			result.append("    insert into " + tableName + CRLF);
+			result.append("    <trim prefix=\"(\" suffix=\")\" suffixOverrides=\",\">" + CRLF);
+			for (ClassField classField : classFields) {
+				result.append("      <if test=\"" + classField.getName() + " != null\">" + CRLF);
+				result.append("        " + classField.getColumnName() + "," + CRLF);
+				result.append("      </if>" + CRLF);
+			}
+			result.append("    </trim>" + CRLF);
+			result.append("    <trim prefix=\"values (\" suffix=\")\" suffixOverrides=\",\">" + CRLF);
+			for (ClassField classField : classFields) {
+				result.append("      <if test=\"" + classField.getName() + " != null\">" + CRLF);
+				result.append("        #{" + classField.getName() + ",jdbcType=" + classField.getJdbcType() + "}," + CRLF);
+				result.append("      </if>" + CRLF);
+			}
+			result.append("    </trim>" + CRLF);
+			result.append("  </insert>" + CRLF);
+			result.append("  <update id=\"updateByPrimaryKeySelective\" parameterType=\"" + targetClass.getName() + "\">" + CRLF);
+			result.append("    update " + tableName + CRLF);
+			for (ClassField classField : classFields) {
+				result.append("    <set>" + CRLF);
+				result.append("      <if test=\"uuid != null\">" + CRLF);
+				result.append("        " + classField.getColumnName() + " = #{" + classField.getName() + ",jdbcType=" + classField.getJdbcType() + "}," + CRLF);
+				result.append("      </if>" + CRLF);
+				result.append("    </set>" + CRLF);
+			}
+			result.append("    where id = #{id,jdbcType=INTEGER}" + CRLF);
+			result.append("  </update>" + CRLF);
+			result.append("  <update id=\"updateByPrimaryKey\" parameterType=\"" + targetClass.getName() + "\">" + CRLF);
+			result.append("    update " + tableName + CRLF);
+			result.append("    set");
+			for (ClassField classField : classFields) {
+				result.append(CRLF + "      " + classField.getColumnName() + " = #{" + classField.getName() + ",jdbcType=" + classField.getJdbcType() + "},");
+			}
+			result.setLength(result.length() - 1);
+			result.append(CRLF);
+			result.append("    where id = #{id,jdbcType=INTEGER}" + CRLF);
+			result.append("  </update>" + CRLF);
+			result.append("  <select id=\"select\" resultMap=\"BaseResultMap\">" + CRLF);
+			result.append("    select" + CRLF);
+			result.append("    <if test=\"parameters != null\">" + CRLF);
+			result.append("      ${parameters}" + CRLF);
+			result.append("    </if>" + CRLF);
+			result.append("    <if test=\"parameters == null\">" + CRLF);
+			result.append("      *" + CRLF);
+			result.append("    </if>" + CRLF);
+			result.append("    from " + tableName + CRLF);
+			result.append("    <if test=\"condition != null\">" + CRLF);
+			result.append("      where ${condition}" + CRLF);
+			result.append("    </if>" + CRLF);
+			result.append("    <if test=\"order != null and sort != null\">" + CRLF);
+			result.append("      order by ${order} ${sort}" + CRLF);
+			result.append("    </if>" + CRLF);
+			result.append("    <if test=\"offset != -1 and limit != -1\">" + CRLF);
+			result.append("      limit #{offset,jdbcType=INTEGER}, #{limit,jdbcType=INTEGER}" + CRLF);
+			result.append("    </if>" + CRLF);
+			result.append("  </select>" + CRLF);
+			result.append("  <select id=\"count\" resultType=\"long\">" + CRLF);
+			result.append("    select count(" + CRLF);
+			result.append("    <if test=\"isDistinct == true\">" + CRLF);
+			result.append("      distinct" + CRLF);
+			result.append("    </if>" + CRLF);
+			result.append("    <if test=\"parameters != null\">" + CRLF);
+			result.append("      ${parameters}" + CRLF);
+			result.append("    </if>" + CRLF);
+			result.append("    <if test=\"parameters == null\">" + CRLF);
+			result.append("      *" + CRLF);
+			result.append("    </if>" + CRLF);
+			result.append("    ) from articles" + CRLF);
+			result.append("    <if test=\"condition != null\">" + CRLF);
+			result.append("      where ${condition}" + CRLF);
+			result.append("    </if>" + CRLF);
+			result.append("  </select>" + CRLF);
+			result.append("  <select id=\"sum\" resultType=\"double\">" + CRLF);
+			result.append("    select sum(" + CRLF);
+			result.append("    <if test=\"isDistinct == true\">" + CRLF);
+			result.append("      distinct" + CRLF);
+			result.append("    </if>" + CRLF);
+			result.append("    ${parameter}) from articles" + CRLF);
+			result.append("    <if test=\"condition != null\">" + CRLF);
+			result.append("      where ${condition}" + CRLF);
+			result.append("    </if>" + CRLF);
+			result.append("    <if test=\"order != null and sort != null\">" + CRLF);
+			result.append("      order by ${order} ${sort}" + CRLF);
+			result.append("    </if>" + CRLF);
+			result.append("    <if test=\"offset != -1 and limit != -1\">" + CRLF);
+			result.append("      limit #{offset,jdbcType=INTEGER}, #{limit,jdbcType=INTEGER}" + CRLF);
+			result.append("    </if>" + CRLF);
+			result.append("  </select>" + CRLF);
+			result.append("  <select id=\"find\" resultMap=\"ResultMapWithBLOBs\" parameterType=\"java.lang.Integer\">" + CRLF);
+			result.append("    select ${parameters} from articles where id = #{id,jdbcType=INTEGER}" + CRLF);
+			result.append("  </select>" + CRLF);
 			result.append("</mapper>" + CRLF);
 			
 			System.out.println(result);
