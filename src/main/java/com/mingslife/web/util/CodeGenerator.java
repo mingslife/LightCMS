@@ -237,7 +237,7 @@ public class CodeGenerator {
 			result.append("    <if test=\"parameters == null\">" + CRLF);
 			result.append("      *" + CRLF);
 			result.append("    </if>" + CRLF);
-			result.append("    ) from articles" + CRLF);
+			result.append("    ) from " + tableName + CRLF);
 			result.append("    <if test=\"condition != null\">" + CRLF);
 			result.append("      where ${condition}" + CRLF);
 			result.append("    </if>" + CRLF);
@@ -247,7 +247,7 @@ public class CodeGenerator {
 			result.append("    <if test=\"isDistinct == true\">" + CRLF);
 			result.append("      distinct" + CRLF);
 			result.append("    </if>" + CRLF);
-			result.append("    ${parameter}) from articles" + CRLF);
+			result.append("    ${parameter}) from " + tableName + CRLF);
 			result.append("    <if test=\"condition != null\">" + CRLF);
 			result.append("      where ${condition}" + CRLF);
 			result.append("    </if>" + CRLF);
@@ -259,7 +259,7 @@ public class CodeGenerator {
 			result.append("    </if>" + CRLF);
 			result.append("  </select>" + CRLF);
 			result.append("  <select id=\"find\" resultMap=\"ResultMapWithBLOBs\" parameterType=\"java.lang.Integer\">" + CRLF);
-			result.append("    select ${parameters} from articles where id = #{id,jdbcType=INTEGER}" + CRLF);
+			result.append("    select ${parameters} from " + tableName + " where id = #{id,jdbcType=INTEGER}" + CRLF);
 			result.append("  </select>" + CRLF);
 			result.append("</mapper>" + CRLF);
 			
