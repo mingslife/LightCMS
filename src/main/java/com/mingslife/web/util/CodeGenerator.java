@@ -1,5 +1,8 @@
 package com.mingslife.web.util;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -11,6 +14,7 @@ public class CodeGenerator {
 		private String name;
 		private String columnName;
 		private String jdbcType;
+		private String parameterType;
 		
 		public String getName() {
 			return name;
@@ -34,6 +38,14 @@ public class CodeGenerator {
 
 		public void setJdbcType(String jdbcType) {
 			this.jdbcType = jdbcType;
+		}
+
+		public String getParameterType() {
+			return parameterType;
+		}
+
+		public void setParameterType(String parameterType) {
+			this.parameterType = parameterType;
 		}
 
 		private String getColumnName(String name) {
@@ -69,6 +81,7 @@ public class CodeGenerator {
 			this.name = name;
 			this.columnName = getColumnName(name);
 			this.jdbcType = getJdbcType(type);
+			this.parameterType = field.getType().getName();
 		}
 		
 		@Override
@@ -90,9 +103,11 @@ public class CodeGenerator {
 		private String controllerPackage;
 		private String targetClassName;
 		private String tableName;
+		private String entityId;
 		
 		private Class<?> targetClass;
 		private List<ClassField> classFields;
+		private ClassField idField;
 		
 		public boolean generateMappingFile() {
 			int classFieldsSize = classFields.size();
@@ -103,23 +118,18 @@ public class CodeGenerator {
 			result.append("<!DOCTYPE mapper PUBLIC \"-//mybatis.org//DTD Mapper 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-mapper.dtd\">" + CRLF);
 			result.append("<mapper namespace=\"" + daoPackage + "." + targetClassName + "Mapper\">" + CRLF);
 			result.append("  <resultMap id=\"BaseResultMap\" type=\"" + modelPackage + "." + targetClassName + "\">" + CRLF);
+			result.append("    <id column=\"" + idField.getColumnName()  + "\" property=\"" + idField.getName() + "\" jdbcType=\"" + idField.getJdbcType() + "\" />" + CRLF);
 			for (ClassField classField : classFields) {
-				result.append("    <");
-				if (classField.getName().equals("id")) {
-					result.append("id");
-				} else {
-					result.append("result");
-				}
-				result.append(" column=\"" + classField.getColumnName() + "\" property=\"" + classField.getName() + "\" jdbcType=\"" + classField.getJdbcType() + "\" />" + CRLF);
+				result.append("    <result column=\"" + classField.getColumnName() + "\" property=\"" + classField.getName() + "\" jdbcType=\"" + classField.getJdbcType() + "\" />" + CRLF);
 			}
 			result.append("  </resultMap>" + CRLF);
 			result.append("  <sql id=\"BaseColumnList\">" + CRLF);
-			result.append("    ");
+			result.append("    " + idField.getColumnName() + ", ");
 			for (int i = 0; i < classFieldsSize; i++) {
 				ClassField classField = classFields.get(i);
 				String columnName = classField.getColumnName();
 				result.append(columnName + ", ");
-				if ((i + 1) % 6 == 0) {
+				if ((i + 2) % 6 == 0) {
 					result.setLength(result.length() - 1);
 					result.append(CRLF);
 					result.append("    ");
@@ -128,23 +138,23 @@ public class CodeGenerator {
 			result.setLength(result.length() - 2);
 			result.append(CRLF);
 			result.append("  </sql>" + CRLF);
-			result.append("  <select id=\"selectByPrimaryKey\" resultMap=\"ResultMapWithBLOBs\" parameterType=\"java.lang.Integer\">" + CRLF);
+			result.append("  <select id=\"selectByPrimaryKey\" resultMap=\"ResultMapWithBLOBs\" parameterType=\"" + idField.getParameterType() + "\">" + CRLF);
 			result.append("    select" + CRLF);
 			result.append("      <include refid=\"BaseColumnList\" />" + CRLF);
 			result.append("    from " + tableName + CRLF);
 			result.append("  </select>" + CRLF);
-			result.append("  <delete id=\"deleteByPrimaryKey\" parameterType=\"java.lang.Integer\">" + CRLF);
+			result.append("  <delete id=\"deleteByPrimaryKey\" parameterType=\"" + idField.getParameterType() + "\">" + CRLF);
 			result.append("    delete from " + tableName + CRLF);
-			result.append("    where id = #{id,jdbcType=INTEGER}" + CRLF);
+			result.append("    where " + idField.getColumnName() + " = #{" + idField.getName() + ",jdbcType=" + idField.getJdbcType() + "}" + CRLF);
 			result.append("  </delete>" + CRLF);
-			result.append("  <insert id=\"insert\" parameterType=\"" + targetClass.getName() + "\" useGeneratedKeys=\"true\" keyProperty=\"id\">" + CRLF);
+			result.append("  <insert id=\"insert\" parameterType=\"" + targetClass.getName() + "\" useGeneratedKeys=\"true\" keyProperty=\"" + idField.getName() + "\">" + CRLF);
 			result.append("    insert into " + tableName + " (" + CRLF);
-			result.append("      ");
+			result.append("      " + idField.getColumnName() + ", ");
 			for (int i = 0; i < classFieldsSize; i++) {
 				ClassField classField = classFields.get(i);
 				String columnName = classField.getColumnName();
 				result.append(columnName + ", ");
-				if ((i + 1) % 3 == 0) {
+				if ((i + 2) % 3 == 0) {
 					result.setLength(result.length() - 1);
 					result.append(CRLF);
 					result.append("      ");
@@ -153,13 +163,13 @@ public class CodeGenerator {
 			result.setLength(result.length() - 2);
 			result.append(CRLF);
 			result.append("    ) values (" + CRLF);
-			result.append("      ");
+			result.append("      #{" + idField.getName() + ",jdbcType=" + idField.getJdbcType() + "}, ");
 			for (int i = 0; i < classFieldsSize; i++) {
 				ClassField classField = classFields.get(i);
 				String name = classField.getName();
 				String jdbcType = classField.getJdbcType();
 				result.append("#{" + name + ",jdbcType=" + jdbcType + "}, ");
-				if ((i + 1) % 3 == 0) {
+				if ((i + 2) % 3 == 0) {
 					result.setLength(result.length() - 1);
 					result.append(CRLF);
 					result.append("      ");
@@ -172,6 +182,9 @@ public class CodeGenerator {
 			result.append("  <insert id=\"insertSelective\" parameterType=\"" + targetClass.getName() + "\">" + CRLF);
 			result.append("    insert into " + tableName + CRLF);
 			result.append("    <trim prefix=\"(\" suffix=\")\" suffixOverrides=\",\">" + CRLF);
+			result.append("      <if test=\"" + idField.getName() + " != null\">" + CRLF);
+			result.append("        " + idField.getColumnName() + "," + CRLF);
+			result.append("      </if>" + CRLF);
 			for (ClassField classField : classFields) {
 				result.append("      <if test=\"" + classField.getName() + " != null\">" + CRLF);
 				result.append("        " + classField.getColumnName() + "," + CRLF);
@@ -179,6 +192,9 @@ public class CodeGenerator {
 			}
 			result.append("    </trim>" + CRLF);
 			result.append("    <trim prefix=\"values (\" suffix=\")\" suffixOverrides=\",\">" + CRLF);
+			result.append("      <if test=\"" + idField.getName() + " != null\">" + CRLF);
+			result.append("        #{" + idField.getName() + ",jdbcType=" + idField.getJdbcType() + "}," + CRLF);
+			result.append("      </if>" + CRLF);
 			for (ClassField classField : classFields) {
 				result.append("      <if test=\"" + classField.getName() + " != null\">" + CRLF);
 				result.append("        #{" + classField.getName() + ",jdbcType=" + classField.getJdbcType() + "}," + CRLF);
@@ -195,7 +211,7 @@ public class CodeGenerator {
 				result.append("      </if>" + CRLF);
 				result.append("    </set>" + CRLF);
 			}
-			result.append("    where id = #{id,jdbcType=INTEGER}" + CRLF);
+			result.append("    where " + idField.getColumnName() + " = #{" + idField.getName() + ",jdbcType=" + idField.getJdbcType() + "}" + CRLF);
 			result.append("  </update>" + CRLF);
 			result.append("  <update id=\"updateByPrimaryKey\" parameterType=\"" + targetClass.getName() + "\">" + CRLF);
 			result.append("    update " + tableName + CRLF);
@@ -205,7 +221,7 @@ public class CodeGenerator {
 			}
 			result.setLength(result.length() - 1);
 			result.append(CRLF);
-			result.append("    where id = #{id,jdbcType=INTEGER}" + CRLF);
+			result.append("    where " + idField.getColumnName() + " = #{" + idField.getName() + ",jdbcType=" + idField.getJdbcType() + "}" + CRLF);
 			result.append("  </update>" + CRLF);
 			result.append("  <select id=\"select\" resultMap=\"BaseResultMap\">" + CRLF);
 			result.append("    select" + CRLF);
@@ -265,7 +281,19 @@ public class CodeGenerator {
 			
 			System.out.println(result);
 			
-			return true;
+//			File file = new File(projectPath + "/" + javaPath);
+			File file = new File("F:/test" + "/" + javaPath + "/" + mappingPackage.replace('.', '/') + "/" + targetClass.getSimpleName() + "Mapper.xml");
+			try {
+				OutputStream out = new FileOutputStream(file);
+				out.write(result.toString().getBytes());
+				out.flush();
+				out.close();
+				
+				return true;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
+			}
 		}
 		
 		private boolean init() {
@@ -275,7 +303,11 @@ public class CodeGenerator {
 				classFields = new ArrayList<ClassField>(fields.length);
 				for (Field field : fields) {
 					if (field.getModifiers() == Modifier.PRIVATE) {
-						classFields.add(new ClassField(field));
+						if (field.getName().equals(entityId)) {
+							idField = new ClassField(field);
+						} else {
+							classFields.add(new ClassField(field));
+						}
 					}
 				}
 				System.out.println(classFields);
@@ -286,7 +318,7 @@ public class CodeGenerator {
 			}
 		}
 		
-		public Generator(String projectPath, String javaPath, String modelPackage, String mappingPackage, String daoPackage, String servicePackage, String serviceImplPackage, String controllerPackage, String targetClassName, String tableName) {
+		public Generator(String projectPath, String javaPath, String modelPackage, String mappingPackage, String daoPackage, String servicePackage, String serviceImplPackage, String controllerPackage, String targetClassName, String tableName, String entityId) {
 			this.projectPath = projectPath;
 			this.javaPath = javaPath;
 			this.modelPackage = modelPackage;
@@ -297,6 +329,7 @@ public class CodeGenerator {
 			this.controllerPackage = controllerPackage;
 			this.targetClassName = targetClassName;
 			this.tableName = tableName;
+			this.entityId = entityId;
 			
 			init();
 		}
@@ -314,8 +347,9 @@ public class CodeGenerator {
 		
 		String targetClassName = "Category";
 		String tableName = "categories";
+		String entityId = "id";
 		
-		Generator generator = new Generator(projectPath, javaPath, modelPackage, mappingPackage, daoPackage, servicePackage, serviceImplPackage, controllerPackage, targetClassName, tableName);
+		Generator generator = new Generator(projectPath, javaPath, modelPackage, mappingPackage, daoPackage, servicePackage, serviceImplPackage, controllerPackage, targetClassName, tableName, entityId);
 		generator.generateMappingFile();
 	}
 }
