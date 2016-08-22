@@ -15,6 +15,7 @@ public class CodeGenerator {
 		private String columnName;
 		private String jdbcType;
 		private String parameterType;
+		private Class<?> parameterClass;
 		
 		public String getName() {
 			return name;
@@ -46,6 +47,14 @@ public class CodeGenerator {
 
 		public void setParameterType(String parameterType) {
 			this.parameterType = parameterType;
+		}
+
+		public Class<?> getParameterClass() {
+			return parameterClass;
+		}
+
+		public void setParameterClass(Class<?> parameterClass) {
+			this.parameterClass = parameterClass;
 		}
 
 		private String getColumnName(String name) {
@@ -82,6 +91,7 @@ public class CodeGenerator {
 			this.columnName = getColumnName(name);
 			this.jdbcType = getJdbcType(type);
 			this.parameterType = field.getType().getName();
+			this.parameterClass = field.getClass();
 		}
 		
 		@Override
@@ -104,12 +114,13 @@ public class CodeGenerator {
 		private String targetClassName;
 		private String tableName;
 		private String entityId;
+		private String recordName;
 		
 		private Class<?> targetClass;
 		private List<ClassField> classFields;
 		private ClassField idField;
 		
-		public boolean generateMappingFile() {
+		public boolean generateMapperFile() {
 			int classFieldsSize = classFields.size();
 			
 			StringBuilder result = new StringBuilder();
@@ -282,7 +293,304 @@ public class CodeGenerator {
 			System.out.println(result);
 			
 //			File file = new File(projectPath + "/" + javaPath);
-			File file = new File("F:/test" + "/" + javaPath + "/" + mappingPackage.replace('.', '/') + "/" + targetClass.getSimpleName() + "Mapper.xml");
+			File file = new File("F:/test" + "/" + javaPath + "/" + mappingPackage.replace('.', '/') + "/" + targetClassName + "Mapper.xml");
+			try {
+				OutputStream out = new FileOutputStream(file);
+				out.write(result.toString().getBytes());
+				out.flush();
+				out.close();
+				
+				return true;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+		
+		public boolean generateDaoFile() {
+			StringBuilder result = new StringBuilder();
+			
+			result.append("package " + daoPackage + ";" + CRLF);
+			result.append(CRLF);
+			result.append("import java.util.List;" + CRLF);
+			result.append(CRLF);
+			result.append("import org.apache.ibatis.annotations.Param;" + CRLF);
+			result.append(CRLF);
+			result.append("import " + targetClass.getName() + ";" + CRLF);
+			result.append(CRLF);
+			result.append("public interface " + targetClassName + "Mapper {" + CRLF);
+			result.append("\tint deleteByPrimaryKey(" + idField.getParameterClass().getSimpleName() + " " + idField.getName() + ");" + CRLF);
+			result.append(CRLF);
+			result.append("\tint insert(" + targetClassName + " record);" + CRLF);
+			result.append(CRLF);
+			result.append("\tint insertSelective(" + targetClassName + " record);" + CRLF);
+			result.append(CRLF);
+			result.append("\t" + targetClassName + " selectByPrimaryKey(" + idField.getParameterClass().getSimpleName() + " " + idField.getName() + ");" + CRLF);
+			result.append(CRLF);
+			result.append("\tint updateByPrimaryKeySelective(" + targetClassName + " record);" + CRLF);
+			result.append(CRLF);
+			result.append("\tint updateByPrimaryKey(" + targetClassName + " record);" + CRLF);
+			result.append(CRLF);
+			result.append("\tList<" + targetClassName + "> select(@Param(\"parameters\") String parameters, @Param(\"condition\") String condition, @Param(\"order\") String order, @Param(\"sort\") String sort, @Param(\"offset\") int offset, @Param(\"limit\") int limit);" + CRLF);
+			result.append(CRLF);
+			result.append("\tlong count(@Param(\"parameters\") String parameters, @Param(\"condition\") String condition, @Param(\"isDistinct\") boolean isDistinct);" + CRLF);
+			result.append(CRLF);
+			result.append("\tdouble sum(@Param(\"parameter\") String parameter, @Param(\"condition\") String condition, @Param(\"order\") String order, @Param(\"sort\") String sort, @Param(\"offset\") int offset, @Param(\"limit\") int limit, @Param(\"isDistinct\") boolean isDistinct);" + CRLF);
+			result.append(CRLF);
+			result.append("\t" + targetClassName + " find(@Param(\"id\") Integer id, @Param(\"parameters\") String parameters);" + CRLF);
+			result.append("}" + CRLF);
+			
+			System.out.println(result);
+			
+//			File file = new File(projectPath + "/" + javaPath);
+			File file = new File("F:/test" + "/" + javaPath + "/" + daoPackage.replace('.', '/') + "/" + targetClassName + "Mapper.java");
+			try {
+				OutputStream out = new FileOutputStream(file);
+				out.write(result.toString().getBytes());
+				out.flush();
+				out.close();
+				
+				return true;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+		
+		public boolean generateServiceFile() {
+			StringBuilder result = new StringBuilder();
+			
+			result.append("package " + servicePackage + ";" + CRLF);
+			result.append(CRLF);
+			result.append("import java.util.List;" + CRLF);
+			result.append(CRLF);
+			result.append("import " + targetClass.getName() + ";" + CRLF);
+			result.append(CRLF);
+			result.append("public interface I" + targetClassName + "Service {" + CRLF);
+			result.append("\tvoid save(" + targetClassName + " " + recordName + ");" + CRLF);
+			result.append("\tvoid update(" + targetClassName + " " + recordName + ");" + CRLF);
+			result.append("\tvoid delete(" + targetClassName + " " + recordName + ");" + CRLF);
+			result.append("\tvoid delete(Integer id);" + CRLF);
+			result.append("\t" + targetClassName + " find(Integer id);" + CRLF);
+			result.append("\t" + targetClassName + " find(Integer id, String[] parameters);" + CRLF);
+			result.append("\tList<" + targetClassName + "> load();" + CRLF);
+			result.append("\tList<" + targetClassName + "> load(String[] parameters);" + CRLF);
+			result.append("\tList<" + targetClassName + "> load(String condition, Object[] values);" + CRLF);
+			result.append("\tList<" + targetClassName + "> load(String[] parameters, String condition, Object[] values);" + CRLF);
+			result.append("\tList<" + targetClassName + "> load(int curPage, int limit);" + CRLF);
+			result.append("\tList<" + targetClassName + "> load(String[] parameters, int curPage, int limit);" + CRLF);
+			result.append("\tList<" + targetClassName + "> load(String condition, Object[] values, int curPage, int limit);" + CRLF);
+			result.append("\tList<" + targetClassName + "> load(String[] parameters, String condition, Object[] values, int curPage, int limit);" + CRLF);
+			result.append("\tList<" + targetClassName + "> load(String condition, Object[] values, String order, String sort);" + CRLF);
+			result.append("\tList<" + targetClassName + "> load(String[] parameters, String condition, Object[] values, String order, String sort);" + CRLF);
+			result.append("\tList<" + targetClassName + "> load(String order, String sort, int curPage, int limit);" + CRLF);
+			result.append("\tList<" + targetClassName + "> load(String[] parameters, String order, String sort, int curPage, int limit);" + CRLF);
+			result.append("\tList<" + targetClassName + "> load(String condition, Object[] values, String order, String sort, int curPage, int limit);" + CRLF);
+			result.append("\tList<" + targetClassName + "> load(String[] parameters, String condition, Object[] values, String order, String sort, int curPage, int limit);" + CRLF);
+			result.append("\tlong count();" + CRLF);
+			result.append("\tlong count(String condition, Object[] values);" + CRLF);
+			result.append("\tlong count(String[] parameters, boolean isDistinct);" + CRLF);
+			result.append("\tlong count(String[] parameters, String condition, Object[] values, boolean isDistinct);" + CRLF);
+			result.append("\tdouble sum(String parameter);" + CRLF);
+			result.append("\tdouble sum(String parameter, String condition, Object[] values);" + CRLF);
+			result.append("\tdouble sum(String parameter, String order, String sort, int curPage, int limit);" + CRLF);
+			result.append("\tdouble sum(String parameter, String condition, Object[] values, int curPage, int limit);" + CRLF);
+			result.append("\tdouble sum(String parameter, String condition, Object[] values, String order, String sort, int curPage, int limit);" + CRLF);
+			result.append("\tdouble sum(String parameter, String condition, Object[] values, String order, String sort, int curPage, int limit, boolean isDistinct);" + CRLF);
+			result.append("}" + CRLF);
+			
+			System.out.println(result);
+			
+//			File file = new File(projectPath + "/" + javaPath);
+			File file = new File("F:/test" + "/" + javaPath + "/" + servicePackage.replace('.', '/') + "/I" + targetClassName + "Service.java");
+			try {
+				OutputStream out = new FileOutputStream(file);
+				out.write(result.toString().getBytes());
+				out.flush();
+				out.close();
+				
+				return true;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+		
+		public boolean generateServiceImplFile() {
+			StringBuilder result = new StringBuilder();
+			
+			result.append("package " + serviceImplPackage + ";" + CRLF);
+			result.append(CRLF);
+			result.append("import java.util.List;" + CRLF);
+			result.append(CRLF);
+			result.append("import org.springframework.beans.factory.annotation.Autowired;" + CRLF);
+			result.append("import org.springframework.stereotype.Service;" + CRLF);
+			result.append(CRLF);
+			result.append("import " + daoPackage + "." + targetClassName + "Mapper;" + CRLF);
+			result.append("import " + targetClass.getName() + ";" + CRLF);
+			result.append("import " + servicePackage + ".I" + targetClassName + "Service;" + CRLF);
+			result.append("import com.mingslife.web.util.SQLUtil;" + CRLF);
+			result.append(CRLF);
+			result.append("@Service" + CRLF);
+			result.append("public class " + targetClassName + "Service implements I" + targetClassName + "Service {" + CRLF);
+			result.append("\t@Autowired" + CRLF);
+			result.append("\tprivate " + targetClassName + "Mapper " + recordName + "Mapper;" + CRLF);
+			result.append(CRLF);
+			result.append("\t@Override" + CRLF);
+			result.append("\tpublic void save(" + targetClassName + " " + recordName + ") {" + CRLF);
+			result.append("\t\t" + recordName + "Mapper.insert(" + recordName + ");" + CRLF);
+			result.append("\t}" + CRLF);
+			result.append(CRLF);
+			result.append("\t@Override" + CRLF);
+			result.append("\tpublic void update(" + targetClassName + " " + recordName + ") {" + CRLF);
+			result.append("\t\t" + recordName + "Mapper.updateByPrimaryKeySelective(" + recordName + ");" + CRLF);
+			result.append("\t}" + CRLF);
+			result.append(CRLF);
+			result.append("\t@Override" + CRLF);
+			result.append("\tpublic void delete(" + targetClassName + " " + recordName + ") {" + CRLF);
+			result.append("\t\t" + recordName + "Mapper.deleteByPrimaryKey(" + recordName + ".getId());" + CRLF);
+			result.append("\t}" + CRLF);
+			result.append(CRLF);
+			result.append("\t@Override" + CRLF);
+			result.append("\tpublic void delete(Integer id) {" + CRLF);
+			result.append("\t\t" + recordName + "Mapper.deleteByPrimaryKey(id);" + CRLF);
+			result.append("\t}" + CRLF);
+			result.append(CRLF);
+			result.append("\t@Override" + CRLF);
+			result.append("\tpublic " + targetClassName + " find(Integer id) {" + CRLF);
+			result.append("\t\treturn " + recordName + "Mapper.selectByPrimaryKey(id);" + CRLF);
+			result.append("\t}" + CRLF);
+			result.append(CRLF);
+			result.append("\t@Override" + CRLF);
+			result.append("\tpublic " + targetClassName + " find(Integer id, String[] parameters) {" + CRLF);
+			result.append("\t\treturn " + recordName + "Mapper.find(id, SQLUtil.formatParameters(parameters));" + CRLF);
+			result.append("\t}" + CRLF);
+			result.append(CRLF);
+			result.append("\t@Override" + CRLF);
+			result.append("\tpublic List<" + targetClassName + "> load() {" + CRLF);
+			result.append("\t\treturn " + recordName + "Mapper.select(null, null, null, null, -1, -1);" + CRLF);
+			result.append("\t}" + CRLF);
+			result.append(CRLF);
+			result.append("\t@Override" + CRLF);
+			result.append("\tpublic List<" + targetClassName + "> load(String[] parameters) {" + CRLF);
+			result.append("\t\treturn " + recordName + "Mapper.select(SQLUtil.formatParameters(parameters), null, null, null, -1, -1);" + CRLF);
+			result.append("\t}" + CRLF);
+			result.append(CRLF);
+			result.append("\t@Override" + CRLF);
+			result.append("\tpublic List<" + targetClassName + "> load(String condition, Object[] values) {" + CRLF);
+			result.append("\t\treturn " + recordName + "Mapper.select(null, SQLUtil.fillCondition(condition, values), null, null, -1, -1);" + CRLF);
+			result.append("\t}" + CRLF);
+			result.append(CRLF);
+			result.append("\t@Override" + CRLF);
+			result.append("\tpublic List<" + targetClassName + "> load(String[] parameters, String condition, Object[] values) {" + CRLF);
+			result.append("\t\treturn " + recordName + "Mapper.select(SQLUtil.formatParameters(parameters), SQLUtil.fillCondition(condition, values), null, null, -1, -1);" + CRLF);
+			result.append("\t}" + CRLF);
+			result.append(CRLF);
+			result.append("\t@Override" + CRLF);
+			result.append("\tpublic List<" + targetClassName + "> load(int curPage, int limit) {" + CRLF);
+			result.append("\t\treturn " + recordName + "Mapper.select(null, null, null, null, SQLUtil.getOffset(curPage, limit), limit);" + CRLF);
+			result.append("\t}" + CRLF);
+			result.append(CRLF);
+			result.append("\t@Override" + CRLF);
+			result.append("\tpublic List<" + targetClassName + "> load(String[] parameters, int curPage, int limit) {" + CRLF);
+			result.append("\t\treturn " + recordName + "Mapper.select(SQLUtil.formatParameters(parameters), null, null, null, SQLUtil.getOffset(curPage, limit), limit);" + CRLF);
+			result.append("\t}" + CRLF);
+			result.append(CRLF);
+			result.append("\t@Override" + CRLF);
+			result.append("\tpublic List<" + targetClassName + "> load(String condition, Object[] values, int curPage, int limit) {" + CRLF);
+			result.append("\t\treturn " + recordName + "Mapper.select(null, SQLUtil.fillCondition(condition, values), null, null, SQLUtil.getOffset(curPage, limit), limit);" + CRLF);
+			result.append("\t}" + CRLF);
+			result.append(CRLF);
+			result.append("\t@Override" + CRLF);
+			result.append("\tpublic List<" + targetClassName + "> load(String[] parameters, String condition, Object[] values, int curPage, int limit) {" + CRLF);
+			result.append("\t\treturn " + recordName + "Mapper.select(SQLUtil.formatParameters(parameters), SQLUtil.fillCondition(condition, values), null, null, SQLUtil.getOffset(curPage, limit), limit);" + CRLF);
+			result.append("\t}" + CRLF);
+			result.append(CRLF);
+			result.append("\t@Override" + CRLF);
+			result.append("\tpublic List<" + targetClassName + "> load(String condition, Object[] values, String order, String sort) {" + CRLF);
+			result.append("\t\treturn " + recordName + "Mapper.select(null, SQLUtil.fillCondition(condition, values), order, sort, -1, -1);" + CRLF);
+			result.append("\t}" + CRLF);
+			result.append(CRLF);
+			result.append("\t@Override" + CRLF);
+			result.append("\tpublic List<" + targetClassName + "> load(String[] parameters, String condition, Object[] values, String order, String sort) {" + CRLF);
+			result.append("\t\treturn " + recordName + "Mapper.select(SQLUtil.formatParameters(parameters), SQLUtil.fillCondition(condition, values), order, sort, -1, -1);" + CRLF);
+			result.append("\t}" + CRLF);
+			result.append(CRLF);
+			result.append("\t@Override" + CRLF);
+			result.append("\tpublic List<" + targetClassName + "> load(String order, String sort, int curPage, int limit) {" + CRLF);
+			result.append("\t\treturn " + recordName + "Mapper.select(null, null, order, sort, SQLUtil.getOffset(curPage, limit), limit);" + CRLF);
+			result.append("\t}" + CRLF);
+			result.append(CRLF);
+			result.append("\t@Override" + CRLF);
+			result.append("\tpublic List<" + targetClassName + "> load(String[] parameters, String order, String sort, int curPage, int limit) {" + CRLF);
+			result.append("\t\treturn " + recordName + "Mapper.select(SQLUtil.formatParameters(parameters), null, order, sort, SQLUtil.getOffset(curPage, limit), limit);" + CRLF);
+			result.append("\t}" + CRLF);
+			result.append(CRLF);
+			result.append("\t@Override" + CRLF);
+			result.append("\tpublic List<" + targetClassName + "> load(String condition, Object[] values, String order, String sort, int curPage, int limit) {" + CRLF);
+			result.append("\t\treturn " + recordName + "Mapper.select(null, SQLUtil.fillCondition(condition, values), order, sort, SQLUtil.getOffset(curPage, limit), limit);" + CRLF);
+			result.append("\t}" + CRLF);
+			result.append(CRLF);
+			result.append("\t@Override" + CRLF);
+			result.append("\tpublic List<" + targetClassName + "> load(String[] parameters, String condition, Object[] values, String order, String sort, int curPage, int limit) {" + CRLF);
+			result.append("\t\treturn " + recordName + "Mapper.select(SQLUtil.formatParameters(parameters), SQLUtil.fillCondition(condition, values), order, sort, SQLUtil.getOffset(curPage, limit), limit);" + CRLF);
+			result.append("\t}" + CRLF);
+			result.append(CRLF);
+			result.append("\t@Override" + CRLF);
+			result.append("\tpublic long count() {" + CRLF);
+			result.append("\t\treturn " + recordName + "Mapper.count(null, null, false);" + CRLF);
+			result.append("\t}" + CRLF);
+			result.append(CRLF);
+			result.append("\t@Override" + CRLF);
+			result.append("\tpublic long count(String condition, Object[] values) {" + CRLF);
+			result.append("\t\treturn " + recordName + "Mapper.count(null, SQLUtil.fillCondition(condition, values), false);" + CRLF);
+			result.append("\t}" + CRLF);
+			result.append(CRLF);
+			result.append("\t@Override" + CRLF);
+			result.append("\tpublic long count(String[] parameters, boolean isDistinct) {" + CRLF);
+			result.append("\t\treturn " + recordName + "Mapper.count(SQLUtil.formatParameters(parameters), null, isDistinct);" + CRLF);
+			result.append("\t}" + CRLF);
+			result.append(CRLF);
+			result.append("\t@Override" + CRLF);
+			result.append("\tpublic long count(String[] parameters, String condition, Object[] values, boolean isDistinct) {" + CRLF);
+			result.append("\t\treturn " + recordName + "Mapper.count(SQLUtil.formatParameters(parameters), SQLUtil.fillCondition(condition, values), isDistinct);" + CRLF);
+			result.append("\t}" + CRLF);
+			result.append(CRLF);
+			result.append("\t@Override" + CRLF);
+			result.append("\tpublic double sum(String parameter) {" + CRLF);
+			result.append("\t\treturn " + recordName + "Mapper.sum(parameter, null, null, null, -1, -1, false);" + CRLF);
+			result.append("\t}" + CRLF);
+			result.append(CRLF);
+			result.append("\t@Override" + CRLF);
+			result.append("\tpublic double sum(String parameter, String condition, Object[] values) {" + CRLF);
+			result.append("\t\treturn " + recordName + "Mapper.sum(parameter, SQLUtil.fillCondition(condition, values), null, null, -1, -1, false);" + CRLF);
+			result.append("\t}" + CRLF);
+			result.append(CRLF);
+			result.append("\t@Override" + CRLF);
+			result.append("\tpublic double sum(String parameter, String order, String sort, int curPage, int limit) {" + CRLF);
+			result.append("\t\treturn " + recordName + "Mapper.sum(parameter, null, order, sort, SQLUtil.getOffset(curPage, limit), limit, false);" + CRLF);
+			result.append("\t}" + CRLF);
+			result.append(CRLF);
+			result.append("\t@Override" + CRLF);
+			result.append("\tpublic double sum(String parameter, String condition, Object[] values, int curPage, int limit) {" + CRLF);
+			result.append("\t\treturn " + recordName + "Mapper.sum(parameter, SQLUtil.fillCondition(condition, values), null, null, SQLUtil.getOffset(curPage, limit), limit, false);" + CRLF);
+			result.append("\t}" + CRLF);
+			result.append(CRLF);
+			result.append("\t@Override" + CRLF);
+			result.append("\tpublic double sum(String parameter, String condition, Object[] values, String order, String sort, int curPage, int limit) {" + CRLF);
+			result.append("\t\treturn " + recordName + "Mapper.sum(parameter, SQLUtil.fillCondition(condition, values), order, sort, SQLUtil.getOffset(curPage, limit), limit, false);" + CRLF);
+			result.append("\t}" + CRLF);
+			result.append(CRLF);
+			result.append("\t@Override" + CRLF);
+			result.append("\tpublic double sum(String parameter, String condition, Object[] values, String order, String sort, int curPage, int limit, boolean isDistinct) {" + CRLF);
+			result.append("\t\treturn " + recordName + "Mapper.sum(parameter, SQLUtil.fillCondition(condition, values), order, sort, SQLUtil.getOffset(curPage, limit), limit, isDistinct);" + CRLF);
+			result.append("\t}" + CRLF);
+			result.append("}" + CRLF);
+			
+			System.out.println(result);
+			
+//			File file = new File(projectPath + "/" + javaPath);
+			File file = new File("F:/test" + "/" + javaPath + "/" + serviceImplPackage.replace('.', '/') + "/" + targetClassName + "Seervice.java");
 			try {
 				OutputStream out = new FileOutputStream(file);
 				out.write(result.toString().getBytes());
@@ -330,6 +638,7 @@ public class CodeGenerator {
 			this.targetClassName = targetClassName;
 			this.tableName = tableName;
 			this.entityId = entityId;
+			this.recordName = Character.toLowerCase(targetClassName.charAt(0)) + targetClassName.substring(1);
 			
 			init();
 		}
@@ -350,6 +659,9 @@ public class CodeGenerator {
 		String entityId = "id";
 		
 		Generator generator = new Generator(projectPath, javaPath, modelPackage, mappingPackage, daoPackage, servicePackage, serviceImplPackage, controllerPackage, targetClassName, tableName, entityId);
-		generator.generateMappingFile();
+//		generator.generateMapperFile();
+//		generator.generateDaoFile();
+//		generator.generateServiceFile();
+		generator.generateServiceImplFile();
 	}
 }
