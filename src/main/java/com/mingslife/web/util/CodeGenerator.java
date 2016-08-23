@@ -604,6 +604,34 @@ public class CodeGenerator {
 			}
 		}
 		
+		public boolean generateControllerFile() {
+			StringBuilder result = new StringBuilder();
+			
+			result.append("package " + controllerPackage + ";" + CRLF);
+			result.append(CRLF);
+			result.append("@Controller" + CRLF);
+			result.append("public class " + targetClassName + "Controller {" + CRLF);
+			result.append("\tpublic String index(@RequestParam(\"page\") Integer curPage) {" + CRLF);
+			result.append("\t\treturn \"index\";" + CRLF);
+			result.append("\t}" + CRLF);
+			result.append("}" + CRLF);
+			
+			System.out.println(result);
+			
+			File file = new File("F:/test" + "/" + javaPath + "/" + serviceImplPackage.replace('.', '/') + "/" + targetClassName + "Seervice.java");
+			try {
+//				OutputStream out = new FileOutputStream(file);
+//				out.write(result.toString().getBytes());
+//				out.flush();
+//				out.close();
+				
+				return true;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+		
 		private boolean init() {
 			try {
 				targetClass = Class.forName(modelPackage + "." + targetClassName);
@@ -662,6 +690,7 @@ public class CodeGenerator {
 //		generator.generateMapperFile();
 //		generator.generateDaoFile();
 //		generator.generateServiceFile();
-		generator.generateServiceImplFile();
+//		generator.generateServiceImplFile();
+		generator.generateControllerFile();
 	}
 }
