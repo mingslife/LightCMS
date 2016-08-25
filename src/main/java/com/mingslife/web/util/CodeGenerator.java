@@ -91,7 +91,7 @@ public class CodeGenerator {
 			this.columnName = getColumnName(name);
 			this.jdbcType = getJdbcType(type);
 			this.parameterType = field.getType().getName();
-			this.parameterClass = field.getClass();
+			this.parameterClass = field.getType();
 		}
 		
 		@Override
@@ -111,6 +111,7 @@ public class CodeGenerator {
 		private String servicePackage;
 		private String serviceImplPackage;
 		private String controllerPackage;
+		private String dtoPackage;
 		private String targetClassName;
 		private String tableName;
 		private String entityId;
@@ -119,6 +120,8 @@ public class CodeGenerator {
 		private Class<?> targetClass;
 		private List<ClassField> classFields;
 		private ClassField idField;
+		private String serviceName;
+		private String viewName;
 		
 		public boolean generateMapperFile() {
 			int classFieldsSize = classFields.size();
@@ -622,51 +625,54 @@ public class CodeGenerator {
 			result.append("import org.springframework.web.bind.annotation.RequestParam;" + CRLF);
 			result.append("import org.springframework.web.bind.annotation.ResponseBody;" + CRLF);
 			result.append(CRLF);
-			result.append("import com.mingslife.dto.CodeTableDTO;" + CRLF); // TODO
+			result.append("import " + dtoPackage + "." + targetClassName + "DTO;" + CRLF);
 			result.append("import " + targetClass.getName() + ";" + CRLF);
 			result.append("import " + servicePackage + ".I" + targetClassName + "Service;" + CRLF);
 			result.append("import com.mingslife.web.controller.BaseController;" + CRLF);
 			result.append(CRLF);
 			result.append("@Controller" + CRLF);
-			result.append("@RequestMapping(\"/" + tableName + "\")" + CRLF);
+			result.append("@RequestMapping(\"/" + viewName + "\")" + CRLF);
 			result.append("public class " + targetClassName + "Controller extends BaseController {" + CRLF);
+			result.append("\t@Autowired" + CRLF);
+			result.append("\tprivate I" + targetClassName + "Service " + serviceName + ";" + CRLF);
+			result.append(CRLF);
 			result.append("\tpublic String index(@RequestParam(value = \"page\", required = false) Integer curPage, Model model) {" + CRLF);
 			result.append("\t\treturn \"index\";" + CRLF);
 			result.append("\t}" + CRLF);
 			result.append(CRLF);
 			result.append("\t@ResponseBody" + CRLF);
 			result.append("\t@RequestMapping(value = \"\", method = RequestMethod.POST)" + CRLF);
-			result.append("\tpublic String create(@Valid @ModelAttribute CodeTableDTO codeTableDTO) {" + CRLF);
-			result.append("\t\tcodeTableService.save(codeTableDTO.toModel());" + CRLF);
+			result.append("\tpublic String create(@Valid @ModelAttribute " + targetClassName + "DTO " + recordName + "DTO) {" + CRLF);
+			result.append("\t\t" + serviceName + ".save(" + recordName + "DTO.toModel());" + CRLF);
 			result.append("\t\treturn \"{}\";" + CRLF);
 			result.append("\t}" + CRLF);
 			result.append(CRLF);
 			result.append("\t@ResponseBody" + CRLF);
 			result.append("\t@RequestMapping(value = \"\", method = RequestMethod.GET)" + CRLF);
-			result.append("\tpublic String show(@RequestParam(\"id\") int id) {" + CRLF);
-			result.append("\t\tCodeTable codeTable = codeTableService.find(id, new String[] {\"id\"});" + CRLF);
-			result.append("\t\treturn gson.toJson(codeTable);" + CRLF);
+			result.append("\tpublic String show(@RequestParam(\"id\") " + idField.getParameterClass().getSimpleName() + " " + idField.getName() + ") {" + CRLF);
+			result.append("\t\t" + targetClassName + " " + recordName + " = " + serviceName + ".find(" + idField.getName() + ", new String[] {\"id\"});" + CRLF);
+			result.append("\t\treturn gson.toJson(" + recordName + ");" + CRLF);
 			result.append("\t}" + CRLF);
 			result.append(CRLF);
 			result.append("\t@ResponseBody" + CRLF);
 			result.append("\t@RequestMapping(value = \"\", method = RequestMethod.PUT)" + CRLF);
-			result.append("\tpublic String update(@Valid @ModelAttribute CodeTableDTO codeTableDTO, Model model) {" + CRLF);
-			result.append("\t\tcodeTableService.update(codeTableDTO.toModel());" + CRLF);
+			result.append("\tpublic String update(@Valid @ModelAttribute " + targetClassName + "DTO " + recordName + "DTO, Model model) {" + CRLF);
+			result.append("\t\t" + serviceName + ".update(" + recordName + "DTO.toModel());" + CRLF);
 			result.append("\t\treturn \"{}\";" + CRLF);
 			result.append("\t}" + CRLF);
 			result.append(CRLF);
 			result.append("\t@ResponseBody" + CRLF);
 			result.append("\t@RequestMapping(value = \"\", method = RequestMethod.DELETE)" + CRLF);
-			result.append("\tpublic String destory(@RequestParam(\"id\") int id) {" + CRLF);
-			result.append("\t\tcodeTableService.delete(id);" + CRLF);
+			result.append("\tpublic String destory(@RequestParam(\"id\") " + idField.getParameterClass().getSimpleName() + " " + idField.getName() + ") {" + CRLF);
+			result.append("\t\t" + serviceName + ".delete(" + idField.getName() + ");" + CRLF);
 			result.append("\t\treturn \"{}\";" + CRLF);
 			result.append("\t}" + CRLF);
 			result.append(CRLF);
 			result.append("\t@ResponseBody" + CRLF);
 			result.append("\t@RequestMapping(value = \"/deletes\", method = RequestMethod.POST)" + CRLF);
-			result.append("\tpublic String deletes(@RequestParam(\"ids[]\") List<Integer> ids) {" + CRLF);
-			result.append("\t\tfor (int id : ids) {" + CRLF);
-			result.append("\t\t\tcodeTableService.delete(id);" + CRLF);
+			result.append("\tpublic String deletes(@RequestParam(\"ids[]\") List<" + idField.getParameterClass().getSimpleName() + "> " + idField.getName() + "s) {" + CRLF);
+			result.append("\t\tfor (" + idField.getParameterClass().getSimpleName() + " " + idField.getName() + " : " + idField.getName() + "s) {" + CRLF);
+			result.append("\t\t\t" + serviceName + ".delete(" + idField.getName() + ");" + CRLF);
 			result.append("\t\t}" + CRLF);
 			result.append("\t\treturn \"{}\";" + CRLF);
 			result.append("\t}" + CRLF);
@@ -674,12 +680,59 @@ public class CodeGenerator {
 			
 			System.out.println(result);
 			
-			File file = new File("F:/test" + "/" + javaPath + "/" + serviceImplPackage.replace('.', '/') + "/" + targetClassName + "Seervice.java");
+			File file = new File("F:/test" + "/" + javaPath + "/" + controllerPackage.replace('.', '/') + "/" + targetClassName + "Controller.java");
 			try {
-//				OutputStream out = new FileOutputStream(file);
-//				out.write(result.toString().getBytes());
-//				out.flush();
-//				out.close();
+				OutputStream out = new FileOutputStream(file);
+				out.write(result.toString().getBytes());
+				out.flush();
+				out.close();
+				
+				return true;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+		
+		public boolean generateDtoFile() {
+			StringBuilder result = new StringBuilder();
+			
+			String idName = idField.getName();
+			
+			result.append("package " + dtoPackage + CRLF);
+			result.append(CRLF);
+			result.append("import java.io.Serializable;" + CRLF);
+			result.append(CRLF);
+			result.append("import " + modelPackage + "." + targetClassName + ";" + CRLF);
+			result.append(CRLF);
+			result.append("public class " + targetClassName + "DTO implements Serializable {" + CRLF);
+			result.append("\tprivate static final long serialVersionUID = 1L;" + CRLF);
+			result.append(CRLF);
+			result.append("\tprivate " + idField.getParameterClass().getSimpleName() + " " + idName + ";" + CRLF);
+			result.append(CRLF);
+			result.append("\tpublic " + idField.getParameterClass().getSimpleName() + " get" + Character.toUpperCase(idName.charAt(0)) + idName.substring(1) + "() {" + CRLF);
+			result.append("\t\treturn " + idName + ";" + CRLF);
+			result.append("\t}" + CRLF);
+			result.append(CRLF);
+			result.append("\tpublic void set" + Character.toUpperCase(idName.charAt(0)) + idName.substring(1) + "(" + idField.getParameterClass().getSimpleName() + " " + idName + ") {" + CRLF);
+			result.append("\t\tthis." + idName + " = " + idName + ";" + CRLF);
+			result.append("\t}" + CRLF);
+			result.append(CRLF);
+			result.append("\tpublic " + targetClassName + " toModel() {" + CRLF);
+			result.append("\t\t" + targetClassName + " model = new " + targetClassName + "();" + CRLF);
+			result.append("\t\tmodel.set" + Character.toUpperCase(idName.charAt(0)) + idName.substring(1) + "(" + idName + ");" +CRLF);
+			result.append("\t\treturn model;" + CRLF);
+			result.append("\t}" + CRLF);
+			result.append("}" + CRLF);
+			
+			System.out.println(result);
+			
+			File file = new File("F:/test" + "/" + javaPath + "/" + dtoPackage.replace('.', '/') + "/" + targetClassName + "DTO.java");
+			try {
+				OutputStream out = new FileOutputStream(file);
+				out.write(result.toString().getBytes());
+				out.flush();
+				out.close();
 				
 				return true;
 			} catch (Exception e) {
@@ -693,6 +746,16 @@ public class CodeGenerator {
 				targetClass = Class.forName(modelPackage + "." + targetClassName);
 				Field[] fields = targetClass.getDeclaredFields();
 				classFields = new ArrayList<ClassField>(fields.length);
+				serviceName = Character.toLowerCase(targetClassName.charAt(0)) + targetClassName.substring(1) + "Service";
+				viewName = String.valueOf(Character.toLowerCase(targetClassName.charAt(0)));
+				for (int i = 1, length = targetClassName.length(); i < length; i++) {
+					char character = targetClassName.charAt(i);
+					if (Character.isUpperCase(character)) {
+						viewName += "_" + Character.toLowerCase(character);
+					} else {
+						viewName += character;
+					}
+				}
 				for (Field field : fields) {
 					if (field.getModifiers() == Modifier.PRIVATE) {
 						if (field.getName().equals(entityId)) {
@@ -710,7 +773,7 @@ public class CodeGenerator {
 			}
 		}
 		
-		public Generator(String projectPath, String javaPath, String modelPackage, String mappingPackage, String daoPackage, String servicePackage, String serviceImplPackage, String controllerPackage, String targetClassName, String tableName, String entityId) {
+		public Generator(String projectPath, String javaPath, String modelPackage, String mappingPackage, String daoPackage, String servicePackage, String serviceImplPackage, String controllerPackage, String dtoPackage, String targetClassName, String tableName, String entityId) {
 			this.projectPath = projectPath;
 			this.javaPath = javaPath;
 			this.modelPackage = modelPackage;
@@ -719,6 +782,7 @@ public class CodeGenerator {
 			this.servicePackage = servicePackage;
 			this.serviceImplPackage = serviceImplPackage;
 			this.controllerPackage = controllerPackage;
+			this.dtoPackage = dtoPackage;
 			this.targetClassName = targetClassName;
 			this.tableName = tableName;
 			this.entityId = entityId;
@@ -737,16 +801,18 @@ public class CodeGenerator {
 		final String servicePackage = "com.mingslife.service";
 		final String serviceImplPackage = "com.mingslife.service.impl";
 		final String controllerPackage = "com.mingslife.controller";
+		final String dtoPackage = "com.mingslife.dto";
 		
 		String targetClassName = "Category";
 		String tableName = "categories";
 		String entityId = "id";
 		
-		Generator generator = new Generator(projectPath, javaPath, modelPackage, mappingPackage, daoPackage, servicePackage, serviceImplPackage, controllerPackage, targetClassName, tableName, entityId);
+		Generator generator = new Generator(projectPath, javaPath, modelPackage, mappingPackage, daoPackage, servicePackage, serviceImplPackage, controllerPackage, dtoPackage, targetClassName, tableName, entityId);
 //		generator.generateMapperFile();
 //		generator.generateDaoFile();
 //		generator.generateServiceFile();
 //		generator.generateServiceImplFile();
-		generator.generateControllerFile();
+//		generator.generateControllerFile();
+		generator.generateDtoFile();
 	}
 }
