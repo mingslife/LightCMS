@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,13 +37,15 @@ public class ArticleController extends BaseController {
 	public ResponseEntity<String> show(@RequestParam(value = "page", required = false) Integer curPage) {
 		curPage = curPage == null ? 1 : curPage;
 		List<Article> articles = articleService.load(new String[] {"id", "uuid", "title"}, "id", "asc", curPage, PAGE_LIMIT);
+		System.out.println(gson.toJson(articles));
 		return new ResponseEntity<String>(gson.toJson(articles), HttpStatus.OK);
 	}
 
+	@ResponseBody
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<String> show(@RequestParam("id") int id) {
+	public String show(@PathVariable("id") int id) {
 		Article article = articleService.find(id);
-		return new ResponseEntity<String>("{}", HttpStatus.OK);
+		return gson.toJson(article);
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.POST)

@@ -9,17 +9,31 @@
                         http://www.springframework.org/schema/context/spring-context-3.1.xsd  
                         http://www.springframework.org/schema/mvc  
                         http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+    <!-- 用于使用@ResponseBody后返回中文避免乱码 -->
+    <!-- <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" >
+      <property name="messageConverters">
+        <list>
+          <bean id="stringHttpMessageConverter" class="org.springframework.http.converter.StringHttpMessageConverter">
+            <property name="writeAcceptCharset" value="false" />用于避免响应头过大
+            <property name="supportedMediaTypes">
+              <list>
+                <value>text/html;charset=UTF-8</value>
+              </list>
+            </property>
+          </bean>
+        </list>
+      </property>
+    </bean> -->
 	<!-- 自动扫描该包，使SpringMVC认为包下用了@controller注解的类是控制器 -->
 	<context:component-scan base-package="com.mingslife.controller" />
 	<!--避免IE执行AJAX时，返回JSON出现下载文件 -->
-	<!-- <bean id="mappingJacksonHttpMessageConverter"
-		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
-		<property name="supportedMediaTypes">
+	<bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+		<!-- <property name="supportedMediaTypes">
 			<list>
 				<value>text/html;charset=UTF-8</value>
 			</list>
-		</property>
-	</bean> -->
+		</property> -->
+	</bean>
 	<!-- 启动SpringMVC的注解功能，完成请求和注解POJO的映射 -->
 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
 		<!-- <property name="messageConverters">
@@ -56,15 +70,6 @@
         </mvc:interceptor>
     </mvc:interceptors> -->
     
-    <mvc:annotation-driven >
-      <!-- 消息转换器 -->
-      <mvc:message-converters register-defaults="true">
-        <bean class="org.springframework.http.converter.StringHttpMessageConverter">
-          <property name="supportedMediaTypes" value="text/html;charset=UTF-8" />
-        </bean>
-      </mvc:message-converters>
-    </mvc:annotation-driven>
-
     <!-- 国际化配置 -->    
     <!-- <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver" />
     <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
@@ -77,7 +82,20 @@
     </bean> -->
 
     <!-- 注册验证器 -->
-    <mvc:annotation-driven validator="validator" />
+    <mvc:annotation-driven validator="validator">
+      <mvc:message-converters register-defaults="true">
+        <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+          <property name="supportedMediaTypes">
+            <list>
+              <value>text/html;charset=UTF-8</value>
+              <value>text/plain;charset=UTF-8</value>
+              <value>application/json;charset=UTF-8</value>
+            </list>
+          </property>
+          <property name="writeAcceptCharset" value="false" />
+        </bean>
+      </mvc:message-converters>
+    </mvc:annotation-driven>
     <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
       <property name="providerClass" value="org.hibernate.validator.HibernateValidator" />
       <!-- 这里配置将使用上面国际化配置的messageSource -->
