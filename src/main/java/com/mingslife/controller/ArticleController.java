@@ -43,9 +43,10 @@ public class ArticleController extends BaseController {
 
 	@ResponseBody
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public String show(@PathVariable("id") int id) {
+	public Article show(@PathVariable("id") int id) {
 		Article article = articleService.find(id);
-		return gson.toJson(article);
+//		return gson.toJson(article);
+		return article;
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.POST)

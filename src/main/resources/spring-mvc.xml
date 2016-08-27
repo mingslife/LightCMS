@@ -27,7 +27,7 @@
 	<!-- 自动扫描该包，使SpringMVC认为包下用了@controller注解的类是控制器 -->
 	<context:component-scan base-package="com.mingslife.controller" />
 	<!--避免IE执行AJAX时，返回JSON出现下载文件 -->
-	<bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+	<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
 		<!-- <property name="supportedMediaTypes">
 			<list>
 				<value>text/html;charset=UTF-8</value>
