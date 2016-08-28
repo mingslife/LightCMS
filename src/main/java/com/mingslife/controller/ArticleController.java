@@ -2,17 +2,19 @@ package com.mingslife.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mingslife.dto.ArticleDTO;
 import com.mingslife.model.Article;
 import com.mingslife.service.IArticleService;
 import com.mingslife.web.controller.BaseController;
@@ -24,43 +26,46 @@ public class ArticleController extends BaseController {
 	private IArticleService articleService;
 
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public String index(@RequestParam(value = "page", required = false) Integer curPage, Model model) {
-		curPage = curPage == null ? 1 : curPage;
-		List<Article> articles = articleService.load(new String[] {"id", "uuid", "title"}, "id", "asc", curPage, PAGE_LIMIT);
-		System.out.println(articles);
+	public String index(@RequestParam(value = "page", required = false) Integer page, Model model) {
+		page = page == null ? 1 : page;
+		List<Article> articles = articleService.load(new String[] {"id", "uuid", "title"}, "id", "asc", page, LIMIT);
 		model.addAttribute("articles", articles);
 		return "articles/index";
 	}
 
 	@ResponseBody
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public ResponseEntity<String> show(@RequestParam(value = "page", required = false) Integer curPage) {
-		curPage = curPage == null ? 1 : curPage;
-		List<Article> articles = articleService.load(new String[] {"id", "uuid", "title"}, "id", "asc", curPage, PAGE_LIMIT);
-		System.out.println(gson.toJson(articles));
-		return new ResponseEntity<String>(gson.toJson(articles), HttpStatus.OK);
+	public List<Article> show(@RequestParam(value = "page", required = false) Integer page) {
+		page = page == null ? 1 : page;
+		List<Article> articles = articleService.load(new String[] {"id", "uuid", "title"}, "id", "asc", page, LIMIT);
+		return articles;
 	}
 
 	@ResponseBody
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public Article show(@PathVariable("id") int id) {
 		Article article = articleService.find(id);
-//		return gson.toJson(article);
 		return article;
 	}
 
+	@ResponseBody
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	public ResponseEntity<String> create() {
-		return new ResponseEntity<String>("{}", HttpStatus.OK);
+	public void create(@Valid @ModelAttribute ArticleDTO articleDTO) {
+		Article article = articleDTO.toModel();
+		articleService.save(article);
 	}
 
-	@RequestMapping(value = "", method = RequestMethod.PUT)
-	public ResponseEntity<String> update() {
-		return new ResponseEntity<String>("{}", HttpStatus.OK);
+	@ResponseBody
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	public void update(@PathVariable("id") Integer id, @Valid @ModelAttribute ArticleDTO articleDTO) {
+		Article article = articleDTO.toModel();
+		article.setId(id);
+		articleService.update(article);
 	}
 
-	@RequestMapping(value = "", method = RequestMethod.DELETE)
-	public ResponseEntity<String> delete() {
-		return new ResponseEntity<String>("{}", HttpStatus.OK);
+	@ResponseBody
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public void delete(@PathVariable("id") Integer id) {
+		articleService.delete(id);
 	}
 }
