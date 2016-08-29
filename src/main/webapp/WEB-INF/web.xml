@@ -8,8 +8,8 @@
   <context-param>
     <param-name>contextConfigLocation</param-name>
     <param-value>
-      classpath:spring-mybatis.xml,
-      classpath:spring-ehcache.xml
+      classpath:spring-mybatis.xml
+      <!-- ,classpath:spring-ehcache.xml -->
     </param-value>
   </context-param>
   <!-- 编码过滤器 -->
