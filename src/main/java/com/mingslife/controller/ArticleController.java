@@ -1,6 +1,8 @@
 package com.mingslife.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -35,10 +37,17 @@ public class ArticleController extends BaseController {
 
 	@ResponseBody
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public List<Article> show(@RequestParam(value = "page", required = false) Integer page) {
+	public Map<String, Object> show(@RequestParam(value = "page", required = false) Integer page) {
+		Map<String, Object> jsonMap = new HashMap<String, Object>();
+		
 		page = page == null ? 1 : page;
 		List<Article> articles = articleService.load(new String[] {"id", "uuid", "title"}, "id", "asc", page, LIMIT);
-		return articles;
+		long count = articleService.count();
+		
+		jsonMap.put("rows", articles);
+		jsonMap.put("total", count);
+		
+		return jsonMap;
 	}
 
 	@ResponseBody

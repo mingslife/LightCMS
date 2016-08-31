@@ -1155,3 +1155,15 @@ tr.red {background-color: #f9243f;}
 tr:hover {
 	color: #444;
 }
+
+
+/* Ming Custom */
+
+.bootstrap-table .fixed-table-toolbar .dropdown-menu {
+	background: rgba(255, 255, 255, .9);
+	color: #444;
+}
+.bootstrap-table .fixed-table-container .pagination li a {
+	background: rgba(255, 255, 255, .1);
+	border-color: rgba(255, 255, 255, .1);
+}
