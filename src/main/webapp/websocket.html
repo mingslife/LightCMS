@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>Message Web Socket</title>
+	</head>
+
+	<body>
+		<script type="text/javascript">
+var webSocket = null;
+if ("WebSocket" in window) {
+	webSocket = new WebSocket("ws://localhost:8080/LightCMS/websocket/message");
+	webSocket.onerror = function(event) {
+		console.info(event);
+	};
+	webSocket.onopen = function(event) {
+		console.info(event);
+	};
+	webSocket.onmessage = function(event) {
+		console.info(event);
+	};
+	webSocket.onclose = function(event) {
+		console.info(event);
+	};
+	setInterval(function() {
+		webSocket.send("Hello!");
+	}, 3000);
+	window.onbeforeunload = function(event) {
+		webSocket.close();
+	};
+}
+		</script>
+	</body>
+</html>
