@@ -1,5 +1,8 @@
 package com.mingslife.util;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.StringReader;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -100,6 +103,23 @@ public class JcsegUtil {
 		}
 		return keywords;
 	}
+	
+	public static Set<String> getKeywords(File file) {
+		try {
+			StringBuilder result = new StringBuilder();
+			BufferedReader reader = new BufferedReader(new FileReader(file));
+			String line = null;
+			while ((line = reader.readLine()) != null) {
+				result.append(line + "\n");
+			}
+			reader.close();
+			System.out.println(result);
+			return getKeywords(result.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 	private static long[] addAndSort(long[] array, long element) {
 		int length = array.length;
@@ -120,5 +140,10 @@ public class JcsegUtil {
 		}
 		array[index] = element;
 		return array;
+	}
+	
+	public static void main(String[] args) {
+		String filePath = "F:/test.txt";
+		System.out.println(getKeywords(new File(filePath)));
 	}
 }
