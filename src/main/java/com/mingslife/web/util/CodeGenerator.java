@@ -593,7 +593,7 @@ public class CodeGenerator {
 			System.out.println(result);
 			
 //			File file = new File(projectPath + "/" + javaPath);
-			File file = new File("F:/test" + "/" + javaPath + "/" + serviceImplPackage.replace('.', '/') + "/" + targetClassName + "Seervice.java");
+			File file = new File("F:/test" + "/" + javaPath + "/" + serviceImplPackage.replace('.', '/') + "/" + targetClassName + "Service.java");
 			try {
 				OutputStream out = new FileOutputStream(file);
 				out.write(result.toString().getBytes());
@@ -699,7 +699,7 @@ public class CodeGenerator {
 			
 			String idName = idField.getName();
 			
-			result.append("package " + dtoPackage + CRLF);
+			result.append("package " + dtoPackage + ";" + CRLF);
 			result.append(CRLF);
 			result.append("import java.io.Serializable;" + CRLF);
 			result.append(CRLF);
