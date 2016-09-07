@@ -831,11 +831,11 @@ public class CodeGenerator {
 		String entityId = "id";
 		
 		Generator generator = new Generator(projectPath, javaPath, modelPackage, mappingPackage, daoPackage, servicePackage, serviceImplPackage, controllerPackage, dtoPackage, targetClassName, tableName, entityId);
-//		generator.generateMapperFile();
-//		generator.generateDaoFile();
-//		generator.generateServiceFile();
-//		generator.generateServiceImplFile();
-//		generator.generateControllerFile();
+		generator.generateMapperFile();
+		generator.generateDaoFile();
+		generator.generateServiceFile();
+		generator.generateServiceImplFile();
+		generator.generateControllerFile();
 		generator.generateDtoFile();
 	}
 }

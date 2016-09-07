@@ -16,23 +16,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.mingslife.dto.ArticleDTO;
-import com.mingslife.model.Article;
-import com.mingslife.service.IArticleService;
+import com.mingslife.dto.CategoryDTO;
+import com.mingslife.model.Category;
+import com.mingslife.service.ICategoryService;
 import com.mingslife.web.controller.BaseController;
 
 @Controller
-@RequestMapping(value = "/articles")
-public class ArticleController extends BaseController {
+@RequestMapping("/categories")
+public class CategoryController extends BaseController {
 	@Autowired
-	private IArticleService articleService;
+	private ICategoryService categoryService;
 
-	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index(@RequestParam(value = "page", required = false) Integer page, Model model) {
 		page = page == null ? 1 : page;
-		List<Article> articles = articleService.load(new String[] {"id", "uuid", "title"}, "id", "asc", page, LIMIT);
-		model.addAttribute("articles", articles);
-		return "articles/index";
+		List<Category> categories = categoryService.load(new String[] {"id"}, "id", "asc", page, LIMIT);
+		model.addAttribute("categories", categories);
+		return "categories/index";
 	}
 
 	@ResponseBody
@@ -41,10 +40,10 @@ public class ArticleController extends BaseController {
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
 		
 		page = page == null ? 1 : page;
-		List<Article> articles = articleService.load(new String[] {"id", "uuid", "title"}, "id", "asc", page, LIMIT);
-		long count = articleService.count();
+		List<Category> categories = categoryService.load(new String[] {"id"}, "id", "asc", page, LIMIT);
+		long count = categoryService.count();
 		
-		jsonMap.put("rows", articles);
+		jsonMap.put("rows", categories);
 		jsonMap.put("total", count);
 		
 		return jsonMap;
@@ -52,29 +51,34 @@ public class ArticleController extends BaseController {
 
 	@ResponseBody
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public Article show(@PathVariable("id") int id) {
-		Article article = articleService.find(id);
-		return article;
+	public Category show(@PathVariable("id") Integer id) {
+		Category category = categoryService.find(id, new String[] {"id"});
+		return category;
 	}
 
 	@ResponseBody
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	public void create(@Valid @ModelAttribute ArticleDTO articleDTO) {
-		Article article = articleDTO.toModel();
-		articleService.save(article);
+	public void create(@Valid @ModelAttribute CategoryDTO categoryDTO) {
+		categoryService.save(categoryDTO.toModel());
 	}
 
 	@ResponseBody
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public void update(@PathVariable("id") Integer id, @Valid @ModelAttribute ArticleDTO articleDTO) {
-		Article article = articleDTO.toModel();
-		article.setId(id);
-		articleService.update(article);
+	public void update(@PathVariable("id") Integer id, @Valid @ModelAttribute CategoryDTO categoryDTO, Model model) {
+		categoryService.update(categoryDTO.toModel());
 	}
 
 	@ResponseBody
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public void delete(@PathVariable("id") Integer id) {
-		articleService.delete(id);
+	public void destory(@PathVariable("id") Integer id) {
+		categoryService.delete(id);
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/deletes", method = RequestMethod.DELETE)
+	public void deletes(@RequestParam("ids[]") List<Integer> ids) {
+		for (Integer id : ids) {
+			categoryService.delete(id);
+		}
 	}
 }
