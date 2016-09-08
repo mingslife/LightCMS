@@ -1,4 +1,4 @@
-package com.mingslife.util;
+package com.mingslife.web.util;
 
 import java.io.BufferedReader;
 import java.io.File;

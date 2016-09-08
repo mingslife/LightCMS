@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.mingslife.dto.TestDTO;
 import com.mingslife.model.Article;
 import com.mingslife.service.IArticleService;
-import com.mingslife.util.JcsegUtil;
 import com.mingslife.web.controller.BaseController;
 import com.mingslife.web.event.EmailEvent;
+import com.mingslife.web.util.JcsegUtil;
 
 @Controller
 @RequestMapping("/test")
