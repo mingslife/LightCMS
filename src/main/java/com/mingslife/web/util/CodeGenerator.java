@@ -654,7 +654,7 @@ public class CodeGenerator {
 			result.append(CRLF);
 			result.append("\t@ResponseBody" + CRLF);
 			result.append("\t@RequestMapping(value = \"\", method = RequestMethod.GET)" + CRLF);
-			result.append("\tpublic Map<String, Object> show(@RequestParam(value = \"page\", required = false) Integer curPage) {" + CRLF);
+			result.append("\tpublic Map<String, Object> list(@RequestParam(value = \"page\", required = false) Integer curPage) {" + CRLF);
 			result.append("\t\tMap<String, Object> jsonMap = new HashMap<String, Object>();" + CRLF);
 			result.append("\t\t" + CRLF);
 			result.append("\t\tpage = page == null ? 1 : page;" + CRLF);
