@@ -14,7 +14,7 @@
     id, category_name, position, create_date, update_date, create_operator,
     update_operator
   </sql>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
     select
       <include refid="BaseColumnList" />
     from categories
@@ -179,7 +179,7 @@
       limit #{offset,jdbcType=INTEGER}, #{limit,jdbcType=INTEGER}
     </if>
   </select>
-  <select id="find" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+  <select id="find" resultMap="BaseResultMap" parameterType="java.lang.Integer">
     select ${parameters} from categories where id = #{id,jdbcType=INTEGER}
   </select>
 </mapper>

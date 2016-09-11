@@ -7,13 +7,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import org.springframework.web.bind.annotation.PathVariable;
-
-import com.mingslife.model.Article;
 
 public class CodeGenerator {
 	protected static class ClassField {
@@ -158,7 +152,7 @@ public class CodeGenerator {
 			result.setLength(result.length() - 2);
 			result.append(CRLF);
 			result.append("  </sql>" + CRLF);
-			result.append("  <select id=\"selectByPrimaryKey\" resultMap=\"ResultMapWithBLOBs\" parameterType=\"" + idField.getParameterType() + "\">" + CRLF);
+			result.append("  <select id=\"selectByPrimaryKey\" resultMap=\"BaseResultMap\" parameterType=\"" + idField.getParameterType() + "\">" + CRLF);
 			result.append("    select" + CRLF);
 			result.append("      <include refid=\"BaseColumnList\" />" + CRLF);
 			result.append("    from " + tableName + CRLF);
@@ -294,7 +288,7 @@ public class CodeGenerator {
 			result.append("      limit #{offset,jdbcType=INTEGER}, #{limit,jdbcType=INTEGER}" + CRLF);
 			result.append("    </if>" + CRLF);
 			result.append("  </select>" + CRLF);
-			result.append("  <select id=\"find\" resultMap=\"ResultMapWithBLOBs\" parameterType=\"java.lang.Integer\">" + CRLF);
+			result.append("  <select id=\"find\" resultMap=\"BaseResultMap\" parameterType=\"java.lang.Integer\">" + CRLF);
 			result.append("    select ${parameters} from " + tableName + " where id = #{id,jdbcType=INTEGER}" + CRLF);
 			result.append("  </select>" + CRLF);
 			result.append("</mapper>" + CRLF);
