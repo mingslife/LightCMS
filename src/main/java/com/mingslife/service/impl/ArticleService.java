@@ -173,6 +173,11 @@ public class ArticleService implements IArticleService {
 	}
 
 	@Override
+	public long countForBlog() {
+		return articleMapper.countForBlog();
+	}
+
+	@Override
 	public ArticleForArticlePOJO findByUUidForArticle(String uuid) {
 		return articleMapper.findByUuidForArticle(uuid);
 	}

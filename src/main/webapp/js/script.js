@@ -45,23 +45,29 @@ $("#search-menu").click(function(e){
 	$('button.overlay-close').click(toggleMingOverlay);
 	
 	// Ming Pager
-	$(".pager input[type=text]").hide();
 	$(".pager .more").click(function() {
 		var thisElement = $(this);
 		var inputElement = thisElement.parent().find("input[type=text]");
+		var blankElement = thisElement.parent().find(".more-blank");
 		if (thisElement.attr("status") === "on") {
 			if (inputElement.val()) {
 				$(this).parent().submit();
 			} else {
-				inputElement.hide();
-				thisElement.text("…").attr("status", "off");
+				inputElement.css({opacity: "0"});
+				setTimeout(function() {
+					inputElement.css("display", "none");
+				}, 500);
+				blankElement.css("width", "36px");
+				thisElement.text("…").css("margin-left", "0").attr("status", "off");
 			}
 		} else {
-			var offset = thisElement.offset();
-			var left = offset.left;
-			var top = offset.top;
-			inputElement.css({left: (left - 120) + "px", top: top + "px"}).show();
-			thisElement.text("→").attr("status", "on");
+//			var offset = thisElement.offset();
+//			var left = offset.left;
+//			var top = offset.top;
+//			inputElement.css({left: (left - 120) + "px", top: top + "px"}).show();
+			inputElement.css({display: "inline-block", opacity: "1"});
+			blankElement.css("width", "0");
+			thisElement.text("→").css("margin-left", "-80px").attr("status", "on");
 		}
 	});
 	

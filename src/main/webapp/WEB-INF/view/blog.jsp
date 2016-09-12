@@ -71,7 +71,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div class="content-body">
 			<div class="container">
 				<div class="row">
-					<main class="col-md-8">
+					<main class="col-md-12">
 <c:forEach var="article" items="${articles}" varStatus="status">
 						<article class="post post-${status.index}">
 							<header class="entry-header">
@@ -97,59 +97,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</article>
 </c:forEach>
 					</main>
-					<aside class="col-md-4">
-						<div class="widget widget-recent-posts">		
-							<h3 class="widget-title">最近发布</h3>		
-							<ul>
-								<li>
-									<a href="#">Adaptive Vs. Responsive Layouts And Optimal Text Readability</a>
-								</li>
-								<li>
-									<a href="#">Web Design is 95% Typography</a>
-								</li>
-								<li>
-									<a href="#">Paper by FiftyThree</a>
-								</li>
-							</ul>
-						</div>
-						<div class="widget widget-archives">		
-							<h3 class="widget-title">归档</h3>		
-							<ul>
-								<li>
-									<a href="#">November 2014</a>
-								</li>
-								<li>
-									<a href="#">September 2014</a>
-								</li>
-								<li>
-									<a href="#">January 2013</a>
-								</li>
-							</ul>
-						</div>
-
-						<div class="widget widget-category">		
-							<h3 class="widget-title">分类</h3>		
-							<ul>
-								<li>
-									<a href="#">Web Design</a>
-								</li>
-								<li>
-									<a href="#">Web Development</a>
-								</li>
-								<li>
-									<a href="#">SEO</a>
-								</li>
-							</ul>
-						</div>
-					</aside>
 				</div>
+<c:if test="${totalPage > 1}">
+				<div class="text-center pager">
+					<form name="pagerForm" method="get" action="blog.do">
+						<a href="blog.do?category=&month=&search=&keyword=&page=1">&laquo;</a>
+						<input name="page" type="text" />
+<c:forEach var="curPage" begin="${startPage}" end="${endPage}">
+						<c:if test="${curPage == page}"><a class="active">${curPage}</a></c:if>
+						<c:if test="${curPage != page}"><a href="blog.do?category=&month=&search=&keyword=&page=${curPage}">${curPage}</a></c:if>
+</c:forEach>
+						<a href="blog.do?category=&month=&search=&keyword=&page=${totalPage}">&raquo;</a>
+<c:if test="${totalPage > 3}">
+						<a class="more">&hellip;</a>
+						<div class="more-blank"></div>
+</c:if>
+					</form>
+				</div>
+</c:if>
 			</div>
 		</div>
 		<footer id="site-footer">
 			<div class="container">
 				<div class="row">
 					<div class="col-md-12">
-						<p class="copyright">&copy; 2016 Ming's Life</p>
+						<p class="copyright">&copy; 2014 ThemeWagon.com</p>
 					</div>
 				</div>
 			</div>

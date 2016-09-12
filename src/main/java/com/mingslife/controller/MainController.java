@@ -18,7 +18,7 @@ import com.mingslife.web.controller.BaseController;
 @Controller
 public class MainController extends BaseController {
 	private static final int INDEX_ARTICLES_LIMIT = 10;
-	private static final int BLOG_ARTICLES_LIMIT = 10;
+	private static final int BLOG_ARTICLES_LIMIT = 2;
 
 	@Autowired
 	private IArticleService articleService;
@@ -33,7 +33,25 @@ public class MainController extends BaseController {
 	@RequestMapping(value = "/blog", method = RequestMethod.GET)
 	public String blog(@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
 		List<ArticleForBlogPOJO> articles = articleService.loadForBlog(page, BLOG_ARTICLES_LIMIT);
+		long totalPage = (long) Math.ceil(articleService.countForBlog() * 1.0 / BLOG_ARTICLES_LIMIT);
+		long startPage = 1;
+		long endPage = totalPage;
+		if (totalPage > 3) {
+			if (page <= 2) {
+				startPage = 1;
+				endPage = 3;
+			} else if (page > totalPage - 2) {
+				startPage = totalPage - 2;
+			} else {
+				startPage = page - 1;
+				endPage = page + 1;
+			}
+		}
 		model.addAttribute("articles", articles);
+		model.addAttribute("page", page);
+		model.addAttribute("totalPage", totalPage);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("endPage", endPage);
 		return "blog";
 	}
 

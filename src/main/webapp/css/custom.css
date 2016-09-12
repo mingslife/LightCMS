@@ -1,4 +1,4 @@
-ï»¿
+
 
 /**
  * Table of Contents
@@ -149,7 +149,7 @@ figure {
 	color: #000000 !important;
 	padding: 0 0 5px 0 !important;
 	margin-right: 30px;
-	font-family: "Segoe UI Emoji","Segoe UI Symbol","Segoe UI","Segoe WP","Microsoft YaHei UI Light","Microsoft YaHei UI","å¾®è½¯é›…é»‘",Tahoma,Arial,Roboto,"Droid Sans","Helvetica Neue","Droid Sans Fallback","Heiti SC","Hiragino Sans GB",Simsun,sans-self;
+	font-family: "Segoe UI Emoji","Segoe UI Symbol","Segoe UI","Segoe WP","Microsoft YaHei UI Light","Microsoft YaHei UI","Î¢ÈíÑÅºÚ",Tahoma,Arial,Roboto,"Droid Sans","Helvetica Neue","Droid Sans Fallback","Heiti SC","Hiragino Sans GB",Simsun,sans-self;
 	font-weight: lighter;
 	font-size: 24px;
 }
@@ -711,7 +711,7 @@ figure {
  */
 
 body {
-	font-family: "Segoe UI Emoji","Segoe UI Symbol","Segoe UI","Segoe WP","Microsoft YaHei UI","å¾®è½¯é›…é»‘",Tahoma,Arial,Roboto,"Droid Sans","Helvetica Neue","Droid Sans Fallback","Heiti SC","Hiragino Sans GB",Simsun,sans-self;
+	font-family: "Segoe UI Emoji","Segoe UI Symbol","Segoe UI","Segoe WP","Microsoft YaHei UI","Î¢ÈíÑÅºÚ",Tahoma,Arial,Roboto,"Droid Sans","Helvetica Neue","Droid Sans Fallback","Heiti SC","Hiragino Sans GB",Simsun,sans-self;
 }
 
 .no-scroll {
@@ -766,7 +766,7 @@ body {
 }
 .ming-overlay ul li a {
 	display: block;
-	font-family: "Segoe UI Emoji","Segoe UI Symbol","Segoe UI","Segoe WP","Microsoft YaHei UI Light","Microsoft YaHei UI","å¾®è½¯é›…é»‘",Tahoma,Arial,Roboto,"Droid Sans","Helvetica Neue","Droid Sans Fallback","Heiti SC","Hiragino Sans GB",Simsun,sans-self;
+	font-family: "Segoe UI Emoji","Segoe UI Symbol","Segoe UI","Segoe WP","Microsoft YaHei UI Light","Microsoft YaHei UI","Î¢ÈíÑÅºÚ",Tahoma,Arial,Roboto,"Droid Sans","Helvetica Neue","Droid Sans Fallback","Heiti SC","Hiragino Sans GB",Simsun,sans-self;
 	font-weight: lighter;
 	-webkit-transition: color 0.2s;
 	transition: color 0.2s;
@@ -799,11 +799,28 @@ body {
 	border-bottom: 1px solid #333;
 }
 .pager input[type=text] {
+	display: none;
 	position: absolute;
-	width: 114px;
+	width: 115px;
 	height: 36px;
 	border: 1px solid #777;
 	text-align: center;
+	opacity: 0;
+	transition: opacity 0.5s;
+	-webkit-transition: opacity 0.5s;
+}
+.pager a.more {
+	position: absolute;
+	transition: margin-left 0.5s;
+	-webkit-transition: margin-left 0.5s;
+}
+.pager .more-blank {
+	display: inline-block;
+	width: 36px;
+	height: 0;
+	line-height: 36px;
+	transition: width 0.5s;
+	-webkit-transition: width 0.5s;
 }
 
 .contact-form textarea, .reply-form textarea {
@@ -822,7 +839,7 @@ body {
 	border: 1px solid #777;
 	border-radius: 20px;
 	line-height: 40px;
-	font-family: "Segoe UI Emoji","Segoe UI Symbol","Segoe UI","Segoe WP","Microsoft YaHei UI Light","Microsoft YaHei UI","å¾®è½¯é›…é»‘",Tahoma,Arial,Roboto,"Droid Sans","Helvetica Neue","Droid Sans Fallback","Heiti SC","Hiragino Sans GB",Simsun,sans-self;
+	font-family: "Segoe UI Emoji","Segoe UI Symbol","Segoe UI","Segoe WP","Microsoft YaHei UI Light","Microsoft YaHei UI","Î¢ÈíÑÅºÚ",Tahoma,Arial,Roboto,"Droid Sans","Helvetica Neue","Droid Sans Fallback","Heiti SC","Hiragino Sans GB",Simsun,sans-self;
 	font-size: 20px;
 	color: #777;
 	transition: color 0.5s;

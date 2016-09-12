@@ -39,5 +39,6 @@ public interface IArticleService {
 	double sum(String parameter, String condition, Object[] values, String order, String sort, int curPage, int limit, boolean isDistinct);
 
 	List<ArticleForBlogPOJO> loadForBlog(int curPage, int limit);
+	long countForBlog();
 	ArticleForArticlePOJO findByUUidForArticle(String uuid);
 }
