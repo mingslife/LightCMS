@@ -639,8 +639,7 @@ public class CodeGenerator {
 			result.append("\t@Autowired" + CRLF);
 			result.append("\tprivate I" + targetClassName + "Service " + serviceName + ";" + CRLF);
 			result.append(CRLF);
-			result.append("\tpublic String index(@RequestParam(value = \"page\", required = false) Integer curPage, Model model) {" + CRLF);
-			result.append("\t\tpage = page == null ? 1 : page;" + CRLF);
+			result.append("\tpublic String index(@RequestParam(value = \"page\", defaultValue = \"1\") int page, Model model) {" + CRLF);
 			result.append("\t\tList<" + targetClassName + "> " + tableName + " = " + serviceName + ".load(new String[] {\"" + idField.columnName + "\"}, \"" + idField.getColumnName() + "\", \"asc\", page, LIMIT);" + CRLF);
 			result.append("\t\tmodel.addAttribute(\"" + tableName + "\", " + tableName + ");" + CRLF);
 			result.append("\t\treturn \"" + tableName + "/index\";" + CRLF);
@@ -648,10 +647,9 @@ public class CodeGenerator {
 			result.append(CRLF);
 			result.append("\t@ResponseBody" + CRLF);
 			result.append("\t@RequestMapping(value = \"\", method = RequestMethod.GET)" + CRLF);
-			result.append("\tpublic Map<String, Object> list(@RequestParam(value = \"page\", required = false) Integer curPage) {" + CRLF);
+			result.append("\tpublic Map<String, Object> list(@RequestParam(value = \"page\", defaultValue = \"1\") int page) {" + CRLF);
 			result.append("\t\tMap<String, Object> jsonMap = new HashMap<String, Object>();" + CRLF);
 			result.append("\t\t" + CRLF);
-			result.append("\t\tpage = page == null ? 1 : page;" + CRLF);
 			result.append("\t\tList<" + targetClassName + "> " + tableName + " = " + serviceName + ".load(new String[] {\"" + idField.getColumnName() + "\"}, \"" + idField.getColumnName() + "\", \"asc\", page, LIMIT);" + CRLF);
 			result.append("\t\tlong count = " + serviceName + ".count();" + CRLF);
 			result.append("\t\t" + CRLF);
