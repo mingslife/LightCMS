@@ -28,8 +28,7 @@ public class ArticleController extends BaseController {
 	private IArticleService articleService;
 
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public String index(@RequestParam(value = "page", required = false) Integer page, Model model) {
-		page = page == null ? 1 : page;
+	public String index(@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
 		List<Article> articles = articleService.load(new String[] {"id", "uuid", "title"}, "id", "asc", page, LIMIT);
 		model.addAttribute("articles", articles);
 		return "articles/index";
@@ -37,10 +36,9 @@ public class ArticleController extends BaseController {
 
 	@ResponseBody
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public Map<String, Object> list(@RequestParam(value = "page", required = false) Integer page) {
+	public Map<String, Object> list(@RequestParam(value = "page", defaultValue = "1") int page) {
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
 		
-		page = page == null ? 1 : page;
 		List<Article> articles = articleService.load(new String[] {"id", "uuid", "title"}, "id", "asc", page, LIMIT);
 		long count = articleService.count();
 		
