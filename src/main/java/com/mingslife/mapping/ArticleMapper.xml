@@ -408,4 +408,7 @@
   <select id="loadForIndex" resultMap="POJO">
     select a.id, a.uuid, a.title, a.author_id, a.category_id, a.publish_date, a.comment_number, a.summary, c.category_name from articles a left join categories c on a.category_id = c.id where a.is_visible = 1 order by id desc limit #{limit,jdbcType=INTEGER}
   </select>
+  <select id="findByUuidForArticle" resultMap="ResultMapWithBLOBs">
+    select ${parameters} from articles where uuid = #{uuid,jdbcType=VARCHAR}
+  </select>
 </mapper>

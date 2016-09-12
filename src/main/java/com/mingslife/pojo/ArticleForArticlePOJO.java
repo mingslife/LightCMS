@@ -1,46 +1,32 @@
-package com.mingslife.model;
+package com.mingslife.pojo;
 
 import java.io.Serializable;
 import java.util.Date;
 
-import com.mingslife.web.annotation.CreationOperator;
-import com.mingslife.web.annotation.CreationTimestamp;
-import com.mingslife.web.annotation.UpdateOperator;
-import com.mingslife.web.annotation.UpdateTimestamp;
-
-public class Article implements Serializable {
+public class ArticleForArticlePOJO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer id;
 	private String uuid;
-	private String title;
+	private Integer title;
 	private Integer authorId;
+	private String authorName;
 	private Integer categoryId;
+	private String categoryName;
 	private Date publishDate;
-	private Integer month;
 	private Long readNumber;
 	private Long commentNumber;
 	private Boolean isVisible;
 	private Boolean canComment;
 	private Boolean hasPassword;
-	private String password;
 	private Boolean hasAttachment;
 	private Boolean hasImage;
 	private Boolean hasVideo;
 	private String cover;
 	private String keywords;
 	private String description;
-	private String summary;
 	private String content;
 	private Boolean onTop;
-	@CreationTimestamp
-	private Date createDate;
-	@UpdateTimestamp
-	private Date updateDate;
-	@CreationOperator
-	private Integer createOperator;
-	@UpdateOperator
-	private Integer updateOperator;
 
 	public Integer getId() {
 		return id;
@@ -58,11 +44,11 @@ public class Article implements Serializable {
 		this.uuid = uuid;
 	}
 
-	public String getTitle() {
+	public Integer getTitle() {
 		return title;
 	}
 
-	public void setTitle(String title) {
+	public void setTitle(Integer title) {
 		this.title = title;
 	}
 
@@ -74,6 +60,14 @@ public class Article implements Serializable {
 		this.authorId = authorId;
 	}
 
+	public String getAuthorName() {
+		return authorName;
+	}
+
+	public void setAuthorName(String authorName) {
+		this.authorName = authorName;
+	}
+
 	public Integer getCategoryId() {
 		return categoryId;
 	}
@@ -82,20 +76,20 @@ public class Article implements Serializable {
 		this.categoryId = categoryId;
 	}
 
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+
 	public Date getPublishDate() {
 		return publishDate;
 	}
 
 	public void setPublishDate(Date publishDate) {
 		this.publishDate = publishDate;
-	}
-
-	public Integer getMonth() {
-		return month;
-	}
-
-	public void setMonth(Integer month) {
-		this.month = month;
 	}
 
 	public Long getReadNumber() {
@@ -136,14 +130,6 @@ public class Article implements Serializable {
 
 	public void setHasPassword(Boolean hasPassword) {
 		this.hasPassword = hasPassword;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public Boolean getHasAttachment() {
@@ -194,14 +180,6 @@ public class Article implements Serializable {
 		this.description = description;
 	}
 
-	public String getSummary() {
-		return summary;
-	}
-
-	public void setSummary(String summary) {
-		this.summary = summary;
-	}
-
 	public String getContent() {
 		return content;
 	}
@@ -216,37 +194,5 @@ public class Article implements Serializable {
 
 	public void setOnTop(Boolean onTop) {
 		this.onTop = onTop;
-	}
-
-	public Date getCreateDate() {
-		return createDate;
-	}
-
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
-	}
-
-	public Date getUpdateDate() {
-		return updateDate;
-	}
-
-	public void setUpdateDate(Date updateDate) {
-		this.updateDate = updateDate;
-	}
-
-	public Integer getCreateOperator() {
-		return createOperator;
-	}
-
-	public void setCreateOperator(Integer createOperator) {
-		this.createOperator = createOperator;
-	}
-
-	public Integer getUpdateOperator() {
-		return updateOperator;
-	}
-
-	public void setUpdateOperator(Integer updateOperator) {
-		this.updateOperator = updateOperator;
 	}
 }

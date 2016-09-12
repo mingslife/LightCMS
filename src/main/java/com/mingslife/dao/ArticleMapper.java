@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.mingslife.model.Article;
+import com.mingslife.pojo.ArticleForArticlePOJO;
 import com.mingslife.pojo.ArticleForIndexPOJO;
 
 public interface ArticleMapper {
@@ -60,4 +61,5 @@ public interface ArticleMapper {
 	Article find(@Param("id") Integer id, @Param("parameters") String parameters);
 
 	List<ArticleForIndexPOJO> loadForIndex(@Param("limit") int limit);
+	ArticleForArticlePOJO findByUuidForArticle(@Param("uuid") String uuid);
 }

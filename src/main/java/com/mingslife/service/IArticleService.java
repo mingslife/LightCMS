@@ -3,6 +3,7 @@ package com.mingslife.service;
 import java.util.List;
 
 import com.mingslife.model.Article;
+import com.mingslife.pojo.ArticleForArticlePOJO;
 import com.mingslife.pojo.ArticleForIndexPOJO;
 
 public interface IArticleService {
@@ -38,4 +39,5 @@ public interface IArticleService {
 	double sum(String parameter, String condition, Object[] values, String order, String sort, int curPage, int limit, boolean isDistinct);
 
 	List<ArticleForIndexPOJO> loadForIndex(int limit);
+	ArticleForArticlePOJO findByUUidForArticle(String uuid);
 }
