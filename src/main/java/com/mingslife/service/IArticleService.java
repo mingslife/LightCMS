@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.mingslife.model.Article;
 import com.mingslife.pojo.ArticleForArticlePOJO;
-import com.mingslife.pojo.ArticleForIndexPOJO;
+import com.mingslife.pojo.ArticleForBlogPOJO;
 
 public interface IArticleService {
 	void save(Article article);
@@ -38,6 +38,6 @@ public interface IArticleService {
 	double sum(String parameter, String condition, Object[] values, String order, String sort, int curPage, int limit);
 	double sum(String parameter, String condition, Object[] values, String order, String sort, int curPage, int limit, boolean isDistinct);
 
-	List<ArticleForIndexPOJO> loadForIndex(int limit);
+	List<ArticleForBlogPOJO> loadForBlog(int curPage, int limit);
 	ArticleForArticlePOJO findByUUidForArticle(String uuid);
 }

@@ -22,6 +22,8 @@
     <result column="cover" property="cover" jdbcType="VARCHAR" />
     <result column="keywords" property="keywords" jdbcType="VARCHAR" />
     <result column="summary" property="summary" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="on_top" property="onTop" jdbcType="BIT" />
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
     <result column="create_operator" property="createOperator" jdbcType="INTEGER" />
@@ -393,22 +395,59 @@
     select ${parameters} from articles where id = #{id,jdbcType=INTEGER}
   </select>
   
-  <resultMap id="POJO" type="com.mingslife.pojo.ArticleForIndexPOJO">
+  <resultMap id="ArticleForBlogPOJO" type="com.mingslife.pojo.ArticleForBlogPOJO">
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="uuid" property="uuid" jdbcType="VARCHAR" />
     <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="author_id" property="authorId" jdbcType="INTEGER" />
+    <result column="author_name" property="authorName" jdbcType="VARCHAR" />
     <result column="category_id" property="categoryId" jdbcType="INTEGER" />
+    <result column="category_name" property="categoryName" jdbcType="VARCHAR" />
     <result column="publish_date" property="publishDate" jdbcType="TIMESTAMP" />
     <result column="read_number" property="readNumber" jdbcType="BIGINT" />
     <result column="comment_number" property="commentNumber" jdbcType="BIGINT" />
     <result column="summary" property="summary" jdbcType="VARCHAR" />
-    <result column="category_name" property="categoryName" jdbcType="VARCHAR" />
   </resultMap>
-  <select id="loadForIndex" resultMap="POJO">
-    select a.id, a.uuid, a.title, a.author_id, a.category_id, a.publish_date, a.comment_number, a.summary, c.category_name from articles a left join categories c on a.category_id = c.id where a.is_visible = 1 order by id desc limit #{limit,jdbcType=INTEGER}
+  <select id="loadForBlog" resultMap="ArticleForBlogPOJO">
+    select
+      a.id, a.uuid, a.title, a.author_id, u.nickname author_name, a.category_id, c.category_name, a.publish_date, a.comment_number, a.summary
+    from
+      articles a left join users u on a.author_id = u.id left join categories c on a.category_id = c.id
+    where
+      a.is_visible = 1 and u.is_active = 1
+    order by
+      id desc
+    limit #{offset,jdbcType=INTEGER}, #{limit,jdbcType=INTEGER}
   </select>
-  <select id="findByUuidForArticle" resultMap="ResultMapWithBLOBs">
-    select ${parameters} from articles where uuid = #{uuid,jdbcType=VARCHAR}
+  <resultMap id="ArticleForArticlePOJO" type="com.mingslife.pojo.ArticleForArticlePOJO">
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="uuid" property="uuid" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="author_id" property="authorId" jdbcType="INTEGER" />
+    <result column="author_name" property="authorName" jdbcType="VARCHAR" />
+    <result column="category_id" property="categoryId" jdbcType="INTEGER" />
+    <result column="category_name" property="categoryName" jdbcType="VARCHAR" />
+    <result column="publish_date" property="publishDate" jdbcType="TIMESTAMP" />
+    <result column="read_number" property="readNumber" jdbcType="BIGINT" />
+    <result column="comment_number" property="commentNumber" jdbcType="BIGINT" />
+    <result column="is_visible" property="isVisible" jdbcType="BIT" />
+    <result column="can_comment" property="canComment" jdbcType="BIT" />
+    <result column="has_password" property="hasPassword" jdbcType="BIT" />
+    <result column="has_attachment" property="hasAttachment" jdbcType="BIT" />
+    <result column="has_image" property="hasImage" jdbcType="BIT" />
+    <result column="has_video" property="hasVideo" jdbcType="BIT" />
+    <result column="cover" property="cover" jdbcType="VARCHAR" />
+    <result column="keywords" property="keywords" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+    <result column="on_top" property="onTop" jdbcType="BIT" />
+  </resultMap>
+  <select id="findByUuidForArticle" resultMap="ArticleForArticlePOJO">
+    select
+      a.id, a.uuid, a.title, a.author_id, u.nickname author_name, a.category_id, c.category_name, a.publish_date, a.read_number, a.comment_number, a.is_visible, a.can_comment, a.has_password, a.has_attachment, a.has_image, a.has_video, a.cover, a.keywords, a.description, a.content, a.on_top
+    from
+      articles a left join users u on a.author_id = u.id left join categories c on a.category_id = c.id
+    where
+      a.uuid = #{uuid,jdbcType=VARCHAR} and a.is_visible = 1 and a.has_password = 0 and u.is_active = 1
   </select>
 </mapper>

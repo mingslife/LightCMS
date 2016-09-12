@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.mingslife.model.Article;
 import com.mingslife.pojo.ArticleForArticlePOJO;
-import com.mingslife.pojo.ArticleForIndexPOJO;
+import com.mingslife.pojo.ArticleForBlogPOJO;
 
 public interface ArticleMapper {
 	int deleteByPrimaryKey(Integer id);
@@ -60,6 +60,6 @@ public interface ArticleMapper {
 
 	Article find(@Param("id") Integer id, @Param("parameters") String parameters);
 
-	List<ArticleForIndexPOJO> loadForIndex(@Param("limit") int limit);
+	List<ArticleForBlogPOJO> loadForBlog(@Param("offset") int offset, @Param("limit") int limit);
 	ArticleForArticlePOJO findByUuidForArticle(@Param("uuid") String uuid);
 }

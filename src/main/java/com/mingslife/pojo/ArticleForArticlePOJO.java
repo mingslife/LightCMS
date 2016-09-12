@@ -1,6 +1,7 @@
 package com.mingslife.pojo;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ArticleForArticlePOJO implements Serializable {
@@ -8,7 +9,7 @@ public class ArticleForArticlePOJO implements Serializable {
 
 	private Integer id;
 	private String uuid;
-	private Integer title;
+	private String title;
 	private Integer authorId;
 	private String authorName;
 	private Integer categoryId;
@@ -27,6 +28,8 @@ public class ArticleForArticlePOJO implements Serializable {
 	private String description;
 	private String content;
 	private Boolean onTop;
+	private String publishDateF;
+	private String publishDateF2;
 
 	public Integer getId() {
 		return id;
@@ -44,11 +47,11 @@ public class ArticleForArticlePOJO implements Serializable {
 		this.uuid = uuid;
 	}
 
-	public Integer getTitle() {
+	public String getTitle() {
 		return title;
 	}
 
-	public void setTitle(Integer title) {
+	public void setTitle(String title) {
 		this.title = title;
 	}
 
@@ -194,5 +197,19 @@ public class ArticleForArticlePOJO implements Serializable {
 
 	public void setOnTop(Boolean onTop) {
 		this.onTop = onTop;
+	}
+
+	public String getPublishDateF() {
+		if (publishDateF == null) {
+			publishDateF = new SimpleDateFormat("yyyy年M月d日").format(publishDate);
+		}
+		return publishDateF;
+	}
+
+	public String getPublishDateF2() {
+		if (publishDateF2 == null) {
+			publishDateF2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(publishDate);
+		}
+		return publishDateF2;
 	}
 }

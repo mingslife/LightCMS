@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.mingslife.dao.ArticleMapper;
 import com.mingslife.model.Article;
 import com.mingslife.pojo.ArticleForArticlePOJO;
-import com.mingslife.pojo.ArticleForIndexPOJO;
+import com.mingslife.pojo.ArticleForBlogPOJO;
 import com.mingslife.service.IArticleService;
 import com.mingslife.web.util.SQLUtil;
 
@@ -168,8 +168,8 @@ public class ArticleService implements IArticleService {
 	}
 
 	@Override
-	public List<ArticleForIndexPOJO> loadForIndex(int limit) {
-		return articleMapper.loadForIndex(limit);
+	public List<ArticleForBlogPOJO> loadForBlog(int curPage, int limit) {
+		return articleMapper.loadForBlog(SQLUtil.getOffset(curPage, limit), limit);
 	}
 
 	@Override

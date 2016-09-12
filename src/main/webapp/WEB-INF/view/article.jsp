@@ -75,21 +75,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<header class="entry-header">
 								<h1 class="entry-title">${article.title}</h1>
 								<div class="entry-meta">
-									<span class="post-category"><a href="#">Web Design</a></span>
+									<span class="post-category"><a href="#">${article.categoryName}</a></span>
 			
-									<span class="post-date"><a href="#"><time class="entry-date" datetime="2012-11-09T23:15:57+00:00">February 2, 2013</time></a></span>
+									<span class="post-date"><a href="#"><time class="entry-date" datetime="${article.publishDateF2}">${article.publishDateF}</time></a></span>
 			
-									<span class="post-author"><a href="#">Albert Einstein</a></span>
+									<span class="post-author"><a href="#">${article.authorName}</a></span>
 			
-									<span class="comments-link"><a href="#">4 Comments</a></span>
+									<span class="comments-link"><a href="#">${article.commentNumber}条评论</a></span>
 								</div>
 							</header>
 							<div class="entry-content clearfix">${article.content}</div>
 						</article>
 					</main>
 					<aside class="col-md-4">
-						<div class="widget widget-recent-posts">		
-							<h3 class="widget-title">Recent Posts</h3>		
+						<div class="widget widget-recent-posts">
+							<h3 class="widget-title">Recent Posts</h3>
 							<ul>
 								<li>
 									<a href="#">Adaptive Vs. Responsive Layouts And Optimal Text Readability</a>
