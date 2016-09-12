@@ -27,8 +27,7 @@ public class CategoryController extends BaseController {
 	@Autowired
 	private ICategoryService categoryService;
 
-	public String index(@RequestParam(value = "page", required = false) Integer page, Model model) {
-		page = page == null ? 1 : page;
+	public String index(@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
 		List<Category> categories = categoryService.load(new String[] {"id"}, "id", "asc", page, LIMIT);
 		model.addAttribute("categories", categories);
 		return "categories/index";
@@ -36,10 +35,9 @@ public class CategoryController extends BaseController {
 
 	@ResponseBody
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public Map<String, Object> list(@RequestParam(value = "page", required = false) Integer page) {
+	public Map<String, Object> list(@RequestParam(value = "page", defaultValue = "1") int page) {
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
 		
-		page = page == null ? 1 : page;
 		List<Category> categories = categoryService.load(new String[] {"id"}, "id", "asc", page, LIMIT);
 		long count = categoryService.count();
 		

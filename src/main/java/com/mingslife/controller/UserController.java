@@ -27,8 +27,7 @@ public class UserController extends BaseController {
 	@Autowired
 	private IUserService userService;
 
-	public String index(@RequestParam(value = "page", required = false) Integer page, Model model) {
-		page = page == null ? 1 : page;
+	public String index(@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
 		List<User> users = userService.load(new String[] {"id"}, "id", "asc", page, LIMIT);
 		model.addAttribute("users", users);
 		return "users/index";
@@ -36,10 +35,9 @@ public class UserController extends BaseController {
 
 	@ResponseBody
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public Map<String, Object> list(@RequestParam(value = "page", required = false) Integer page) {
+	public Map<String, Object> list(@RequestParam(value = "page", defaultValue = "1") int page) {
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
 		
-		page = page == null ? 1 : page;
 		List<User> users = userService.load(new String[] {"id"}, "id", "asc", page, LIMIT);
 		long count = userService.count();
 		
