@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 4.0//EN" "http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
+<urlrewrite>
+	<rule>
+		<from>/index</from>
+		<to>/index.do</to>
+	</rule>
+	<rule>
+		<from>/blog</from>
+		<to>/blog.do</to>
+	</rule>
+	<rule>
+		<from>/about</from>
+		<to>/about.do</to>
+	</rule>
+	<rule>
+		<from>/contact</from>
+		<to>/contact.do</to>
+	</rule>
+	<rule match-type="wildcard">
+		<from>/article/*</from>
+		<to>/article/$1.do</to>
+	</rule>
+	<!-- <rule match-type="wildcard">
+		<from>/month/*/*</from>
+		<to>/blog.jsp?month=$1&amp;page=$2</to>
+	</rule>
+	<rule match-type="wildcard">
+		<from>/month/*</from>
+		<to>/blog.jsp?month=$1</to>
+	</rule>
+	<rule match-type="wildcard">
+		<from>/category/*/*</from>
+		<to>/blog.jsp?categoryId=$1&amp;page=$2</to>
+	</rule>
+	<rule match-type="wildcard">
+		<from>/category/*</from>
+		<to>/blog.jsp?categoryId=$1</to>
+	</rule>
+	<rule match-type="wildcard">
+		<from>/search/*/*</from>
+		<to>/blog.jsp?search=$1&amp;page=$2</to>
+	</rule>
+	<rule match-type="wildcard">
+		<from>/search/*</from>
+		<to>/blog.jsp?search=$1</to>
+	</rule> -->
+</urlrewrite>
