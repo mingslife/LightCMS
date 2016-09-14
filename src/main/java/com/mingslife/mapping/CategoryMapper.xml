@@ -5,14 +5,15 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="category_name" property="categoryName" jdbcType="VARCHAR" />
     <result column="position" property="position" jdbcType="INTEGER" />
+    <result column="is_visible" property="isVisible" jdbcType="BIT" />
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
     <result column="create_operator" property="createOperator" jdbcType="INTEGER" />
     <result column="update_operator" property="updateOperator" jdbcType="INTEGER" />
   </resultMap>
   <sql id="BaseColumnList">
-    id, category_name, position, create_date, update_date, create_operator,
-    update_operator
+    id, category_name, position, is_visible, create_date, update_date,
+    create_operator, update_operator
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
     select
@@ -26,12 +27,12 @@
   <insert id="insert" parameterType="com.mingslife.model.Category" useGeneratedKeys="true" keyProperty="id">
     insert into categories (
       id, category_name, position,
-      create_date, update_date, create_operator,
-      update_operator
+      is_visible, create_date, update_date,
+      create_operator, update_operator
     ) values (
       #{id,jdbcType=INTEGER}, #{categoryName,jdbcType=VARCHAR}, #{position,jdbcType=INTEGER},
-      #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, #{createOperator,jdbcType=INTEGER},
-      #{updateOperator,jdbcType=INTEGER}
+      #{isVisible,jdbcType=BIT}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP},
+      #{createOperator,jdbcType=INTEGER}, #{updateOperator,jdbcType=INTEGER}
     )
   </insert>
   <insert id="insertSelective" parameterType="com.mingslife.model.Category">
@@ -45,6 +46,9 @@
       </if>
       <if test="position != null">
         position,
+      </if>
+      <if test="isVisible != null">
+        is_visible,
       </if>
       <if test="createDate != null">
         create_date,
@@ -69,6 +73,9 @@
       <if test="position != null">
         #{position,jdbcType=INTEGER},
       </if>
+      <if test="isVisible != null">
+        #{isVisible,jdbcType=BIT},
+      </if>
       <if test="createDate != null">
         #{createDate,jdbcType=TIMESTAMP},
       </if>
@@ -86,32 +93,25 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.mingslife.model.Category">
     update categories
     <set>
-      <if test="uuid != null">
+      <if test="categoryName != null">
         category_name = #{categoryName,jdbcType=VARCHAR},
       </if>
-    </set>
-    <set>
-      <if test="uuid != null">
+      <if test="position != null">
         position = #{position,jdbcType=INTEGER},
       </if>
-    </set>
-    <set>
-      <if test="uuid != null">
+      <if test="isVisible != null">
+        is_visible = #{isVisible,jdbcType=BIT},
+      </if>
+      <if test="createDate != null">
         create_date = #{createDate,jdbcType=TIMESTAMP},
       </if>
-    </set>
-    <set>
-      <if test="uuid != null">
+      <if test="updateDate != null">
         update_date = #{updateDate,jdbcType=TIMESTAMP},
       </if>
-    </set>
-    <set>
-      <if test="uuid != null">
+      <if test="createOperator != null">
         create_operator = #{createOperator,jdbcType=INTEGER},
       </if>
-    </set>
-    <set>
-      <if test="uuid != null">
+      <if test="updateOperator != null">
         update_operator = #{updateOperator,jdbcType=INTEGER},
       </if>
     </set>
@@ -122,6 +122,7 @@
     set
       category_name = #{categoryName,jdbcType=VARCHAR},
       position = #{position,jdbcType=INTEGER},
+      is_visible = #{isVisible,jdbcType=BIT},
       create_date = #{createDate,jdbcType=TIMESTAMP},
       update_date = #{updateDate,jdbcType=TIMESTAMP},
       create_operator = #{createOperator,jdbcType=INTEGER},

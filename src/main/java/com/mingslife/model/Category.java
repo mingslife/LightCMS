@@ -9,6 +9,7 @@ public class Category implements Serializable {
 	private Integer id;
 	private String categoryName;
 	private Integer position;
+	private Boolean isVisible;
 	private Date createDate;
 	private Date updateDate;
 	private Integer createOperator;
@@ -36,6 +37,14 @@ public class Category implements Serializable {
 
 	public void setPosition(Integer position) {
 		this.position = position;
+	}
+
+	public Boolean getIsVisible() {
+		return isVisible;
+	}
+
+	public void setIsVisible(Boolean isVisible) {
+		this.isVisible = isVisible;
 	}
 
 	public Date getCreateDate() {

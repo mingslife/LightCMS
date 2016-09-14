@@ -23,7 +23,7 @@
     <result column="active_code" property="activeCode" jdbcType="VARCHAR" />
     <result column="active_code_expiration_date" property="activeCodeExpirationDate" jdbcType="VARCHAR" />
     <result column="active_date" property="activeDate" jdbcType="TIMESTAMP" />
-    <result column="sign_in_count" property="signInCount" jdbcType="VARCHAR" />
+    <result column="sign_in_count" property="signInCount" jdbcType="BIGINT" />
     <result column="current_sign_in_ip" property="currentSignInIp" jdbcType="VARCHAR" />
     <result column="current_sign_in_date" property="currentSignInDate" jdbcType="TIMESTAMP" />
     <result column="last_sign_in_ip" property="lastSignInIp" jdbcType="VARCHAR" />
@@ -72,7 +72,7 @@
       #{organizationId,jdbcType=INTEGER}, #{sessionId,jdbcType=VARCHAR}, #{token,jdbcType=VARCHAR},
       #{tokenExpirationDate,jdbcType=TIMESTAMP}, #{signUpDate,jdbcType=TIMESTAMP}, #{isActive,jdbcType=BIT},
       #{activeCode,jdbcType=VARCHAR}, #{activeCodeExpirationDate,jdbcType=VARCHAR}, #{activeDate,jdbcType=TIMESTAMP},
-      #{signInCount,jdbcType=VARCHAR}, #{currentSignInIp,jdbcType=VARCHAR}, #{currentSignInDate,jdbcType=TIMESTAMP},
+      #{signInCount,jdbcType=BIGINT}, #{currentSignInIp,jdbcType=VARCHAR}, #{currentSignInDate,jdbcType=TIMESTAMP},
       #{lastSignInIp,jdbcType=VARCHAR}, #{lastSignInDate,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR},
       #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, #{createOperator,jdbcType=INTEGER},
       #{updateOperator,jdbcType=INTEGER}
@@ -240,7 +240,7 @@
         #{activeDate,jdbcType=TIMESTAMP},
       </if>
       <if test="signInCount != null">
-        #{signInCount,jdbcType=VARCHAR},
+        #{signInCount,jdbcType=BIGINT},
       </if>
       <if test="currentSignInIp != null">
         #{currentSignInIp,jdbcType=VARCHAR},
@@ -274,152 +274,94 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.mingslife.model.User">
     update users
     <set>
-      <if test="uuid != null">
+      <if test="username != null">
         username = #{username,jdbcType=VARCHAR},
       </if>
-    </set>
-    <set>
-      <if test="uuid != null">
+      <if test="password != null">
         password = #{password,jdbcType=VARCHAR},
       </if>
-    </set>
-    <set>
-      <if test="uuid != null">
+      <if test="nickname != null">
         nickname = #{nickname,jdbcType=VARCHAR},
       </if>
-    </set>
-    <set>
-      <if test="uuid != null">
+      <if test="email != null">
         email = #{email,jdbcType=VARCHAR},
       </if>
-    </set>
-    <set>
-      <if test="uuid != null">
+      <if test="birthday != null">
         birthday = #{birthday,jdbcType=TIMESTAMP},
       </if>
-    </set>
-    <set>
-      <if test="uuid != null">
+      <if test="sex != null">
         sex = #{sex,jdbcType=BIT},
       </if>
-    </set>
-    <set>
-      <if test="uuid != null">
+      <if test="avatar != null">
         avatar = #{avatar,jdbcType=VARCHAR},
       </if>
-    </set>
-    <set>
-      <if test="uuid != null">
+      <if test="address != null">
         address = #{address,jdbcType=VARCHAR},
       </if>
-    </set>
-    <set>
-      <if test="uuid != null">
+      <if test="phone != null">
         phone = #{phone,jdbcType=VARCHAR},
       </if>
-    </set>
-    <set>
-      <if test="uuid != null">
+      <if test="qq != null">
         qq = #{qq,jdbcType=VARCHAR},
       </if>
-    </set>
-    <set>
-      <if test="uuid != null">
+      <if test="role_id != null">
         role_id = #{roleId,jdbcType=INTEGER},
       </if>
-    </set>
-    <set>
-      <if test="uuid != null">
+      <if test="organization_id != null">
         organization_id = #{organizationId,jdbcType=INTEGER},
       </if>
-    </set>
-    <set>
-      <if test="uuid != null">
+      <if test="session_id != null">
         session_id = #{sessionId,jdbcType=VARCHAR},
       </if>
-    </set>
-    <set>
-      <if test="uuid != null">
+      <if test="token != null">
         token = #{token,jdbcType=VARCHAR},
       </if>
-    </set>
-    <set>
-      <if test="uuid != null">
+      <if test="token_expiration_date != null">
         token_expiration_date = #{tokenExpirationDate,jdbcType=TIMESTAMP},
       </if>
-    </set>
-    <set>
-      <if test="uuid != null">
+      <if test="sign_up_date != null">
         sign_up_date = #{signUpDate,jdbcType=TIMESTAMP},
       </if>
-    </set>
-    <set>
-      <if test="uuid != null">
+      <if test="is_active != null">
         is_active = #{isActive,jdbcType=BIT},
       </if>
-    </set>
-    <set>
-      <if test="uuid != null">
+      <if test="active_code != null">
         active_code = #{activeCode,jdbcType=VARCHAR},
       </if>
-    </set>
-    <set>
-      <if test="uuid != null">
+      <if test="active_code_expiration_date != null">
         active_code_expiration_date = #{activeCodeExpirationDate,jdbcType=VARCHAR},
       </if>
-    </set>
-    <set>
-      <if test="uuid != null">
+      <if test="active_date != null">
         active_date = #{activeDate,jdbcType=TIMESTAMP},
       </if>
-    </set>
-    <set>
-      <if test="uuid != null">
-        sign_in_count = #{signInCount,jdbcType=VARCHAR},
+      <if test="sign_in_count != null">
+        sign_in_count = #{signInCount,jdbcType=BIGINT},
       </if>
-    </set>
-    <set>
-      <if test="uuid != null">
+      <if test="current_sign_in_ip != null">
         current_sign_in_ip = #{currentSignInIp,jdbcType=VARCHAR},
       </if>
-    </set>
-    <set>
-      <if test="uuid != null">
+      <if test="current_sign_in_date != null">
         current_sign_in_date = #{currentSignInDate,jdbcType=TIMESTAMP},
       </if>
-    </set>
-    <set>
-      <if test="uuid != null">
+      <if test="last_sign_in_ip != null">
         last_sign_in_ip = #{lastSignInIp,jdbcType=VARCHAR},
       </if>
-    </set>
-    <set>
-      <if test="uuid != null">
+      <if test="last_sign_in_date != null">
         last_sign_in_date = #{lastSignInDate,jdbcType=TIMESTAMP},
       </if>
-    </set>
-    <set>
-      <if test="uuid != null">
+      <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
-    </set>
-    <set>
-      <if test="uuid != null">
+      <if test="create_date != null">
         create_date = #{createDate,jdbcType=TIMESTAMP},
       </if>
-    </set>
-    <set>
-      <if test="uuid != null">
+      <if test="update_date != null">
         update_date = #{updateDate,jdbcType=TIMESTAMP},
       </if>
-    </set>
-    <set>
-      <if test="uuid != null">
+      <if test="create_operator != null">
         create_operator = #{createOperator,jdbcType=INTEGER},
       </if>
-    </set>
-    <set>
-      <if test="uuid != null">
+      <if test="update_operator != null">
         update_operator = #{updateOperator,jdbcType=INTEGER},
       </if>
     </set>
@@ -448,7 +390,7 @@
       active_code = #{activeCode,jdbcType=VARCHAR},
       active_code_expiration_date = #{activeCodeExpirationDate,jdbcType=VARCHAR},
       active_date = #{activeDate,jdbcType=TIMESTAMP},
-      sign_in_count = #{signInCount,jdbcType=VARCHAR},
+      sign_in_count = #{signInCount,jdbcType=BIGINT},
       current_sign_in_ip = #{currentSignInIp,jdbcType=VARCHAR},
       current_sign_in_date = #{currentSignInDate,jdbcType=TIMESTAMP},
       last_sign_in_ip = #{lastSignInIp,jdbcType=VARCHAR},

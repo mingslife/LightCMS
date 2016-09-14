@@ -36,7 +36,7 @@
     id, uuid, author_id, category_id, publish_date, month,
     read_number, comment_number, is_visible, can_comment, has_password, password,
     has_attachment, has_image, has_video, cover, keywords, summary,
-    on_top, create_date, update_date, create_operator, update_operator
+    description, on_top, create_date, update_date, create_operator, update_operator
   </sql>
   <sql id="BlobColumnList">
     content
@@ -61,9 +61,9 @@
       is_visible, can_comment, has_password,
       password, has_attachment, has_image,
       has_video, cover, keywords,
-      summary, content, on_top,
-      create_date, update_date, create_operator,
-      update_operator
+      summary, content, description,
+      on_top, create_date, update_date,
+      create_operator, update_operator
     ) values (
       #{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR},
       #{authorId,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{publishDate,jdbcType=TIMESTAMP},
@@ -71,9 +71,9 @@
       #{isVisible,jdbcType=BIT}, #{canComment,jdbcType=BIT}, #{hasPassword,jdbcType=BIT},
       #{password,jdbcType=VARCHAR}, #{hasAttachment,jdbcType=BIT}, #{hasImage,jdbcType=BIT},
       #{hasVideo,jdbcType=BIT}, #{cover,jdbcType=VARCHAR}, #{keywords,jdbcType=VARCHAR},
-      #{summary,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}, #{onTop,jdbcType=BIT},
-      #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, #{createOperator,jdbcType=INTEGER},
-      #{updateOperator,jdbcType=INTEGER}
+      #{summary,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}, #{description,jdbcType=VARCHAR},
+      #{onTop,jdbcType=BIT}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP},
+      #{createOperator,jdbcType=INTEGER}, #{updateOperator,jdbcType=INTEGER}
     )
   </insert>
   <insert id="insertSelective" parameterType="com.mingslife.model.Article">
@@ -138,6 +138,9 @@
       </if>
       <if test="content != null">
         content,
+      </if>
+      <if test="description != null">
+        description,
       </if>
       <if test="onTop != null">
         on_top,
@@ -216,6 +219,9 @@
       <if test="content != null">
         #{content,jdbcType=LONGVARCHAR},
       </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
       <if test="onTop != null">
         #{onTop,jdbcType=BIT},
       </if>
@@ -293,6 +299,9 @@
       <if test="content != null">
         content = #{content,jdbcType=LONGVARCHAR},
       </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
       <if test="onTop != null">
         on_top = #{onTop,jdbcType=BIT},
       </if>
@@ -333,6 +342,7 @@
       keywords = #{keywords,jdbcType=VARCHAR},
       summary = #{summary,jdbcType=VARCHAR},
       content = #{content,jdbcType=LONGVARCHAR},
+      description = #{description,jdbcType=VARCHAR},
       on_top = #{onTop,jdbcType=BIT},
       create_date = #{createDate,jdbcType=TIMESTAMP},
       update_date = #{updateDate,jdbcType=TIMESTAMP},
