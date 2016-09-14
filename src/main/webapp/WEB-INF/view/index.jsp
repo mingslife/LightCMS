@@ -99,46 +99,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</main>
 					<aside class="col-md-4">
 						<div class="widget widget-recent-posts">		
-							<h3 class="widget-title">最近发布</h3>		
+							<h3 class="widget-title">最近发布</h3>
 							<ul>
-								<li>
-									<a href="#">Adaptive Vs. Responsive Layouts And Optimal Text Readability</a>
-								</li>
-								<li>
-									<a href="#">Web Design is 95% Typography</a>
-								</li>
-								<li>
-									<a href="#">Paper by FiftyThree</a>
-								</li>
+								<li><a href="#">Adaptive Vs. Responsive Layouts And Optimal Text Readability</a></li>
 							</ul>
 						</div>
 						<div class="widget widget-archives">		
-							<h3 class="widget-title">归档</h3>		
+							<h3 class="widget-title">归档</h3>
 							<ul>
-								<li>
-									<a href="#">November 2014</a>
-								</li>
-								<li>
-									<a href="#">September 2014</a>
-								</li>
-								<li>
-									<a href="#">January 2013</a>
-								</li>
+								<li><a href="#">November 2014</a></li>
 							</ul>
 						</div>
 
 						<div class="widget widget-category">		
-							<h3 class="widget-title">分类</h3>		
+							<h3 class="widget-title">分类</h3>
 							<ul>
-								<li>
-									<a href="#">Web Design</a>
-								</li>
-								<li>
-									<a href="#">Web Development</a>
-								</li>
-								<li>
-									<a href="#">SEO</a>
-								</li>
+<c:forEach var="category" items="${categories}" varStatus="status">
+								<li><a href="#">${category.categoryName}</a></li>
+</c:forEach>
 							</ul>
 						</div>
 					</aside>

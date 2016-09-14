@@ -164,4 +164,9 @@ public class CategoryService implements ICategoryService {
 	public double sum(String parameter, String condition, Object[] values, String order, String sort, int curPage, int limit, boolean isDistinct) {
 		return categoryMapper.sum(parameter, SQLUtil.fillCondition(condition, values), order, sort, SQLUtil.getOffset(curPage, limit), limit, isDistinct);
 	}
+
+	@Override
+	public List<Category> loadForMenu(int limit) {
+		return categoryMapper.loadForMenu(limit);
+	}
 }

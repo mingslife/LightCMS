@@ -183,4 +183,10 @@
   <select id="find" resultMap="BaseResultMap" parameterType="java.lang.Integer">
     select ${parameters} from categories where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="loadForMenu" resultMap="BaseResultMap">
+    select id, category_name from categories where is_visible = 1 order by position asc
+    <if test="limit != -1">
+      limit #{limit,jdbcType=INTEGER}
+    </if>
+  </select>
 </mapper>
