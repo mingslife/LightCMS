@@ -424,13 +424,13 @@
     from
       articles a left join users u on a.author_id = u.id left join categories c on a.category_id = c.id
     where
-      a.is_visible = 1 and u.is_active = 1
+      a.is_visible = 1 and u.is_active = 1 and c.is_visible = 1
     order by
       id desc
     limit #{offset,jdbcType=INTEGER}, #{limit,jdbcType=INTEGER}
   </select>
   <select id="countForBlog" resultType="long">
-    select count(*) from articles a left join users u on a.author_id = u.id where a.is_visible = 1 and u.is_active = 1
+    select count(*) from articles a left join users u on a.author_id = u.id left join categories c on a.category_id = c.id where a.is_visible = 1 and u.is_active = 1 and c.is_visible = 1
   </select>
   <resultMap id="ArticleForArticlePOJO" type="com.mingslife.pojo.ArticleForArticlePOJO">
     <id column="id" property="id" jdbcType="INTEGER" />
@@ -461,6 +461,6 @@
     from
       articles a left join users u on a.author_id = u.id left join categories c on a.category_id = c.id
     where
-      a.uuid = #{uuid,jdbcType=VARCHAR} and a.is_visible = 1 and a.has_password = 0 and u.is_active = 1
+      a.uuid = #{uuid,jdbcType=VARCHAR} and a.is_visible = 1 and a.has_password = 0 and u.is_active = 1 and c.is_visible = 1
   </select>
 </mapper>
