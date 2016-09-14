@@ -218,13 +218,13 @@ public class CodeGenerator {
 			result.append("  </insert>" + CRLF);
 			result.append("  <update id=\"updateByPrimaryKeySelective\" parameterType=\"" + targetClass.getName() + "\">" + CRLF);
 			result.append("    update " + tableName + CRLF);
+			result.append("    <set>" + CRLF);
 			for (ClassField classField : classFields) {
-				result.append("    <set>" + CRLF);
-				result.append("      <if test=\"uuid != null\">" + CRLF);
+				result.append("      <if test=\"" + classField.getName() + " != null\">" + CRLF);
 				result.append("        " + classField.getColumnName() + " = #{" + classField.getName() + ",jdbcType=" + classField.getJdbcType() + "}," + CRLF);
 				result.append("      </if>" + CRLF);
-				result.append("    </set>" + CRLF);
 			}
+			result.append("    </set>" + CRLF);
 			result.append("    where " + idField.getColumnName() + " = #{" + idField.getName() + ",jdbcType=" + idField.getJdbcType() + "}" + CRLF);
 			result.append("  </update>" + CRLF);
 			result.append("  <update id=\"updateByPrimaryKey\" parameterType=\"" + targetClass.getName() + "\">" + CRLF);
@@ -323,23 +323,14 @@ public class CodeGenerator {
 			result.append(CRLF);
 			result.append("public interface " + targetClassName + "Mapper {" + CRLF);
 			result.append("\tint deleteByPrimaryKey(" + idField.getParameterClass().getSimpleName() + " " + idField.getName() + ");" + CRLF);
-			result.append(CRLF);
 			result.append("\tint insert(" + targetClassName + " record);" + CRLF);
-			result.append(CRLF);
 			result.append("\tint insertSelective(" + targetClassName + " record);" + CRLF);
-			result.append(CRLF);
 			result.append("\t" + targetClassName + " selectByPrimaryKey(" + idField.getParameterClass().getSimpleName() + " " + idField.getName() + ");" + CRLF);
-			result.append(CRLF);
 			result.append("\tint updateByPrimaryKeySelective(" + targetClassName + " record);" + CRLF);
-			result.append(CRLF);
 			result.append("\tint updateByPrimaryKey(" + targetClassName + " record);" + CRLF);
-			result.append(CRLF);
 			result.append("\tList<" + targetClassName + "> select(@Param(\"parameters\") String parameters, @Param(\"condition\") String condition, @Param(\"order\") String order, @Param(\"sort\") String sort, @Param(\"offset\") int offset, @Param(\"limit\") int limit);" + CRLF);
-			result.append(CRLF);
 			result.append("\tlong count(@Param(\"parameters\") String parameters, @Param(\"condition\") String condition, @Param(\"isDistinct\") boolean isDistinct);" + CRLF);
-			result.append(CRLF);
 			result.append("\tdouble sum(@Param(\"parameter\") String parameter, @Param(\"condition\") String condition, @Param(\"order\") String order, @Param(\"sort\") String sort, @Param(\"offset\") int offset, @Param(\"limit\") int limit, @Param(\"isDistinct\") boolean isDistinct);" + CRLF);
-			result.append(CRLF);
 			result.append("\t" + targetClassName + " find(@Param(\"id\") Integer id, @Param(\"parameters\") String parameters);" + CRLF);
 			result.append("}" + CRLF);
 			
@@ -818,8 +809,8 @@ public class CodeGenerator {
 		final String controllerPackage = "com.mingslife.controller";
 		final String dtoPackage = "com.mingslife.dto";
 		
-		String targetClassName = "User";
-		String tableName = "users";
+		String targetClassName = "Archive";
+		String tableName = "archives";
 		String entityId = "id";
 		
 		Generator generator = new Generator(projectPath, javaPath, modelPackage, mappingPackage, daoPackage, servicePackage, serviceImplPackage, controllerPackage, dtoPackage, targetClassName, tableName, entityId);
