@@ -420,13 +420,13 @@
   </resultMap>
   <select id="loadForBlog" resultMap="ArticleForBlogPOJO">
     select
-      a.id, a.uuid, a.title, a.author_id, u.nickname author_name, a.category_id, c.category_name, a.publish_date, a.comment_number, a.summary
+      a.id, a.uuid, a.title, a.author_id, u.nickname author_name, a.category_id, c.category_name, a.publish_date, a.comment_number, a.summary, a.on_top
     from
       articles a left join users u on a.author_id = u.id left join categories c on a.category_id = c.id
     where
       a.is_visible = 1 and u.is_active = 1 and c.is_visible = 1
     order by
-      id desc
+      on_top desc, id desc
     limit #{offset,jdbcType=INTEGER}, #{limit,jdbcType=INTEGER}
   </select>
   <select id="countForBlog" resultType="long">
@@ -462,5 +462,18 @@
       articles a left join users u on a.author_id = u.id left join categories c on a.category_id = c.id
     where
       a.uuid = #{uuid,jdbcType=VARCHAR} and a.is_visible = 1 and a.has_password = 0 and u.is_active = 1 and c.is_visible = 1
+  </select>
+  <select id="loadForMenu" resultMap="BaseResultMap">
+    select
+      a.id, a.uuid, a.title
+    from
+      articles a left join users u on a.author_id = u.id left join categories c on a.category_id = c.id
+    where
+      a.is_visible = 1 and u.is_active = 1 and c.is_visible = 1
+    order by
+      id desc
+    <if test="limit != -1">
+      limit #{limit,jdbcType=INTEGER}
+    </if>
   </select>
 </mapper>

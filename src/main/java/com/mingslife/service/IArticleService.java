@@ -41,4 +41,5 @@ public interface IArticleService {
 	List<ArticleForBlogPOJO> loadForBlog(int curPage, int limit);
 	long countForBlog();
 	ArticleForArticlePOJO findByUUidForArticle(String uuid);
+	List<Article> loadForMenu(int limit);
 }

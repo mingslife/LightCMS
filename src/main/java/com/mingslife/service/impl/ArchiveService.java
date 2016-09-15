@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.mingslife.dao.ArchiveMapper;
 import com.mingslife.model.Archive;
+import com.mingslife.pojo.ArchiveForMenuPOJO;
 import com.mingslife.service.IArchiveService;
 import com.mingslife.web.util.SQLUtil;
 
@@ -163,5 +164,10 @@ public class ArchiveService implements IArchiveService {
 	@Override
 	public double sum(String parameter, String condition, Object[] values, String order, String sort, int curPage, int limit, boolean isDistinct) {
 		return archiveMapper.sum(parameter, SQLUtil.fillCondition(condition, values), order, sort, SQLUtil.getOffset(curPage, limit), limit, isDistinct);
+	}
+
+	@Override
+	public List<ArchiveForMenuPOJO> loadForMenu(int limit) {
+		return archiveMapper.loadForMenu(limit);
 	}
 }

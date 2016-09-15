@@ -13,9 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.mingslife.model.Article;
 import com.mingslife.model.Category;
+import com.mingslife.pojo.ArchiveForMenuPOJO;
 import com.mingslife.pojo.ArticleForArticlePOJO;
 import com.mingslife.pojo.ArticleForBlogPOJO;
+import com.mingslife.service.IArchiveService;
 import com.mingslife.service.IArticleService;
 import com.mingslife.service.ICategoryService;
 import com.mingslife.web.controller.BaseController;
@@ -25,6 +28,8 @@ public class MainController extends BaseController {
 	private static final int INDEX_ARTICLES_LIMIT = 10;
 	private static final int BLOG_ARTICLES_LIMIT = 2;
 
+	private static final int MENU_ARTICLES_LIMIT = 5;
+	private static final int MENU_ARCHIVES_LIMIT = 5;
 	private static final int MENU_CATEGORIES_LIMIT = -1;
 
 	private static final String MENU_URL_REGEXP = "/index|/article/(.*)";
@@ -32,9 +37,9 @@ public class MainController extends BaseController {
 	@Autowired
 	private IArticleService articleService;
 	@Autowired
+	private IArchiveService archiveService;
+	@Autowired
 	private ICategoryService categoryService;
-//	@Autowired
-//	private IArhiveService arhiveService;
 
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index(Model model) {
@@ -80,9 +85,12 @@ public class MainController extends BaseController {
 		String uri = getFormatRequestURI(request);
 		System.out.println(uri);
 		if (uri.matches(MENU_URL_REGEXP)) {
+			List<Article> articles = articleService.loadForMenu(MENU_ARTICLES_LIMIT);
+			List<ArchiveForMenuPOJO> archives = archiveService.loadForMenu(MENU_ARCHIVES_LIMIT);
 			List<Category> categories = categoryService.loadForMenu(MENU_CATEGORIES_LIMIT);
-			System.out.println("Categories: " + categories);
-			model.addAttribute("categories", categories);
+			model.addAttribute("articlesForMenu", articles);
+			model.addAttribute("archivesForMenu", archives);
+			model.addAttribute("categoriesForMenu", categories);
 		}
 	}
 

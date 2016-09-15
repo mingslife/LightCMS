@@ -161,4 +161,14 @@
   <select id="find" resultMap="BaseResultMap" parameterType="java.lang.Integer">
     select ${parameters} from archives where id = #{id,jdbcType=INTEGER}
   </select>
+  <resultMap id="ArchiveForMenuPOJO" type="com.mingslife.pojo.ArchiveForMenuPOJO">
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="month" property="month" jdbcType="INTEGER" />
+  </resultMap>
+  <select id="loadForMenu" resultMap="ArchiveForMenuPOJO">
+    select id, month from archives order by month desc
+    <if test="limit != -1">
+      limit #{limit,jdbcType=INTEGER}
+    </if>
+  </select>
 </mapper>

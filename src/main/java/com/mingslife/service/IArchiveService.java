@@ -3,6 +3,7 @@ package com.mingslife.service;
 import java.util.List;
 
 import com.mingslife.model.Archive;
+import com.mingslife.pojo.ArchiveForMenuPOJO;
 
 public interface IArchiveService {
 	void save(Archive archive);
@@ -35,4 +36,6 @@ public interface IArchiveService {
 	double sum(String parameter, String condition, Object[] values, int curPage, int limit);
 	double sum(String parameter, String condition, Object[] values, String order, String sort, int curPage, int limit);
 	double sum(String parameter, String condition, Object[] values, String order, String sort, int curPage, int limit, boolean isDistinct);
+
+	List<ArchiveForMenuPOJO> loadForMenu(int limit);
 }

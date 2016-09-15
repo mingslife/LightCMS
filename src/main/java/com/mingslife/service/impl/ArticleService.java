@@ -181,4 +181,9 @@ public class ArticleService implements IArticleService {
 	public ArticleForArticlePOJO findByUUidForArticle(String uuid) {
 		return articleMapper.findByUuidForArticle(uuid);
 	}
+
+	@Override
+	public List<Article> loadForMenu(int limit) {
+		return articleMapper.loadForMenu(limit);
+	}
 }

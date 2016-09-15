@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<head>
 		<base href="<%= basePath %>">
 
-		<title>Ming's Life</title>
+		<title>${application.brand}</title>
 
 		<!-- meta -->
 		<meta charset="UTF-8">
@@ -34,7 +34,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="row">
 					<div class="col-md-4 col-sm-5 col-xs-8">
 						<div class="logo">
-							<h1><a href="index.html">Ming's Life</a></h1>
+							<h1><a href="index.html">${application.brand}</a></h1>
 						</div>
 					</div><!-- col-md-4 -->
 					<div class="col-md-8 col-sm-7 col-xs-4">
@@ -89,23 +89,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</article>
 					</main>
 					<aside class="col-md-4">
-						<div class="widget widget-recent-posts">		
+						<div class="widget widget-recent-posts">
 							<h3 class="widget-title">最近发布</h3>
 							<ul>
-								<li><a href="#">Adaptive Vs. Responsive Layouts And Optimal Text Readability</a></li>
-							</ul>
-						</div>
-						<div class="widget widget-archives">		
-							<h3 class="widget-title">归档</h3>
-							<ul>
-								<li><a href="#">November 2014</a></li>
+<c:forEach var="article" items="${articlesForMenu}" varStatus="status">
+								<li><a href="#">${article.title}</a></li>
+</c:forEach>
 							</ul>
 						</div>
 
-						<div class="widget widget-category">		
+						<div class="widget widget-archives">
+							<h3 class="widget-title">归档</h3>
+							<ul>
+<c:forEach var="archive" items="${archivesForMenu}" varStatus="status">
+								<li><a href="#">${archive.monthF}</a></li>
+</c:forEach>
+							</ul>
+						</div>
+
+						<div class="widget widget-category">
 							<h3 class="widget-title">分类</h3>
 							<ul>
-<c:forEach var="category" items="${categories}" varStatus="status">
+<c:forEach var="category" items="${categoriesForMenu}" varStatus="status">
 								<li><a href="#">${category.categoryName}</a></li>
 </c:forEach>
 							</ul>
@@ -118,7 +123,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="container">
 				<div class="row">
 					<div class="col-md-12">
-						<p class="copyright">&copy; 2014 ThemeWagon.com</p>
+						<p class="copyright">${application.copyright}</p>
 					</div>
 				</div>
 			</div>

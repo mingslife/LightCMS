@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.mingslife.model.Archive;
+import com.mingslife.pojo.ArchiveForMenuPOJO;
 
 public interface ArchiveMapper {
 	int deleteByPrimaryKey(Integer id);
@@ -17,4 +18,6 @@ public interface ArchiveMapper {
 	long count(@Param("parameters") String parameters, @Param("condition") String condition, @Param("isDistinct") boolean isDistinct);
 	double sum(@Param("parameter") String parameter, @Param("condition") String condition, @Param("order") String order, @Param("sort") String sort, @Param("offset") int offset, @Param("limit") int limit, @Param("isDistinct") boolean isDistinct);
 	Archive find(@Param("id") Integer id, @Param("parameters") String parameters);
+
+	List<ArchiveForMenuPOJO> loadForMenu(@Param("limit") int limit);
 }

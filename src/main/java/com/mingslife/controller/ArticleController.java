@@ -36,10 +36,10 @@ public class ArticleController extends BaseController {
 
 	@ResponseBody
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public Map<String, Object> list(@RequestParam(value = "page", defaultValue = "1") int page) {
+	public Map<String, Object> list(@RequestParam(value = "curPage", defaultValue = "1") int curPage, @RequestParam(value = "limit", defaultValue = "10") int limit) {
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
 		
-		List<Article> articles = articleService.load(new String[] {"id", "uuid", "title"}, "id", "asc", page, LIMIT);
+		List<Article> articles = articleService.load(new String[] {"id", "uuid", "title", "author_id", "category_id", "publish_date", "read_number", "comment_number", "is_visible", "can_comment", "has_password", "on_top"}, "id", "asc", curPage, limit);
 		long count = articleService.count();
 		
 		jsonMap.put("rows", articles);

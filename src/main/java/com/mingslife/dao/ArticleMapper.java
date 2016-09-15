@@ -63,4 +63,5 @@ public interface ArticleMapper {
 	List<ArticleForBlogPOJO> loadForBlog(@Param("offset") int offset, @Param("limit") int limit);
 	long countForBlog();
 	ArticleForArticlePOJO findByUuidForArticle(@Param("uuid") String uuid);
+	List<Article> loadForMenu(@Param("limit") int limit);
 }
