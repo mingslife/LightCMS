@@ -1159,6 +1159,31 @@ tr:hover {
 
 /* Ming Custom */
 
+.modal-content {
+	background-color: rgba(0, 0, 0, .65);
+}
+.modal-header {
+	border-bottom: 1px solid rgba(255, 255, 255, .1);
+}
+.modal-footer {
+	border-top: 1px solid rgba(255, 255, 255, .1);
+}
+.modal-mask-blur {
+	-webkit-filter: blur(20px);
+	-moz-filter: blur(20px);
+	-o-filter: blur(20px);
+	-ms-filter: blur(20px);
+	filter: blur(20px);
+	-webkit-transition: all .5s ease;
+	-moz-transition: all .5s ease;
+	-ms-transition: all .5s ease;
+	-o-transition: all .5s ease;
+	transition: all .5s ease;
+}
+.modal-mask-blur.sidebar {
+	overflow: visible;
+}
+
 .bootstrap-table .fixed-table-toolbar .dropdown-menu {
 	background: rgba(255, 255, 255, .9);
 	color: #444;

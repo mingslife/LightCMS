@@ -35,3 +35,16 @@ app.service("service", function($http, $q) {
 	};
 });
 app.controller("controller", function($scope) {});
+
+$(document).ready(function() {
+	$(".modal").on("show.bs.modal", function(event) {
+		$(".navbar").addClass("modal-mask-blur");
+		$(".sidebar").addClass("modal-mask-blur");
+		$(".main").addClass("modal-mask-blur");
+	});
+	$(".modal").on("hidden.bs.modal", function(event) {
+		$(".navbar").removeClass("modal-mask-blur");
+		$(".sidebar").removeClass("modal-mask-blur");
+		$(".main").removeClass("modal-mask-blur");
+	});
+});
