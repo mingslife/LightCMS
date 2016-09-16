@@ -5,10 +5,19 @@ app.config(function($routeProvider) {
 			templateUrl: "view/home.html",
 			controller: "homeController"
 		})
+//		.when("/article", {
+//			templateUrl: "view/article.html",
+//			controller: "articleController"
+//		})
 		.when("/article", {
-			templateUrl: "view/article.html",
+			templateUrl: "view/article/list.html",
 			controller: "articleController"
-		});
+		})
+		.when("/article/:id", {
+			templateUrl: "view/article/form.html",
+			controller: "articleController"
+		})
+		;
 });
 app.service("service", function($http, $q) {
 	this.ajax = function(method, url, data) {

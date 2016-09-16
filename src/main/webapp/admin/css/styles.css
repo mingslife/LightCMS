@@ -1159,6 +1159,13 @@ tr:hover {
 
 /* Ming Custom */
 
+select.form-control {
+	background-color: rgba(255, 255, 255, .1);
+}
+select.form-control option {
+	color: #000;
+}
+
 .modal-content {
 	background-color: rgba(0, 0, 0, .65);
 }

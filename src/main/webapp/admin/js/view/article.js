@@ -16,7 +16,22 @@ app.service("articleService", function(service) {
 		return service.ajax("DELETE", "../articles/{id}.do".replace("{id}", id), "id=" + id);
 	};
 });
-app.controller("articleController", function($scope, articleService) {
+app.controller("articleController", function($scope, $routeParams, articleService) {
+	console.info($routeParams);
+	var recordId = $routeParams.id;
+	if (recordId) {
+		$scope.isVisibleDatas = [{
+			value: true,
+			name: "是"
+		}, {
+			value: false,
+			name: "否"
+		}];
+		articleService.showRecord(recordId).then(function(data) {
+			console.info(data);
+			$scope.article = data;
+		});
+	}
 	$("#article-table").bootstrapTable({
 		url: "../articles.do",
 		cache: false,
