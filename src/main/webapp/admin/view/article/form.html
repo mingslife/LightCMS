@@ -47,7 +47,35 @@
 					</div>
 					<div class="form-group">
 						<label>是否展示</label>
-						<select class="form-control" data-ng-model="article.isVisible" data-ng-options="isVisibleData.value as isVisibleData.name for isVisibleData in isVisibleDatas"></select>
+						<select class="form-control" data-ng-model="article.isVisible" data-ng-options="baseSelectData.value as baseSelectData.name for baseSelectData in baseSelectDatas"></select>
+					</div>
+					<div class="form-group">
+						<label>可以评论</label>
+						<select class="form-control" data-ng-model="article.canComment" data-ng-options="baseSelectData.value as baseSelectData.name for baseSelectData in baseSelectDatas"></select>
+					</div>
+					<div class="form-group">
+						<label>密码</label>
+						<input type="text" class="form-control" data-ng-model="article.password" />
+					</div>
+					<div class="form-group">
+						<label>附件</label>
+						<input type="file" class="form-control" />
+					</div>
+					<div class="form-group">
+						<label>封面</label>
+						<input type="file" class="form-control" />
+					</div>
+					<div class="form-group">
+						<label>关键字</label>
+						<input type="text" class="form-control" />
+					</div>
+					<div class="form-group">
+						<label>内容</label>
+						<textarea class="form-control" data-ng-model="article.content"></textarea>
+					</div>
+					<div class="form-group">
+						<label>是否置顶</label>
+						<select class="form-control" data-ng-model="article.onTop" data-ng-options="baseSelectData.value as baseSelectData.name for baseSelectData in baseSelectDatas"></select>
 					</div>
 				</form>
 			</div>

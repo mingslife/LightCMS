@@ -33,10 +33,11 @@
     <result column="content" property="content" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="BaseColumnList">
-    id, uuid, author_id, category_id, publish_date, month,
-    read_number, comment_number, is_visible, can_comment, has_password, password,
-    has_attachment, has_image, has_video, cover, keywords, summary,
-    description, on_top, create_date, update_date, create_operator, update_operator
+    id, uuid, title, author_id, category_id, publish_date,
+    month, read_number, comment_number, is_visible, can_comment, has_password,
+    password, has_attachment, has_image, has_video, cover, keywords,
+    summary, description, on_top, create_date, update_date, create_operator,
+    update_operator
   </sql>
   <sql id="BlobColumnList">
     content

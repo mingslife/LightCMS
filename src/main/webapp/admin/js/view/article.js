@@ -20,7 +20,7 @@ app.controller("articleController", function($scope, $routeParams, articleServic
 	console.info($routeParams);
 	var recordId = $routeParams.id;
 	if (recordId) {
-		$scope.isVisibleDatas = [{
+		$scope.baseSelectDatas = [{
 			value: true,
 			name: "是"
 		}, {
