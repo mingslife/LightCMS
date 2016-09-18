@@ -12,13 +12,22 @@
 	<!-- 自动扫描该包，使SpringMVC认为包下用了@controller注解的类是控制器 -->
 	<context:component-scan base-package="com.mingslife.controller" />
 	<!--避免IE执行AJAX时，返回JSON出现下载文件 -->
-	<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-		<!-- <property name="supportedMediaTypes">
+	<!-- <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+		<property name="supportedMediaTypes">
 			<list>
 				<value>text/html;charset=UTF-8</value>
 			</list>
-		</property> -->
-	</bean>
+		</property>
+		<property name="objectMapper">
+			<bean class="com.fasterxml.jackson.databind.ObjectMapper">
+				<property name="dateFormat">
+					<bean class="java.text.SimpleDateFormat">
+						<constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm:ss"></constructor-arg>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean> -->
 	<!-- 启动SpringMVC的注解功能，完成请求和注解POJO的映射 -->
 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
 		<!-- <property name="messageConverters">
@@ -79,6 +88,22 @@
           </property>
           <property name="writeAcceptCharset" value="false" />
         </bean>
+        <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+		<!-- <property name="supportedMediaTypes">
+			<list>
+				<value>text/html;charset=UTF-8</value>
+			</list>
+		</property> -->
+		<property name="objectMapper">
+			<bean class="com.fasterxml.jackson.databind.ObjectMapper">
+				<property name="dateFormat">
+					<bean class="java.text.SimpleDateFormat">
+						<constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm:ss"></constructor-arg>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
       </mvc:message-converters>
     </mvc:annotation-driven>
     <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
