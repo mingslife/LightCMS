@@ -9,8 +9,8 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -51,20 +51,20 @@ public class ArticleController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public Article show(@PathVariable("id") int id) {
-		Article article = articleService.find(id);
+		Article article = articleService.find(id, new String[] {"id", "uuid", "title", "author_id", "category_id", "publish_date", "read_number", "comment_number", "is_visible", "can_comment", "password", "cover", "keywords", "description", "content", "on_top"});
 		return article;
 	}
 
 	@ResponseBody
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	public void create(@Valid @ModelAttribute ArticleDTO articleDTO) {
+	public void create(@Valid @RequestBody ArticleDTO articleDTO) {
 		Article article = articleDTO.toModel();
 		articleService.save(article);
 	}
 
 	@ResponseBody
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public void update(@PathVariable("id") Integer id, @Valid @ModelAttribute ArticleDTO articleDTO) {
+	public void update(@PathVariable("id") Integer id, @RequestBody ArticleDTO articleDTO) {
 		Article article = articleDTO.toModel();
 		article.setId(id);
 		articleService.update(article);

@@ -26,9 +26,9 @@ app.service("service", function($http, $q) {
 			method: method,
 			url: url,
 			data: data,
-			headers: {
-				"Content-Type": "application/x-www-form-urlencoded"
-			},
+//			headers: {
+//				"Content-Type": "application/x-www-form-urlencoded"
+//			},
 			cache: false
 		}).success(function(data) {
 			if (angular.isDefined(data.error)) {

@@ -264,7 +264,7 @@
       <if test="readNumber != null">
         read_number = #{readNumber,jdbcType=BIGINT},
       </if>
-      <if test="comment_number != null">
+      <if test="commentNumber != null">
         comment_number = #{commentNumber,jdbcType=BIGINT},
       </if>
       <if test="isVisible != null">
