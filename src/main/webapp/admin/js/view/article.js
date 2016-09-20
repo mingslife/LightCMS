@@ -18,6 +18,10 @@ app.service("articleService", function(service) {
 });
 app.controller("articleController", function($scope, $routeParams, articleService) {
 	console.info($routeParams);
+	var articleContentEditor = new SimpleMDE({
+		element: document.getElementById("article-content"),
+		spellChecker: false
+	});
 	var recordId = $routeParams.id;
 	if (recordId) {
 		$scope.baseSelectDatas = [{
@@ -30,6 +34,7 @@ app.controller("articleController", function($scope, $routeParams, articleServic
 		articleService.showRecord(recordId).then(function(data) {
 			console.info(data);
 			$scope.article = data;
+			articleContentEditor.value(data.markdown);
 		});
 	}
 	$("#article-table").bootstrapTable({
@@ -129,6 +134,7 @@ app.controller("articleController", function($scope, $routeParams, articleServic
 			keywords: record.keywords,
 			description: record.description,
 			content: record.content,
+			markdown: articleContentEditor.value(),
 			onTop: record.onTop
 		};
 	};

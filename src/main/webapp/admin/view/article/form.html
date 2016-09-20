@@ -67,11 +67,15 @@
 					</div>
 					<div class="form-group">
 						<label>关键字</label>
-						<input type="text" class="form-control" />
+						<input type="text" class="form-control" data-ng-model="article.keywords" />
+					</div>
+					<div class="form-group">
+						<label>描述</label>
+						<input type="text" class="form-control" data-ng-model="article.description" />
 					</div>
 					<div class="form-group">
 						<label>内容</label>
-						<textarea class="form-control" data-ng-model="article.content"></textarea>
+						<textarea class="form-control" id="article-content" data-ng-model="article.markdown"></textarea>
 					</div>
 					<div class="form-group">
 						<label>是否置顶</label>

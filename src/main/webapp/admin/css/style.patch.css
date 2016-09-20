@@ -49,3 +49,7 @@ select.form-control option {
 	background: rgba(255, 255, 255, .1);
 	border-color: rgba(255, 255, 255, .1);
 }
+
+.editor-toolbar {
+	background-color: #fff;
+}

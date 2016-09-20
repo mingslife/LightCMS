@@ -17,6 +17,7 @@ public class ArticleDTO implements Serializable {
 	private String keywords;
 	private String description;
 	private String content;
+	private String markdown;
 	private Boolean onTop;
 
 	public String getTitle() {
@@ -99,6 +100,14 @@ public class ArticleDTO implements Serializable {
 		this.content = content;
 	}
 
+	public String getMarkdown() {
+		return markdown;
+	}
+
+	public void setMarkdown(String markdown) {
+		this.markdown = markdown;
+	}
+
 	public Boolean getOnTop() {
 		return onTop;
 	}
@@ -119,6 +128,7 @@ public class ArticleDTO implements Serializable {
 		model.setKeywords(keywords);
 		model.setDescription(description);
 		model.setContent(content);
+		model.setMarkdown(markdown);
 		model.setOnTop(onTop);
 		return model;
 	}

@@ -32,6 +32,7 @@ public class Article implements Serializable {
 	private String description;
 	private String summary;
 	private String content;
+	private String markdown;
 	private Boolean onTop;
 	@CreationTimestamp
 	private Date createDate;
@@ -208,6 +209,14 @@ public class Article implements Serializable {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	public String getMarkdown() {
+		return markdown;
+	}
+
+	public void setMarkdown(String markdown) {
+		this.markdown = markdown;
 	}
 
 	public Boolean getOnTop() {

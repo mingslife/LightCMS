@@ -1,11 +1,13 @@
 package com.mingslife.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
 
+import org.markdown4j.Markdown4jProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -51,7 +53,7 @@ public class ArticleController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public Article show(@PathVariable("id") int id) {
-		Article article = articleService.find(id, new String[] {"id", "uuid", "title", "author_id", "category_id", "publish_date", "read_number", "comment_number", "is_visible", "can_comment", "password", "cover", "keywords", "description", "content", "on_top"});
+		Article article = articleService.find(id, new String[] {"id", "uuid", "title", "author_id", "category_id", "publish_date", "read_number", "comment_number", "is_visible", "can_comment", "password", "cover", "keywords", "description", "content", "markdown", "on_top"});
 		return article;
 	}
 
@@ -67,6 +69,11 @@ public class ArticleController extends BaseController {
 	public void update(@PathVariable("id") Integer id, @RequestBody ArticleDTO articleDTO) {
 		Article article = articleDTO.toModel();
 		article.setId(id);
+		try {
+			article.setContent(new Markdown4jProcessor().process(article.getMarkdown()));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		articleService.update(article);
 	}
 
