@@ -16,10 +16,10 @@ app.config(function($routeProvider) {
 		.when("/article/:id", {
 			templateUrl: "view/article/form.html",
 			controller: "articleController"
-		})
-		;
+		});
 });
 app.service("service", function($http, $q) {
+	this.basePath = "../";
 	this.ajax = function(method, url, data) {
 		var defer = $q.defer();
 		$http({

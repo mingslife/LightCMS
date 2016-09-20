@@ -1,19 +1,19 @@
 var articleScope;
 app.service("articleService", function(service) {
 	this.showRecords = function() {
-		return service.ajax("GET", "../articles.do", null);
+		return service.ajax("GET", service.basePath + "articles.do", null);
 	};
 	this.showRecord = function(id) {
-		return service.ajax("GET", "../articles/{id}.do".replace("{id}", id), null);
+		return service.ajax("GET", service.basePath + "articles/{id}.do".replace("{id}", id), null);
 	};
 	this.createRecord = function(record) {
-		return service.ajax("POST", "../articles.do", record);
+		return service.ajax("POST", service.basePath + "articles.do", record);
 	};
 	this.updateRecord = function(id, record) {
-		return service.ajax("PUT", "../articles/{id}.do".replace("{id}", id), record);
+		return service.ajax("PUT", service.basePath + "articles/{id}.do".replace("{id}", id), record);
 	};
 	this.deleteRecord = function(id) {
-		return service.ajax("DELETE", "../articles/{id}.do".replace("{id}", id), null);
+		return service.ajax("DELETE", service.basePath + "articles/{id}.do".replace("{id}", id), null);
 	};
 });
 app.controller("articleController", function($scope, $routeParams, articleService) {
