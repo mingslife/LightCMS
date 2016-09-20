@@ -20,6 +20,7 @@ app.controller("articleController", function($scope, $routeParams, articleServic
 	console.info($routeParams);
 	var articleContentEditor = new SimpleMDE({
 		element: document.getElementById("article-content"),
+		hideIcons: ["guide"],
 		spellChecker: false
 	});
 	var recordId = $routeParams.id;
@@ -123,6 +124,7 @@ app.controller("articleController", function($scope, $routeParams, articleServic
 		});
 	};
 	$scope.formatRecord = function(record) {
+		var markdown = articleContentEditor.value();
 		return {
 			title: record.title,
 			authorId: record.authorId,
@@ -133,8 +135,8 @@ app.controller("articleController", function($scope, $routeParams, articleServic
 			cover: record.cover,
 			keywords: record.keywords,
 			description: record.description,
-			content: record.content,
-			markdown: articleContentEditor.value(),
+			content: articleContentEditor.markdown(markdown),
+			markdown: markdown,
 			onTop: record.onTop
 		};
 	};

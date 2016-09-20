@@ -20,6 +20,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<link rel="stylesheet" href="css/ionicons.min.css">
 		<link rel="stylesheet" href="css/pace.css">
 	    <link rel="stylesheet" href="css/custom.css">
+	    <link rel="stylesheet" href="css/github-markdown.min.css">
 
 	    <!-- js -->
 	    <script src="js/jquery-2.1.3.min.js"></script>
@@ -85,7 +86,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<span class="comments-link"><a href="#">${article.commentNumber}条评论</a></span>
 								</div>
 							</header>
-							<div class="entry-content clearfix">${article.content}</div>
+							<div class="entry-content clearfix markdown-body">${article.content}</div>
 						</article>
 					</main>
 					<aside class="col-md-4">

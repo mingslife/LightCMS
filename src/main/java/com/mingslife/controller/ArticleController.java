@@ -69,11 +69,11 @@ public class ArticleController extends BaseController {
 	public void update(@PathVariable("id") Integer id, @RequestBody ArticleDTO articleDTO) {
 		Article article = articleDTO.toModel();
 		article.setId(id);
-		try {
+		/*try {
 			article.setContent(new Markdown4jProcessor().process(article.getMarkdown()));
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
 		articleService.update(article);
 	}
 
