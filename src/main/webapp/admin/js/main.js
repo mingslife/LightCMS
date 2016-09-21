@@ -9,6 +9,14 @@ app.config(function($routeProvider) {
 //			templateUrl: "view/article.html",
 //			controller: "articleController"
 //		})
+		.when("/category", {
+			templateUrl: "view/category/list.html",
+			controller: "categoryController"
+		})
+		.when("/category/:id", {
+			templateUrl: "view/category/form.html",
+			controller: "categoryController"
+		})
 		.when("/article", {
 			templateUrl: "view/article/list.html",
 			controller: "articleController"

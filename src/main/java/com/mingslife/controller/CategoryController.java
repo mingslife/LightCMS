@@ -38,7 +38,7 @@ public class CategoryController extends BaseController {
 	public Map<String, Object> list(@RequestParam(value = "page", defaultValue = "1") int page) {
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
 		
-		List<Category> categories = categoryService.load(new String[] {"id"}, "id", "asc", page, LIMIT);
+		List<Category> categories = categoryService.load(new String[] {"id", "category_name", "position", "is_visible"}, "id", "asc", page, LIMIT);
 		long count = categoryService.count();
 		
 		jsonMap.put("rows", categories);
@@ -50,7 +50,7 @@ public class CategoryController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public Category show(@PathVariable("id") Integer id) {
-		Category category = categoryService.find(id, new String[] {"id"});
+		Category category = categoryService.find(id, new String[] {"id", "category_name", "position", "is_visible"});
 		return category;
 	}
 
