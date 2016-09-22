@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import com.mingslife.model.Article;
 import com.mingslife.pojo.ArticleForArticlePOJO;
 import com.mingslife.pojo.ArticleForBlogPOJO;
+import com.mingslife.pojo.ArticleForRssPOJO;
 
 public interface ArticleMapper {
 	int deleteByPrimaryKey(Integer id);
@@ -64,4 +65,5 @@ public interface ArticleMapper {
 	long countForBlog();
 	ArticleForArticlePOJO findByUuidForArticle(@Param("uuid") String uuid);
 	List<Article> loadForMenu(@Param("limit") int limit);
+	List<ArticleForRssPOJO> loadForRss(@Param("limit") int limit);
 }

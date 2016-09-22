@@ -5,6 +5,7 @@ import java.util.List;
 import com.mingslife.model.Article;
 import com.mingslife.pojo.ArticleForArticlePOJO;
 import com.mingslife.pojo.ArticleForBlogPOJO;
+import com.mingslife.pojo.ArticleForRssPOJO;
 
 public interface IArticleService {
 	void save(Article article);
@@ -42,4 +43,5 @@ public interface IArticleService {
 	long countForBlog();
 	ArticleForArticlePOJO findByUUidForArticle(String uuid);
 	List<Article> loadForMenu(int limit);
+	List<ArticleForRssPOJO> loadForRss(int limit);
 }

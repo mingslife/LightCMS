@@ -9,6 +9,7 @@ import com.mingslife.dao.ArticleMapper;
 import com.mingslife.model.Article;
 import com.mingslife.pojo.ArticleForArticlePOJO;
 import com.mingslife.pojo.ArticleForBlogPOJO;
+import com.mingslife.pojo.ArticleForRssPOJO;
 import com.mingslife.service.IArticleService;
 import com.mingslife.web.util.SQLUtil;
 
@@ -185,5 +186,10 @@ public class ArticleService implements IArticleService {
 	@Override
 	public List<Article> loadForMenu(int limit) {
 		return articleMapper.loadForMenu(limit);
+	}
+
+	@Override
+	public List<ArticleForRssPOJO> loadForRss(int limit) {
+		return articleMapper.loadForRss(limit);
 	}
 }
