@@ -4,11 +4,13 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-<rss version="2.0">
+<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/">
 	<channel>
 		<title>${application.brand}</title>
 		<link><%= basePath %></link>
-		<description>RSS Feed</description>
+		<description>${application.description}</description>
+		<lastBuildDate>${lastBuildDate}</lastBuildDate>
+		<language>${application.language}</language>
 <c:forEach var="article" items="${articles}" varStatus="status">
 		<item>
 			<title>${article.title}</title>
@@ -16,7 +18,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<author>${article.authorName}</author>
 			<category>${article.categoryName}</category>
 			<pubDate>${article.publishDate}</pubDate>
-			<description>${article.summary}</description>
+			<description><![CDATA[${article.summary}]]></description>
+			<content:encoded><![CDATA[${article.content}]]></content:encoded>
 		</item>
 </c:forEach>
 	</channel>

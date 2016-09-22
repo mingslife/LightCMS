@@ -45,4 +45,8 @@
 		<from>/search/*</from>
 		<to>/blog.jsp?search=$1</to>
 	</rule> -->
+	<rule>
+		<from>/rss.xml</from>
+		<to>/rss.do</to>
+	</rule>
 </urlrewrite>

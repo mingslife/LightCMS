@@ -498,10 +498,11 @@
     <result column="category_name" property="categoryName" jdbcType="VARCHAR" />
     <result column="publish_date" property="publishDate" jdbcType="TIMESTAMP" />
     <result column="summary" property="summary" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
   </resultMap>
   <select id="loadForRss" resultMap="ArticleForRssPOJO">
     select
-      a.id, a.uuid, a.title, a.author_id, u.nickname author_name, a.category_id, c.category_name, a.publish_date, a.summary
+      a.id, a.uuid, a.title, a.author_id, u.nickname author_name, a.category_id, c.category_name, a.publish_date, a.summary, a.content
     from
       articles a left join categories c on a.category_id = c.id left join users u on a.author_id = u.id
     where
