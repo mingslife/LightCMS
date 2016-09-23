@@ -19,7 +19,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<link rel="stylesheet" href="css/bootstrap.min.css">
 		<link rel="stylesheet" href="css/ionicons.min.css">
 		<link rel="stylesheet" href="css/pace.css">
-	    <link rel="stylesheet" href="css/custom.css">
+		<link rel="stylesheet" href="css/custom.css">
+
+		<link rel="alternate" type="application/rss+xml" href="rss.xml" title="Ming's Life">
 
 	    <!-- js -->
 	    <script src="js/jquery-2.1.3.min.js"></script>
