@@ -1,6 +1,8 @@
 package com.mingslife.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
@@ -9,6 +11,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -75,6 +78,25 @@ public class UploadController extends BaseController {
 				int finaltime = (int) System.currentTimeMillis();
 				System.out.println(finaltime - pre);
 			}
+		}
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/image/{year}/{month}/{date}/{uuid}", method = RequestMethod.GET)
+	public void image(@PathVariable String year, @PathVariable String month, @PathVariable String date, @PathVariable String uuid) {
+		File file = new File("F:/light_cms/" + year + "/" + month + "/" + date + "/" + uuid);
+		try {
+			FileInputStream inputStream = new FileInputStream(file);
+			byte[] data = new byte[(int) file.length()];
+			int length = inputStream.read(data);
+			inputStream.close();
+			response.setContentType("image/png");
+			OutputStream outputStream = response.getOutputStream();
+			outputStream.write(data);
+			outputStream.flush();
+			outputStream.close();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
