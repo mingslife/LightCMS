@@ -84,16 +84,29 @@ public class UploadController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/image/{year}/{month}/{date}/{uuid}", method = RequestMethod.GET)
 	public void image(@PathVariable String year, @PathVariable String month, @PathVariable String date, @PathVariable String uuid) {
+//		String referer = request.getHeader("Referer");
+//		System.out.println(referer);
+//		Pattern pattern = Pattern.compile("(?<//|\\.)[^.]*?\\.(com|cn|net|org|biz|info|cc|tv)", Pattern.CASE_INSENSITIVE);
+//		Matcher matcher = pattern.matcher("https://www.baidu.com/index.php");
+//		if (matcher.find()) {
+//			System.out.println(matcher.group());
+//		}
 		File file = new File("F:/light_cms/" + year + "/" + month + "/" + date + "/" + uuid);
 		try {
 			FileInputStream inputStream = new FileInputStream(file);
-			byte[] data = new byte[(int) file.length()];
-			int length = inputStream.read(data);
-			inputStream.close();
-			response.setContentType("image/png");
 			OutputStream outputStream = response.getOutputStream();
-			outputStream.write(data);
-			outputStream.flush();
+			response.setContentType("image/png");
+			byte[] buffer = new byte[102400];
+			int len = 0;
+			while ((len = inputStream.read(buffer, 0, 102400)) != -1) {
+				outputStream.write(buffer, 0, len);
+				outputStream.flush();
+			}
+//			byte[] data = new byte[(int) file.length()];
+//			int length = inputStream.read(data);
+			inputStream.close();
+//			outputStream.write(data);
+//			outputStream.flush();
 			outputStream.close();
 		} catch (Exception e) {
 			e.printStackTrace();
