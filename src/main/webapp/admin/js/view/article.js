@@ -16,12 +16,28 @@ app.service("articleService", function(service) {
 		return service.ajax("DELETE", service.basePath + "articles/{id}.do".replace("{id}", id), null);
 	};
 });
+var articleContentEditor;
 app.controller("articleController", function($scope, $routeParams, articleService) {
 	console.info($routeParams);
-	var articleContentEditor = new SimpleMDE({
+	/*var */articleContentEditor = new SimpleMDE({
 		element: document.getElementById("article-content"),
-		hideIcons: ["guide"],
-		spellChecker: false
+//		hideIcons: ["guide"],
+//		showIcons: ["code", "table"],
+		spellChecker: false,
+		toolbar: [
+			"bold", "italic", "heading", "|",
+			"code", "quote", "unordered-list", "ordered-list", "clean-block", "|",
+			"link", "image", "table", "|",
+			"preview", "side-by-side", "fullscreen", "guide", "|",
+			{
+				name: "upload",
+				action: function(editor) {
+					alert("Upload image!");
+				},
+				className: "fa fa-image",
+				title: "上传图片"
+			}
+		]
 	});
 	var recordId = $routeParams.id;
 	if (recordId) {
