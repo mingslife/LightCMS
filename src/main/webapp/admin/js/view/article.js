@@ -19,16 +19,32 @@ app.service("articleService", function(service) {
 app.controller("articleController", function($scope, $routeParams, articleService) {
 	console.info($routeParams);
 	var articleContentEditor = new SimpleMDE({
+		autoDownloadFontAwesome: false,
 		element: document.getElementById("article-content"),
 //		hideIcons: ["guide"],
 //		showIcons: ["code", "table"],
 		spellChecker: false,
-		toolbar: [
+		/*toolbar: [
 			"bold", "italic", "heading", "|",
 			"code", "quote", "unordered-list", "ordered-list", "clean-block", "|",
 			"link", "image", "table", "|",
 			"preview", "side-by-side", "fullscreen", "guide", "|",
 			{
+				name: "bold",
+				action: function(editor) {},
+				className: "glyphicon glyphicon-bold",
+				title: "加粗"
+			}, {
+				name: "italic",
+				action: function(editor) {},
+				className: "glyphicon glyphicon-italic",
+				title: "斜体"
+			}, {
+				name: "heading",
+				action: function(editor) {},
+				className: "glyphicon glyphicon-header",
+				title: "标题"
+			}, {
 				name: "upload",
 				action: function(editor) {
 //					alert("Upload image!");
@@ -63,7 +79,8 @@ app.controller("articleController", function($scope, $routeParams, articleServic
 				className: "glyphicon glyphicon-picture",
 				title: "上传图片"
 			}
-		]
+		]*/
+		toolbar: global.toolbar
 	});
 	var recordId = $routeParams.id;
 	if (recordId) {
