@@ -16,10 +16,9 @@ app.service("articleService", function(service) {
 		return service.ajax("DELETE", service.basePath + "articles/{id}.do".replace("{id}", id), null);
 	};
 });
-var articleContentEditor;
 app.controller("articleController", function($scope, $routeParams, articleService) {
 	console.info($routeParams);
-	/*var */articleContentEditor = new SimpleMDE({
+	var articleContentEditor = new SimpleMDE({
 		element: document.getElementById("article-content"),
 //		hideIcons: ["guide"],
 //		showIcons: ["code", "table"],
@@ -32,9 +31,36 @@ app.controller("articleController", function($scope, $routeParams, articleServic
 			{
 				name: "upload",
 				action: function(editor) {
-					alert("Upload image!");
+//					alert("Upload image!");
+					bootbox.dialog({
+						title: "上传图片",
+						message: '<input type="file" class="form-control" id="article-content-upload" />',
+						buttons: {
+							upload: {
+								label: "确定",
+								className: "btn-primary"
+							},
+							cancel: {
+								label: "取消",
+								className: "btn-default"
+							}
+						}
+					});
+					$("#article-content-upload").fileupload({
+						url: "../upload/image.do",
+						dataType: "json",
+						add: function(event, data) {
+							$("button.btn[data-bb-handler='upload']").click(function() {
+								data.submit();
+							});
+						},
+						done: function(event, data) {
+							console.info(data);
+							articleContentEditor.value(articleContentEditor.value() + "![" + data.result.url + "](" + data.result.url + ")");
+						}
+					});
 				},
-				className: "fa fa-image",
+				className: "glyphicon glyphicon-picture",
 				title: "上传图片"
 			}
 		]

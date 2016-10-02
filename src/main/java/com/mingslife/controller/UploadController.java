@@ -5,7 +5,9 @@ import java.io.FileInputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +28,8 @@ import com.mingslife.web.controller.BaseController;
 public class UploadController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/image", method = RequestMethod.POST)
-	public void image(HttpServletRequest request) {
+	public Map<String, Object> image(HttpServletRequest request) {
+		Map<String, Object> jsonMap = new HashMap<String, Object>();
 		// 创建一个通用的多部分解析器
 		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(application);
 		// 判断 request 是否有文件上传,即多部分请求
@@ -61,6 +64,10 @@ public class UploadController extends BaseController {
 						System.out.println("Content Type: " + file.getContentType());
 						// 重命名上传后的文件名
 						String realPath = "/" + generateRealPath() + "/" + generateRealName();
+						String name = file.getOriginalFilename();
+						String url = "/upload/image" + realPath + ".do";
+						jsonMap.put("name", name);
+						jsonMap.put("url", url);
 						// 定义上传路径
 						String absolutePath = "F:/light_cms/" + realPath;
 						File localFile = new File(absolutePath);
@@ -79,6 +86,7 @@ public class UploadController extends BaseController {
 				System.out.println(finaltime - pre);
 			}
 		}
+		return jsonMap;
 	}
 
 	@ResponseBody

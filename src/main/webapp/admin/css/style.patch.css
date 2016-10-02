@@ -75,10 +75,10 @@ select.form-control option {
 	background-color: #fff;
 }
 .editor-toolbar.fullscreen {
-	z-index: 9999 !important;
+	z-index: 1030 !important;
 }
 .CodeMirror-fullscreen {
-	z-index: 9999 !important;
+	z-index: 1030 !important;
 }
 
 
