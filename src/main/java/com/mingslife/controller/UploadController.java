@@ -81,6 +81,7 @@ public class UploadController extends BaseController {
 						}
 						try {
 							file.transferTo(localFile);
+							Thread.sleep(1000L);
 						} catch (Exception e) {
 							e.printStackTrace();
 						}

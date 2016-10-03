@@ -75,35 +75,70 @@ app.controller("articleController", function($scope, $routeParams, articleServic
 	    	}, {
 	    		name: "image",
 	    		action: function(editor) {
-	    			bootbox.dialog({
+	    			var uploadDialog = bootbox.dialog({
 	    				title: "上传图片",
-	    				message: '<span class="btn btn-primary btn-block fileinput-button"><span>选择图片</span><input type="file" id="article-content-upload" accept="image/*" title="选择图片" /></span><div class="progress"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%"><span class="sr-only">45% Complete</span></div></div>',
+	    				message: '<span class="btn btn-primary btn-block fileinput-button" id="fileinput-button">' +
+	    							'<span>选择图片</span>' +
+	    							'<input type="file" id="article-content-upload" name="file" accept="image/*" title="选择图片" />' +
+	    						'</span>' +
+	    						'<div class="progress" id="upload-progress" style="display:none;">' +
+	    							'<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">' +
+	    								'<span class="sr-only">完成0%</span>' +
+	    							'</div>' +
+	    						'</div>',
 	    				buttons: {
 	    					upload: {
 	    						label: "确定",
-	    						className: "btn-primary"
+	    						className: "btn-primary disabled",
+	    						callback: function() {
+	    							return false;
+	    						}
 	    					},
 	    					cancel: {
 	    						label: "取消",
 	    						className: "btn-default"
 	    					}
+	    				},
+	    				callback: function(result) {
+	    					console.info(result);
 	    				}
 	    			});
 	    			$("#article-content-upload").fileupload({
 	    				url: "../upload/image.do",
 	    				dataType: "json",
 	    				autoUpload: false,
-	    				acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
-	    				maxFileSize: 81920,
-	    				add: function(event, data) {
-	    					$("button.btn[data-bb-handler='upload']").click(function() {
+//	    				acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+//	    				maxFileSize: 81920,
+//	    				disableImageResize: /Android(?!.*Chrome)|Opera/.test(window.navigator.userAgent),
+//	    				previewMaxWidth: 100,
+//	    				previewMaxHeight: 100,
+//	    				previewCrop: true,
+	    				add: function(e, data) {
+	    					console.info(data);
+	    					$("button.btn[data-bb-handler='upload']").removeClass("disabled").unbind("click").click(function() {
+	    						$(this).addClass("disabled");
+	    						$("#fileinput-button").hide();
+	    						$("#upload-progress").show();
 	    						data.submit();
 	    					});
 	    				},
-	    				done: function(event, data) {
-	    					console.info(articleContentEditor);
+	    				done: function(e, data) {
 	    					articleContentEditor.value(articleContentEditor.value() + "![" + data.result.name + "](" + data.result.url + ")");
+	    					uploadDialog.modal("hide");
+	    				},
+	    				progressall: function(e, data) {
+	    					var progress = parseInt(data.loaded / data.total * 100, 10);
+		    				$("#upload-progress .progress-bar").attr("aria-valuenow", progress).css("width", progress + "%").find("span.sr-only").text("完成" + progress + "%");
 	    				}
+//	    			}).on("fileuploadprocessalways", function(e, data) {
+//	    				console.info(data);
+//	    				var file = data.files[0];
+//	    				console.info(file.preview);
+//	    				$(".fileinput-button").after(file.preview);
+//	    				uploadInput.parent().hide();
+//	    			}).on("fileuploadprogressall", function(e, data) {
+//	    				var progress = parseInt(data.loaded / data.total * 100, 10);
+//	    				$("#upload-progress .progress-bar").attr("aria-valuenow", progress).css("width", progress + "%").find("span.sr-only").text("完成" + progress + "%");
 	    			});
 	    		},
 	    		className: "fa fa-picture-o",
