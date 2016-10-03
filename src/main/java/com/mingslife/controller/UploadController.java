@@ -29,7 +29,12 @@ public class UploadController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/image", method = RequestMethod.POST)
 	public Map<String, Object> image(HttpServletRequest request) {
+		Map<String, String> applicationMap = (Map<String, String>) application.getAttribute("application");
+		String uploadPath = applicationMap.get("uploadPath");
+		String uploadRoot = applicationMap.get("uploadRoot");
+		
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
+		
 		// 创建一个通用的多部分解析器
 		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(application);
 		// 判断 request 是否有文件上传,即多部分请求
@@ -63,14 +68,14 @@ public class UploadController extends BaseController {
 						System.out.println("File Size: " + file.getSize());
 						System.out.println("Content Type: " + file.getContentType());
 						// 重命名上传后的文件名
-						String realPath = "/" + generateRealPath() + "/" + generateRealName();
-						String name = file.getOriginalFilename();
-						String url = "/upload/image" + realPath + ".do";
-						jsonMap.put("name", name);
+						String relativePath = "/images/" + generateRealPath() + "/" + generateRealName() + "_" + fileName;
+						String realPath = uploadPath + relativePath;
+						String url = uploadRoot + relativePath;
+						jsonMap.put("name", fileName);
 						jsonMap.put("url", url);
 						// 定义上传路径
-						String absolutePath = "F:/light_cms/" + realPath;
-						File localFile = new File(absolutePath);
+						File localFile = new File(realPath);
+						System.out.println(localFile.getAbsolutePath());
 						if (!localFile.exists()) {
 							localFile.mkdirs();
 						}
@@ -99,7 +104,9 @@ public class UploadController extends BaseController {
 //		if (matcher.find()) {
 //			System.out.println(matcher.group());
 //		}
-		File file = new File("F:/light_cms/" + year + "/" + month + "/" + date + "/" + uuid);
+		String uploadPath = (String) application.getAttribute("uploadPath");
+//		String uploadRoot = (String) application.getAttribute("uploadRoot");
+		File file = new File(uploadPath + "/" + year + "/" + month + "/" + date + "/" + uuid);
 		try {
 			FileInputStream inputStream = new FileInputStream(file);
 			OutputStream outputStream = response.getOutputStream();

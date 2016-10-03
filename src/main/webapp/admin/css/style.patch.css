@@ -15,6 +15,9 @@ select.form-control {
 select.form-control option {
 	color: #000;
 }
+.progress {
+	box-shadow: none;
+}
 
 .modal-content {
 	/* background-color: rgba(0, 0, 0, .65); */
