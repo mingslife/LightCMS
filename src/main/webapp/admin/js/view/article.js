@@ -178,7 +178,11 @@ app.controller("articleController", function($scope, $routeParams, articleServic
 	    		className: "fa fa-repeat no-disable",
 	    		title: "重做"
 	    	}
-	    ]
+	    ],
+	    renderingConfig: {
+	    	singleLineBreaks: false,
+	    	codeSyntaxHighlighting: true,
+	    },
 //		toolbar: global.toolbar
 	});
 	var recordId = $routeParams.id;

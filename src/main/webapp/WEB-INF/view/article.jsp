@@ -21,14 +21,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<link rel="stylesheet" href="css/pace.css">
 	    <link rel="stylesheet" href="css/custom.css">
 	    <link rel="stylesheet" href="css/github-markdown.min.css">
-	    <link rel="stylesheet" href="https://cdn.jsdelivr.net/highlight.js/latest/styles/github.min.css">
+	    <link rel="stylesheet" href="css/github.min.css">
 
 	    <!-- js -->
 	    <script src="js/jquery-2.1.3.min.js"></script>
 	    <script src="js/bootstrap.min.js"></script>
 	    <script src="js/pace.min.js"></script>
 	    <script src="js/modernizr.custom.js"></script>
-	    <script src="https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js"></script>
+	    <script src="js/highlight.min.js"></script>
 	</head>
 
 	<body id="single">

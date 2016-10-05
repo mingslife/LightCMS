@@ -742,6 +742,7 @@ select.form-control option {
 .editor-preview-side ul,
 .editor-preview-side ol {
   padding-left: 2em;
+  color: #333;
 }
 
 .editor-preview ul ul,
