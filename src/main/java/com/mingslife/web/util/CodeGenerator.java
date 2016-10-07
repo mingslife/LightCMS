@@ -809,8 +809,8 @@ public class CodeGenerator {
 		final String controllerPackage = "com.mingslife.controller";
 		final String dtoPackage = "com.mingslife.dto";
 		
-		String targetClassName = "Archive";
-		String tableName = "archives";
+		String targetClassName = "Image";
+		String tableName = "images";
 		String entityId = "id";
 		
 		Generator generator = new Generator(projectPath, javaPath, modelPackage, mappingPackage, daoPackage, servicePackage, serviceImplPackage, controllerPackage, dtoPackage, targetClassName, tableName, entityId);

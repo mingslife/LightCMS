@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mingslife.dao.ImageMapper">
+  <resultMap id="BaseResultMap" type="com.mingslife.model.Image">
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="path" property="path" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="size" property="size" jdbcType="VARCHAR" />
+    <result column="content_type" property="contentType" jdbcType="VARCHAR" />
+    <result column="md5" property="md5" jdbcType="VARCHAR" />
+    <result column="width" property="width" jdbcType="INTEGER" />
+    <result column="height" property="height" jdbcType="INTEGER" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="create_operator" property="createOperator" jdbcType="INTEGER" />
+    <result column="update_operator" property="updateOperator" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="BaseColumnList">
+    id, name, path, url, size, content_type,
+    md5, width, height, create_date, update_date, create_operator,
+    update_operator
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select
+      <include refid="BaseColumnList" />
+    from images
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from images
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.mingslife.model.Image" useGeneratedKeys="true" keyProperty="id">
+    insert into images (
+      id, name, path,
+      url, size, content_type,
+      md5, width, height,
+      create_date, update_date, create_operator,
+      update_operator
+    ) values (
+      #{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR},
+      #{url,jdbcType=VARCHAR}, #{size,jdbcType=VARCHAR}, #{contentType,jdbcType=VARCHAR},
+      #{md5,jdbcType=VARCHAR}, #{width,jdbcType=INTEGER}, #{height,jdbcType=INTEGER},
+      #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, #{createOperator,jdbcType=INTEGER},
+      #{updateOperator,jdbcType=INTEGER}
+    )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mingslife.model.Image">
+    insert into images
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="path != null">
+        path,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="size != null">
+        size,
+      </if>
+      <if test="contentType != null">
+        content_type,
+      </if>
+      <if test="md5 != null">
+        md5,
+      </if>
+      <if test="width != null">
+        width,
+      </if>
+      <if test="height != null">
+        height,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+      <if test="createOperator != null">
+        create_operator,
+      </if>
+      <if test="updateOperator != null">
+        update_operator,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="path != null">
+        #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="size != null">
+        #{size,jdbcType=VARCHAR},
+      </if>
+      <if test="contentType != null">
+        #{contentType,jdbcType=VARCHAR},
+      </if>
+      <if test="md5 != null">
+        #{md5,jdbcType=VARCHAR},
+      </if>
+      <if test="width != null">
+        #{width,jdbcType=INTEGER},
+      </if>
+      <if test="height != null">
+        #{height,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createOperator != null">
+        #{createOperator,jdbcType=INTEGER},
+      </if>
+      <if test="updateOperator != null">
+        #{updateOperator,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mingslife.model.Image">
+    update images
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="path != null">
+        path = #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="size != null">
+        size = #{size,jdbcType=VARCHAR},
+      </if>
+      <if test="contentType != null">
+        content_type = #{contentType,jdbcType=VARCHAR},
+      </if>
+      <if test="md5 != null">
+        md5 = #{md5,jdbcType=VARCHAR},
+      </if>
+      <if test="width != null">
+        width = #{width,jdbcType=INTEGER},
+      </if>
+      <if test="height != null">
+        height = #{height,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createOperator != null">
+        create_operator = #{createOperator,jdbcType=INTEGER},
+      </if>
+      <if test="updateOperator != null">
+        update_operator = #{updateOperator,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mingslife.model.Image">
+    update images
+    set
+      name = #{name,jdbcType=VARCHAR},
+      path = #{path,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      size = #{size,jdbcType=VARCHAR},
+      content_type = #{contentType,jdbcType=VARCHAR},
+      md5 = #{md5,jdbcType=VARCHAR},
+      width = #{width,jdbcType=INTEGER},
+      height = #{height,jdbcType=INTEGER},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      create_operator = #{createOperator,jdbcType=INTEGER},
+      update_operator = #{updateOperator,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="select" resultMap="BaseResultMap">
+    select
+    <if test="parameters != null">
+      ${parameters}
+    </if>
+    <if test="parameters == null">
+      *
+    </if>
+    from images
+    <if test="condition != null">
+      where ${condition}
+    </if>
+    <if test="order != null and sort != null">
+      order by ${order} ${sort}
+    </if>
+    <if test="offset != -1 and limit != -1">
+      limit #{offset,jdbcType=INTEGER}, #{limit,jdbcType=INTEGER}
+    </if>
+  </select>
+  <select id="count" resultType="long">
+    select count(
+    <if test="isDistinct == true">
+      distinct
+    </if>
+    <if test="parameters != null">
+      ${parameters}
+    </if>
+    <if test="parameters == null">
+      *
+    </if>
+    ) from images
+    <if test="condition != null">
+      where ${condition}
+    </if>
+  </select>
+  <select id="sum" resultType="double">
+    select sum(
+    <if test="isDistinct == true">
+      distinct
+    </if>
+    ${parameter}) from images
+    <if test="condition != null">
+      where ${condition}
+    </if>
+    <if test="order != null and sort != null">
+      order by ${order} ${sort}
+    </if>
+    <if test="offset != -1 and limit != -1">
+      limit #{offset,jdbcType=INTEGER}, #{limit,jdbcType=INTEGER}
+    </if>
+  </select>
+  <select id="find" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select ${parameters} from images where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="findByMd5" resultMap="BaseResultMap">
+    select id, name, url, width, height from images where md5 = #{md5,jdbcType=VARCHAR}
+  </select>
+</mapper>

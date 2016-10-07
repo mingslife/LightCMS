@@ -12,6 +12,8 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,16 +21,85 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import com.mingslife.model.Image;
+import com.mingslife.service.IImageService;
 import com.mingslife.web.controller.BaseController;
 
 @Controller
 @RequestMapping("/upload")
 public class UploadController extends BaseController {
+	@Autowired
+	private IImageService imageService;
+
 	@ResponseBody
 	@RequestMapping(value = "/image", method = RequestMethod.POST)
 	public Map<String, Object> image(HttpServletRequest request) {
+		Map<String, String> applicationMap = (Map<String, String>) application.getAttribute("application");
+		String uploadPath = applicationMap.get("uploadPath");
+		String uploadRoot = applicationMap.get("uploadRoot");
+		
+		Map<String, Object> jsonMap = new HashMap<String, Object>();
+		
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+		CommonsMultipartFile file = (CommonsMultipartFile) multipartRequest.getFile("file");
+		String fileName;
+		if (file != null && (fileName = file.getOriginalFilename()).trim().length() != 0) {
+			System.out.println("File Name: " + file.getOriginalFilename());
+			System.out.println("File Size: " + file.getSize());
+			System.out.println("Content Type: " + file.getContentType());
+			
+			String md5 = null;
+			try {
+				md5 = DigestUtils.md5Hex(file.getBytes());
+				Image image = imageService.findByMd5(md5);
+				if (image == null) {
+					String relativePath = generateRealPath() + "/" + generateRealName() + "_" + fileName;
+					String realPath = uploadPath + "/images/" + relativePath;
+//					String thumbPath = uploadPath + "/thumbs/" + relativePath;
+					String url = uploadRoot + "/images/" + relativePath;
+					
+					image = new Image();
+					image.setName(fileName);
+					image.setPath(realPath);
+					image.setUrl(url);
+					image.setSize(file.getSize());
+					image.setContentType(file.getContentType());
+					image.setMd5(md5);
+					imageService.save(image);
+					
+					jsonMap.put("id", image.getId());
+					jsonMap.put("name", fileName);
+					jsonMap.put("url", url);
+					
+					File localFile = new File(realPath);
+//					File thumbFile = new File(thumbPath);
+					if (!localFile.exists()) {
+						localFile.mkdirs();
+					}
+					try {
+						file.transferTo(localFile);
+//						Thumbnails.of(localFile).outputQuality(0.8).toFile(thumbFile);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				} else {
+					jsonMap.put("id", image.getId());
+					jsonMap.put("name", fileName);
+					jsonMap.put("url", image.getUrl());
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return jsonMap;
+	}
+	@ResponseBody
+	@RequestMapping(value = "/image0", method = RequestMethod.POST)
+	public Map<String, Object> image0(HttpServletRequest request) {
 		Map<String, String> applicationMap = (Map<String, String>) application.getAttribute("application");
 		String uploadPath = applicationMap.get("uploadPath");
 		String uploadRoot = applicationMap.get("uploadRoot");
