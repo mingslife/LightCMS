@@ -51,12 +51,27 @@ public class UploadController extends BaseController {
 			System.out.println("File Size: " + file.getSize());
 			System.out.println("Content Type: " + file.getContentType());
 			
+			String contentType = file.getContentType();
+			String suffix;
+			if (contentType.equals("image/jpeg")) {
+				suffix = ".jpg";
+			} else if (contentType.equals("image/gif")) {
+				suffix = ".gif";
+			} else if (contentType.equals("image/png")) {
+				suffix = ".png";
+			} else if (contentType.equals("image/bmp")) {
+				suffix = ".bmp";
+			} else {
+				suffix = "";
+			}
+			
 			String md5 = null;
 			try {
 				md5 = DigestUtils.md5Hex(file.getBytes());
 				Image image = imageService.findByMd5(md5);
 				if (image == null) {
-					String relativePath = generateRealPath() + "/" + generateRealName() + "_" + fileName;
+//					String relativePath = generateRealPath() + "/" + generateRealName() + "_" + fileName;
+					String relativePath = generateRealPath() + "/" + generateRealName() + suffix;
 					String realPath = uploadPath + "/images/" + relativePath;
 //					String thumbPath = uploadPath + "/thumbs/" + relativePath;
 					String url = uploadRoot + "/images/" + relativePath;
