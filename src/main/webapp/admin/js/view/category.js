@@ -65,11 +65,21 @@ app.controller("categoryController", function($scope, $routeParams, categoryServ
 				align: "center",
 				formatter: function(value, row, index) {
 					return '<div class="btn-group">' +
-							'<button type="button" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-edit"></span> 编辑</button>' +
+							'<button type="button" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-edit" onclick="categoryScope.editRecord(\'' + value + '\')"></span> 编辑</button>' +
 							'<button type="button" class="btn btn-xs btn-danger" onclick="categoryScope.deleteRecord(\'' + value + '\')"><span class="glyphicon glyphicon-trash"></span> 删除</button>' +
 							'</div>';
 				}
 			}]
 		});
 	}
+	
+	$scope.editRecord = function(id) {
+		window.location.hash = "/category/" + id;
+	};
+	
+	$scope.cancel = function() {
+		window.location.hash = "/category";
+	};
+	
+	categoryScope = $scope;
 });
