@@ -182,11 +182,11 @@ app.controller("articleController", function($scope, $routeParams, articleServic
 	    renderingConfig: {
 	    	singleLineBreaks: false,
 	    	codeSyntaxHighlighting: true,
-	    },
-//		toolbar: global.toolbar
+	    }
 	});
 	var recordId = $routeParams.id;
-	if (recordId) {
+	if (recordId && recordId !== "create") {
+		$scope.editMode = true;
 		$scope.baseSelectDatas = [{
 			value: true,
 			name: "是"
@@ -199,6 +199,8 @@ app.controller("articleController", function($scope, $routeParams, articleServic
 			$scope.article = data;
 			articleContentEditor.value(data.markdown);
 		});
+	} else {
+		;
 	}
 	$("#article-table").bootstrapTable({
 		url: "../articles.do",
