@@ -3,6 +3,11 @@ package com.mingslife.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.mingslife.web.annotation.CreationOperator;
+import com.mingslife.web.annotation.CreationTimestamp;
+import com.mingslife.web.annotation.UpdateOperator;
+import com.mingslife.web.annotation.UpdateTimestamp;
+
 public class Attachment implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -21,9 +26,13 @@ public class Attachment implements Serializable {
 	private Boolean isDeleted;
 	private Date deleteDate;
 	private String systemHash;
+	@CreationTimestamp
 	private Date createDate;
+	@UpdateTimestamp
 	private Date updateDate;
+	@CreationOperator
 	private Integer createOperator;
+	@UpdateOperator
 	private Integer updateOperator;
 
 	public Integer getId() {

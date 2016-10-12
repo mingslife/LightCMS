@@ -3,6 +3,11 @@ package com.mingslife.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.mingslife.web.annotation.CreationOperator;
+import com.mingslife.web.annotation.CreationTimestamp;
+import com.mingslife.web.annotation.UpdateOperator;
+import com.mingslife.web.annotation.UpdateTimestamp;
+
 public class Image implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -15,9 +20,13 @@ public class Image implements Serializable {
 	private String md5;
 	private Integer width;
 	private Integer height;
+	@CreationTimestamp
 	private Date createDate;
+	@UpdateTimestamp
 	private Date updateDate;
+	@CreationOperator
 	private Integer createOperator;
+	@UpdateOperator
 	private Integer updateOperator;
 
 	public Integer getId() {

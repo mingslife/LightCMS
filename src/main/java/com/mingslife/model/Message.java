@@ -3,6 +3,11 @@ package com.mingslife.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.mingslife.web.annotation.CreationOperator;
+import com.mingslife.web.annotation.CreationTimestamp;
+import com.mingslife.web.annotation.UpdateOperator;
+import com.mingslife.web.annotation.UpdateTimestamp;
+
 public class Message implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -12,9 +17,13 @@ public class Message implements Serializable {
 	private String content;
 	private Date sendDate;
 	private Boolean isRead;
+	@CreationTimestamp
 	private Date createDate;
+	@UpdateTimestamp
 	private Date updateDate;
+	@CreationOperator
 	private Integer createOperator;
+	@UpdateOperator
 	private Integer updateOperator;
 
 	public Integer getId() {
