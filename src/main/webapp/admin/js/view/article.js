@@ -241,16 +241,20 @@ app.controller("articleController", function($scope, $routeParams, articleServic
 			title: "评论数"
 		}, {
 			field: "isVisible",
-			title: "是否显示"
+			title: "是否显示",
+			formatter: Util.formatter.booleanFormatter
 		}, {
 			field: "canComment",
-			title: "开启评论"
+			title: "开启评论",
+			formatter: Util.formatter.booleanFormatter
 		}, {
 			field: "hasPassword",
-			title: "是否加密"
+			title: "是否加密",
+			formatter: Util.formatter.booleanFormatter
 		}, {
 			field: "onTop",
-			title: "是否置顶"
+			title: "是否置顶",
+			formatter: Util.formatter.booleanFormatter
 		}, {
 			field: "id",
 			title: "操作",

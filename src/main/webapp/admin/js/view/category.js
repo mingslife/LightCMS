@@ -58,7 +58,8 @@ app.controller("categoryController", function($scope, $routeParams, categoryServ
 				title: "排序"
 			}, {
 				field: "isVisible",
-				title: "是否显示"
+				title: "是否显示",
+				formatter: Util.formatter.booleanFormatter
 			}, {
 				field: "id",
 				title: "操作",

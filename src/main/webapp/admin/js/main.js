@@ -1,3 +1,9 @@
+var Util = {};
+Util.formatter = {};
+Util.formatter.booleanFormatter = function(data) {
+	return data ? "是" : "否";
+};
+
 var app = angular.module("app", ["ngRoute"]);
 app.config(function($routeProvider) {
 	$routeProvider
@@ -25,6 +31,9 @@ app.config(function($routeProvider) {
 			templateUrl: "view/article/form.html",
 			controller: "articleController"
 		});
+});
+app.filter("booleanFormatter", function() {
+	return Util.formatter.booleanFormatter(input);
 });
 app.service("service", function($http, $q) {
 	this.basePath = "../";
