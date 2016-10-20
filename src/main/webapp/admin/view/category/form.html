@@ -16,14 +16,14 @@
 		<div class="panel panel-default">
 			<div class="panel-heading">增加分类</div>
 			<div class="panel-body">
-				<form>
+				<form name="categoryForm">
 					<div class="form-group">
 						<label>名称</label>
-						<input type="text" class="form-control" data-ng-model="category.categoryName" />
+						<input type="text" class="form-control" name="categoryName" data-ng-model="category.categoryName" required />
 					</div>
 					<div class="form-group">
 						<label>排序</label>
-						<input type="text" class="form-control" data-ng-model="category.position" disabled />
+						<input type="number" class="form-control" name="position" data-ng-model="category.position" />
 					</div>
 					<div class="form-group">
 						<label>是否展示</label>
@@ -34,7 +34,7 @@
 			<div class="panel-footer">
 				<div class="text-right">
 					<button type="button" class="btn btn-default" data-ng-click="cancel()">取消</button>
-					<button type="button" class="btn btn-primary" data-ng-click="save()">保存</button>
+					<button type="button" class="btn btn-primary" data-ng-click="save()" data-ng-disabled="categoryForm.$invalid">保存</button>
 				</div>
 			</div>
 		</div>
