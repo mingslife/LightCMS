@@ -77,7 +77,26 @@ app.controller("categoryController", function($scope, $routeParams, categoryServ
 	$scope.editRecord = function(id) {
 		window.location.hash = "/category/" + id;
 	};
-	
+	$scope.formatRecord = function(record) {
+		return {
+			categoryName: record.categoryName,
+			position: record.position,
+			isVisible: record.isVisible
+		};
+	};
+	$scope.save = function() {
+		console.info($scope.category);
+		var record = $scope.formatRecord($scope.category);
+		if (recordId) {
+			categoryService.updateRecord(recordId, record).then(function(data) {
+				console.info(data);
+			});
+		} else {
+			categoryService.saveRecord(record).then(function(data) {
+				console.info(data);
+			});
+		}
+	};
 	$scope.cancel = function() {
 		window.location.hash = "/category";
 	};

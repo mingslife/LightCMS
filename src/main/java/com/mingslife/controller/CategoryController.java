@@ -4,13 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -56,14 +54,16 @@ public class CategoryController extends BaseController {
 
 	@ResponseBody
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	public void create(@Valid @ModelAttribute CategoryDTO categoryDTO) {
+	public void create(@RequestBody CategoryDTO categoryDTO) {
 		categoryService.save(categoryDTO.toModel());
 	}
 
 	@ResponseBody
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public void update(@PathVariable("id") Integer id, @Valid @ModelAttribute CategoryDTO categoryDTO, Model model) {
-		categoryService.update(categoryDTO.toModel());
+	public void update(@PathVariable("id") Integer id, @RequestBody CategoryDTO categoryDTO, Model model) {
+		Category category = categoryDTO.toModel();
+		category.setId(id);
+		categoryService.update(category);
 	}
 
 	@ResponseBody
