@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.mingslife.dto.TestDTO;
 import com.mingslife.model.Article;
 import com.mingslife.service.IArticleService;
+import com.mingslife.web.annotation.Permission;
 import com.mingslife.web.controller.BaseController;
 import com.mingslife.web.event.EmailEvent;
 import com.mingslife.web.util.JcsegUtil;
@@ -91,6 +92,12 @@ public class TestController extends BaseController {
 		article.setContent("测试");
 		article.setOnTop(false);
 		articleService.save(article);
+		return new ResponseEntity<String>("{}", HttpStatus.OK);
+	}
+	
+	@Permission(1)
+	@RequestMapping(value = "/permission", method = RequestMethod.GET)
+	public ResponseEntity<String> permission() {
 		return new ResponseEntity<String>("{}", HttpStatus.OK);
 	}
 
