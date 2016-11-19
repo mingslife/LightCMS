@@ -304,64 +304,64 @@
       <if test="qq != null">
         qq = #{qq,jdbcType=VARCHAR},
       </if>
-      <if test="role_id != null">
+      <if test="roleId != null">
         role_id = #{roleId,jdbcType=INTEGER},
       </if>
-      <if test="organization_id != null">
+      <if test="organizationId != null">
         organization_id = #{organizationId,jdbcType=INTEGER},
       </if>
-      <if test="session_id != null">
+      <if test="sessionId != null">
         session_id = #{sessionId,jdbcType=VARCHAR},
       </if>
       <if test="token != null">
         token = #{token,jdbcType=VARCHAR},
       </if>
-      <if test="token_expiration_date != null">
+      <if test="tokenExpirationDate != null">
         token_expiration_date = #{tokenExpirationDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="sign_up_date != null">
+      <if test="signUpDate != null">
         sign_up_date = #{signUpDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="is_active != null">
+      <if test="isActive != null">
         is_active = #{isActive,jdbcType=BIT},
       </if>
-      <if test="active_code != null">
+      <if test="activeCode != null">
         active_code = #{activeCode,jdbcType=VARCHAR},
       </if>
-      <if test="active_code_expiration_date != null">
+      <if test="activeCodeExpirationDate != null">
         active_code_expiration_date = #{activeCodeExpirationDate,jdbcType=VARCHAR},
       </if>
-      <if test="active_date != null">
+      <if test="activeDate != null">
         active_date = #{activeDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="sign_in_count != null">
+      <if test="signInCount != null">
         sign_in_count = #{signInCount,jdbcType=BIGINT},
       </if>
-      <if test="current_sign_in_ip != null">
+      <if test="currentSignInIp != null">
         current_sign_in_ip = #{currentSignInIp,jdbcType=VARCHAR},
       </if>
-      <if test="current_sign_in_date != null">
+      <if test="currentSignInDate != null">
         current_sign_in_date = #{currentSignInDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="last_sign_in_ip != null">
+      <if test="lastSignInIp != null">
         last_sign_in_ip = #{lastSignInIp,jdbcType=VARCHAR},
       </if>
-      <if test="last_sign_in_date != null">
+      <if test="lastSignInDate != null">
         last_sign_in_date = #{lastSignInDate,jdbcType=TIMESTAMP},
       </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="create_date != null">
+      <if test="createDate != null">
         create_date = #{createDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="update_date != null">
+      <if test="updateDate != null">
         update_date = #{updateDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="create_operator != null">
+      <if test="createOperator != null">
         create_operator = #{createOperator,jdbcType=INTEGER},
       </if>
-      <if test="update_operator != null">
+      <if test="updateOperator != null">
         update_operator = #{updateOperator,jdbcType=INTEGER},
       </if>
     </set>
