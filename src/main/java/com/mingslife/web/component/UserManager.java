@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class UserManager {
-	private static final String USER_ID = "$userId";
+	public static final String USER_ID = "$userId";
 
 	@Autowired
 	HttpServletRequest request;
