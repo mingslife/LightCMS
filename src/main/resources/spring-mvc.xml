@@ -110,7 +110,15 @@
       <property name="providerClass" value="org.hibernate.validator.HibernateValidator" />
       <!-- 这里配置将使用上面国际化配置的messageSource -->
       <property name="validationMessageSource" ref="messageSource" />
-    </bean> 
+    </bean>
+    <bean id="exceptionResolver" class="com.mingslife.web.resolver.CommonExceptionResolver">
+    	<property name="exceptionMappings">
+    		<props>
+    			<prop key="com.mingslife.web.exception.WebException"></prop>
+    			<prop key="java.lang.Exception"></prop>
+    		</props>
+    	</property>
+    </bean>
     
     <!-- 事件监听器 -->
     <bean id="emailListener" class="com.mingslife.web.event.listener.EmailListener"></bean>

@@ -21,6 +21,7 @@ import com.mingslife.service.IArticleService;
 import com.mingslife.web.annotation.Permission;
 import com.mingslife.web.controller.BaseController;
 import com.mingslife.web.event.EmailEvent;
+import com.mingslife.web.exception.WebException;
 import com.mingslife.web.util.JcsegUtil;
 
 @Controller
@@ -99,6 +100,12 @@ public class TestController extends BaseController {
 	@RequestMapping(value = "/permission", method = RequestMethod.GET)
 	public ResponseEntity<String> permission() {
 		return new ResponseEntity<String>("{}", HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/exception", method = RequestMethod.GET)
+	public ResponseEntity<String> throwException() {
+		throw new WebException("测试抛出异常！");
+//		return new ResponseEntity<String>("{}", HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/api", method = RequestMethod.GET)
