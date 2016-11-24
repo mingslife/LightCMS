@@ -12,14 +12,23 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
 import com.google.gson.Gson;
+import com.mingslife.web.exception.WebException;
 
 public class CommonExceptionResolver extends SimpleMappingExceptionResolver {
+	private static final String ERROR = "error";
+
 	private static final Gson gson = new Gson();
 
 	@Override
 	protected ModelAndView doResolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
-		jsonMap.put("error", ex.getMessage());
+		if (ex instanceof WebException) {
+			jsonMap.put(ERROR, ex.getMessage());
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+		} else {
+			jsonMap.put(ERROR, "服务器错误！");
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+		}
 		
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json;charset=UTF-8");
