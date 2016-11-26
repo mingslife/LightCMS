@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<title>API接口测试 By Ming</title>
+		<link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+		<!--[if lt IE 9]>
+		<script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+		<script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<form onreset="reset_data()" onsubmit="submit_form();return false">
+						<h3>API接口测试 By Ming</h3>
+						<hr />
+						<div class="form-group">
+							<label for="id">URL</label>
+							<input type="text" class="form-control" id="url" autofocus required />
+						</div>
+						<div class="form-group">
+							<label for="type">方法</label>
+							<select class="form-control" id="type" required>
+								<option value="GET" selected>GET</option>
+								<option value="POST">POST</option>
+								<option value="PUT">PUT</option>
+								<option value="DELETE">DELETE</option>
+								<option value="DESTROY">DESTROY</option>
+								<option value="OPTIONS">OPTIONS</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label>参数</label>
+							<table class="table table-bordered table-responsive" id="data-table">
+								<thead>
+									<tr>
+										<th>键名</th>
+										<th>键值</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr class="data-row">
+										<td><input type="text" class="form-control data-key" required /></td>
+										<td><input type="text" class="form-control data-value" required /></td>
+										<td class="text-center"><button type="button" class="btn btn-success" onclick="add_data_row(this)">新增</button> <button type="button" class="btn btn-danger" onclick="remove_data_row(this)">删除</button></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="form-group text-center">
+							<button class="btn btn-primary" data-loading-text="发送中..." id="submit-button">发送请求</button>
+							<button type="button" class="btn btn-warning" onclick="reset_data()">重置参数</button>
+							<button type="reset" class="btn btn-danger">重置表单</button>
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-12">
+					<form onsubmit="return false">
+						<div class="form-group">
+							<label>返回结果</label>
+							<textarea class="form-control" id="result" style="height: 200px;"></textarea>
+						</div>
+						<div class="form-group text-center">
+							<button type="reset" class="btn btn-info">清空</button>
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-12">
+					<hr />
+					<p class="text-muted text-center">&copy; 2016 test.mingslife.com</p>
+				</div>
+			</div>
+		</div>
+
+		<script type="text/javascript" src="http://cdn.bootcss.com/jquery/2.2.0/jquery.min.js"></script>
+		<script type="text/javascript" src="http://cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+		<script type="text/javascript">
+function reset_data() {
+	$('#data-table tbody').html(
+		'<tr class="data-row">'
+		+ '<td><input type="text" class="form-control data-key" required /></td>'
+		+ '<td><input type="text" class="form-control data-value" required /></td>'
+		+ '<td class="text-center"><button type="button" class="btn btn-success" onclick="add_data_row(this)">新增</button> <button type="button" class="btn btn-danger" onclick="remove_data_row(this)">删除</button></td>'
+		+ '</tr>'
+	);
+}
+
+function submit_form() {
+	var data = format_data();
+	console.info(data);
+	$.ajax({
+		url: $.trim($('#url').val()),
+		type: $('#type').val(),
+		dataType: 'plain',
+		data: data,
+		xhrFields: {
+			withCredentials: true
+		},
+		crossDomain: true,
+		beforeSend: function() {
+			$('#submit-button').button('loading');
+		},
+		complete: function(XMLHttpRequest, textStatus) {
+			$('#result').val(XMLHttpRequest.responseText);
+			$('#submit-button').button('reset');
+		},
+		success: function(responseText) {},
+		error: function(XMLHttpRequest, textStatus, errorThrown) {}
+	});
+}
+
+function add_data_row(element) {
+	$(element).parent().parent().after(
+		'<tr class="data-row">'
+		+ '<td><input type="text" class="form-control data-key" required /></td>'
+		+ '<td><input type="text" class="form-control data-value" required /></td>'
+		+ '<td class="text-center"><button type="button" class="btn btn-success" onclick="add_data_row(this)">新增</button> <button type="button" class="btn btn-danger" onclick="remove_data_row(this)">删除</button></td>'
+		+ '</tr>'
+	);
+}
+
+function remove_data_row(element) {
+	$(element).parent().parent().remove();
+}
+
+function format_data() {
+	var data = {};
+	$('.data-row').each(function() {
+		var key = $.trim($(this).find('.data-key').val());
+		var value = $.trim($(this).find('.data-value').val());
+		data[key] = value;
+	});
+	return data;
+}
+		</script>
+	</body>
+</html>
+<!-- By Ming -->
