@@ -456,4 +456,7 @@
   <select id="find" resultMap="BaseResultMap" parameterType="java.lang.Integer">
     select ${parameters} from users where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="findByAccount" resultMap="BaseResultMap">
+    select * from users where username = #{account,jdbcType=VARCHAR} or email = #{account,jdbcType=VARCHAR} or phone = #{account,jdbcType=VARCHAR}
+  </select>
 </mapper>
