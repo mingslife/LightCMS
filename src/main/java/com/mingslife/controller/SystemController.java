@@ -53,6 +53,13 @@ public class SystemController extends BaseController {
 	
 	@Permission
 	@ResponseBody
+	@RequestMapping(value = "/logout", method = RequestMethod.POST)
+	public void logout() {
+		userManager.logout();
+	}
+	
+	@Permission
+	@ResponseBody
 	@RequestMapping(value = "/test", method = RequestMethod.POST)
 	public Map<String, Object> test() {
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
