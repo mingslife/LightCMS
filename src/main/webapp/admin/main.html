@@ -7,6 +7,7 @@
 
 <link rel="stylesheet" type="text/css" href="plugins/bootstrap/3.3.5/css/bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="plugins/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link rel="stylesheet" type="text/css" href="plugins/bootstrap-table/1.11.0/bootstrap-table.min.css" />
 <link rel="stylesheet" type="text/css" href="css/styles.css" />
 
 <!--[if lt IE 9]>
@@ -49,12 +50,12 @@
 		</form>
 		<ul class="nav menu">
 			<li class="active"><a href="index.html"><span class="fa fa-home"></span> 首页</a></li>
-			<li><a href=""><span class="fa fa-archive"></span> 分类</a></li>
-			<li><a href=""><span class="fa fa-file-text"></span> 文章</a></li>
+			<li><a href="#/category"><span class="fa fa-archive"></span> 分类</a></li>
+			<li><a href="#/article"><span class="fa fa-file-text"></span> 文章</a></li>
 			<li role="presentation" class="divider"></li>
 			<li class="parent ">
-				<a href="#">
-					<span data-toggle="collapse" href="#sub-item-1"><span class="fa fa-cog"></span> 系统管理</span> 
+				<a href="javascript:;">
+					<span data-toggle="collapse" href="#sub-item-1"><span class="fa fa-cog"></span> 基础设置</span> 
 				</a>
 				<ul class="children collapse" id="sub-item-1">
 					<li>
@@ -75,7 +76,6 @@
 				</ul>
 			</li>
 		</ul>
-
 	</div><!--/.sidebar-->
 		
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main" data-ng-view></div>	<!--/.main-->
@@ -84,8 +84,11 @@
 	<script type="text/javascript" src="plugins/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="plugins/angular.js/1.2.29/angular.min.js"></script>
 	<script type="text/javascript" src="plugins/angular.js/1.2.29/angular-route.min.js"></script>
+	<script type="text/javascript" src="plugins/bootstrap-table/1.11.0/bootstrap-table.min.js"></script>
+	<script type="text/javascript" src="plugins/bootstrap-table/1.11.0/locale/bootstrap-table-zh-CN.min.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
 	<script type="text/javascript" src="js/view/home.js"></script>
+	<script type="text/javascript" src="js/view/category.js"></script>
 	<script type="text/javascript" src="js/view/article.js"></script>
 </body>
 

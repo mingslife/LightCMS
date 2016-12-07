@@ -1,0 +1,59 @@
+<div class="row">
+	<ol class="breadcrumb">
+		<li><a href="#"><span class="fa fa-home"></span></a></li>
+		<li class="active">分类</li>
+	</ol>
+</div><!--/.row-->
+
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">分类</h1>
+	</div>
+</div><!--/.row-->
+
+<div class="row">
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<div class="pull-left" id="category-toolbar">
+					<button type="button" class="btn btn-default" data-toggle="modal" data-target="#category-modal"><span class="fa fa-plus"></span></button>
+				</div>
+				<table id="category-table"></table>
+			</div>
+		</div>
+	</div>
+</div><!--/.row-->
+
+<div class="modal fade" id="category-modal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span></button>
+				<h4>分类</h4>
+			</div>
+			<div class="modal-body">
+				<form>
+					<div class="form-group">
+						<label for="category-category-name">分类名称</label>
+						<input type="text" class="form-control" id="category-category-name" data-model="category.categoryName" />
+					</div>
+					<div class="form-group">
+						<label for="category-position">排序</label>
+						<input type="number" class="form-control" id="category-position" data-model="category.position" />
+					</div>
+					<div class="form-group">
+						<label for="category-is-visible">是否可见</label>
+						<select class="form-control" id="category-is-visible" data-model="category.isVisible">
+							<option value="true">是</option>
+							<option value="false">否</option>
+						</select>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				<button type="button" class="btn btn-primary">保存</button>
+			</div>
+		</div>
+	</div>
+</div>
