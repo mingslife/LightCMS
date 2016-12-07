@@ -13,8 +13,27 @@ app.service("categoryService", function(service) {
 	};
 });
 app.controller("categoryController", function($scope, $routeParams, categoryService) {
-	$scope.saveCategory = function() {};
+	$scope.defaults = {
+		IS_VISIBLE: [{
+			key: "是",
+			value: true
+		}, {
+			key: "否",
+			value: false
+		}]
+	};
+	$scope.showRecord = function(id) {
+		categoryService.showCategory(id).then(function(data) {
+			$scope.category = data;
+			$("#category-modal").modal("show");
+		});
+	};
+	
 	if (isNaN($routeParams["id"])) {
+		$("#category-modal").on("hidden.bs.modal", function(e) {
+			$scope.category = {};
+			$scope.$apply();
+		});
 		$("#category-table").bootstrapTable({
 			url: "../categories.do",
 			cache: false,
@@ -49,7 +68,7 @@ app.controller("categoryController", function($scope, $routeParams, categoryServ
 				align: "center",
 				formatter: function(value, row, index) {
 					return '<div class="btn-group">' +
-							'<button type="button" class="btn btn-xs btn-primary" onclick="app.scopes.categoryScope.test()"><span class="glyphicon glyphicon-edit"></span> 编辑</button>' +
+							'<button type="button" class="btn btn-xs btn-primary" onclick="app.scopes.categoryScope.showRecord(\'' + value + '\')"><span class="glyphicon glyphicon-edit"></span> 编辑</button>' +
 							'<button type="button" class="btn btn-xs btn-danger" onclick="articleScope.deleteRecord(\'' + value + '\')"><span class="glyphicon glyphicon-trash"></span> 删除</button>' +
 							'</div>';
 				}
@@ -57,11 +76,7 @@ app.controller("categoryController", function($scope, $routeParams, categoryServ
 		});
 	} else {}
 	
-	$scope.test = function() {
-		alert();
-	};
-	
 	app.scopes.categoryScope = {
-		test: $scope.test
+		showRecord: $scope.showRecord
 	};
 });
