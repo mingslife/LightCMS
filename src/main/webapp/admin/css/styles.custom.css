@@ -1,0 +1,213 @@
+@charset "UTF-8";
+
+body {
+	font-family: "Segoe UI Emoji","Segoe UI Symbol","Segoe UI","Segoe WP","Microsoft YaHei UI","微软雅黑",Tahoma,Arial,Roboto,"Droid Sans","Helvetica Neue","Droid Sans Fallback","Heiti SC","Hiragino Sans GB",Simsun,sans-self;
+}
+
+.modal-content {
+	border: none;
+	/* -webkit-box-shadow: none;
+	box-shadow: none; */
+	border-radius: 0;
+}
+.modal-header {
+	border-bottom: none;
+	background-color: #e9ecf2;
+}
+.modal-title {
+	color: #1b3548;
+}
+
+.alert {
+	border: none;
+	border-radius: 0;
+	-webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+	box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+	/* color: rgba(0, 0, 0, .5); */
+	color: #fff;
+}
+.alert[data-notify-position="top-right"]:hover {
+	opacity: .8;
+}
+.alert-primary {
+	background-color: #30a5ff;
+}
+.alert-success {
+	background-color: #8ad919;
+}
+.alert-info {
+	background-color: #5bc0de;
+}
+.alert-warning {
+	background-color: #ffb53e;
+}
+.alert-danger {
+	background-color: #f9243f;
+}
+
+span.fa, i.fa {
+	width: 18px;
+	text-align: center;
+}
+
+.breadcrumb {
+	margin-bottom: 20px;
+}
+
+.bootbox.modal {
+	z-index: 1060;
+}
+.bootbox.modal + .modal-backdrop {
+	z-index: 1050;
+}
+
+.modal-primary .modal-title,
+.modal-success .modal-title,
+.modal-info .modal-title,
+.modal-warning .modal-title,
+.modal-danger .modal-title {
+	color: #fff;
+}
+.modal-primary .modal-header {
+	background-color: #30a5ff;
+}
+.modal-primary .btn-primary,
+.modal-primary .btn-primary:hover,
+.modal-primary .btn-primary:focus,
+.modal-primary .btn-primary:active,
+.modal-primary .btn-primary.active,
+.modal-primary .open > .dropdown-toggle.btn-primary,
+.modal-primary .btn-primary.disabled,
+.modal-primary .btn-primary[disabled],
+.modal-primary fieldset[disabled] .btn-primary,
+.modal-primary .btn-primary.disabled:hover,
+.modal-primary .btn-primary[disabled]:hover,
+.modal-primary fieldset[disabled] .btn-primary:hover,
+.modal-primary .btn-primary.disabled:focus,
+.modal-primary .btn-primary[disabled]:focus,
+.modal-primary fieldset[disabled] .btn-primary:focus,
+.modal-primary .btn-primary.disabled:active,
+.modal-primary .btn-primary[disabled]:active,
+.modal-primary fieldset[disabled] .btn-primary:active,
+.modal-primary .btn-primary.disabled.active,
+.modal-primary .btn-primary[disabled].active,
+.modal-primary fieldset[disabled] .btn-primary.active {
+	background-color: #30a5ff;
+	border-color: #30a5ff;
+}
+.modal-success .modal-header, .modal-success .btn-primary {
+	background-color: #8ad919;
+}
+.modal-success .btn-primary,
+.modal-success .btn-primary:hover,
+.modal-success .btn-primary:focus,
+.modal-success .btn-primary:active,
+.modal-success .btn-primary.active,
+.modal-success .open > .dropdown-toggle.btn-primary,
+.modal-success .btn-primary.disabled,
+.modal-success .btn-primary[disabled],
+.modal-success fieldset[disabled] .btn-primary,
+.modal-success .btn-primary.disabled:hover,
+.modal-success .btn-primary[disabled]:hover,
+.modal-success fieldset[disabled] .btn-primary:hover,
+.modal-success .btn-primary.disabled:focus,
+.modal-success .btn-primary[disabled]:focus,
+.modal-success fieldset[disabled] .btn-primary:focus,
+.modal-success .btn-primary.disabled:active,
+.modal-success .btn-primary[disabled]:active,
+.modal-success fieldset[disabled] .btn-primary:active,
+.modal-success .btn-primary.disabled.active,
+.modal-success .btn-primary[disabled].active,
+.modal-success fieldset[disabled] .btn-primary.active {
+	background-color: #8ad919;
+	border-color: #8ad919;
+}
+.modal-info .modal-header, .modal-info .btn-primary {
+	background-color: #5bc0de;
+}
+.modal-info .btn-primary,
+.modal-info .btn-primary:hover,
+.modal-info .btn-primary:focus,
+.modal-info .btn-primary:active,
+.modal-info .btn-primary.active,
+.modal-info .open > .dropdown-toggle.btn-primary,
+.modal-info .btn-primary.disabled,
+.modal-info .btn-primary[disabled],
+.modal-info fieldset[disabled] .btn-primary,
+.modal-info .btn-primary.disabled:hover,
+.modal-info .btn-primary[disabled]:hover,
+.modal-info fieldset[disabled] .btn-primary:hover,
+.modal-info .btn-primary.disabled:focus,
+.modal-info .btn-primary[disabled]:focus,
+.modal-info fieldset[disabled] .btn-primary:focus,
+.modal-info .btn-primary.disabled:active,
+.modal-info .btn-primary[disabled]:active,
+.modal-info fieldset[disabled] .btn-primary:active,
+.modal-info .btn-primary.disabled.active,
+.modal-info .btn-primary[disabled].active,
+.modal-info fieldset[disabled] .btn-primary.active {
+	background-color: #5bc0de;
+	border-color: #46b8da;
+}
+.modal-warning .modal-header {
+	background-color: #ffb53e;
+}
+.modal-warning .btn-primary,
+.modal-warning .btn-primary:hover,
+.modal-warning .btn-primary:focus,
+.modal-warning .btn-primary:active,
+.modal-warning .btn-primary.active,
+.modal-warning .open > .dropdown-toggle.btn-primary,
+.modal-warning .btn-primary.disabled,
+.modal-warning .btn-primary[disabled],
+.modal-warning fieldset[disabled] .btn-primary,
+.modal-warning .btn-primary.disabled:hover,
+.modal-warning .btn-primary[disabled]:hover,
+.modal-warning fieldset[disabled] .btn-primary:hover,
+.modal-warning .btn-primary.disabled:focus,
+.modal-warning .btn-primary[disabled]:focus,
+.modal-warning fieldset[disabled] .btn-primary:focus,
+.modal-warning .btn-primary.disabled:active,
+.modal-warning .btn-primary[disabled]:active,
+.modal-warning fieldset[disabled] .btn-primary:active,
+.modal-warning .btn-primary.disabled.active,
+.modal-warning .btn-primary[disabled].active,
+.modal-warning fieldset[disabled] .btn-primary.active {
+	background-color: #ffb53e;
+	border-color: #ffb53e;
+}
+.modal-danger .modal-header {
+	background-color: #f9243f;
+}
+.modal-danger .btn-primary,
+.modal-danger .btn-primary:hover,
+.modal-danger .btn-primary:focus,
+.modal-danger .btn-primary:active,
+.modal-danger .btn-primary.active,
+.modal-danger .open > .dropdown-toggle.btn-primary,
+.modal-danger .btn-primary.disabled,
+.modal-danger .btn-primary[disabled],
+.modal-danger fieldset[disabled] .btn-primary,
+.modal-danger .btn-primary.disabled:hover,
+.modal-danger .btn-primary[disabled]:hover,
+.modal-danger fieldset[disabled] .btn-primary:hover,
+.modal-danger .btn-primary.disabled:focus,
+.modal-danger .btn-primary[disabled]:focus,
+.modal-danger fieldset[disabled] .btn-primary:focus,
+.modal-danger .btn-primary.disabled:active,
+.modal-danger .btn-primary[disabled]:active,
+.modal-danger fieldset[disabled] .btn-primary:active,
+.modal-danger .btn-primary.disabled.active,
+.modal-danger .btn-primary[disabled].active,
+.modal-danger fieldset[disabled] .btn-primary.active {
+	background-color: #f9243f;
+	border-color: #f9243f;
+}
+
+table>tbody>tr>td>div.buttons {
+	width: 100%;
+	white-space: nowrap;
+}
+table>tbody>tr>td>div.buttons a {
+	margin: 0 2px;
+}

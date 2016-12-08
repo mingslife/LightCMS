@@ -3,6 +3,7 @@ package com.mingslife.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mingslife.web.annotation.CreationOperator;
 import com.mingslife.web.annotation.CreationTimestamp;
 import com.mingslife.web.annotation.UpdateOperator;
@@ -15,12 +16,16 @@ public class Category implements Serializable {
 	private String categoryName;
 	private Integer position;
 	private Boolean isVisible;
+	@JsonIgnore
 	@CreationTimestamp
 	private Date createDate;
+	@JsonIgnore
 	@UpdateTimestamp
 	private Date updateDate;
+	@JsonIgnore
 	@CreationOperator
 	private Integer createOperator;
+	@JsonIgnore
 	@UpdateOperator
 	private Integer updateOperator;
 

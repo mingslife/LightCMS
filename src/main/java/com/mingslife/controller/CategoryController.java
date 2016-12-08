@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,10 +34,10 @@ public class CategoryController extends BaseController {
 
 	@ResponseBody
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public Map<String, Object> list(@RequestParam(value = "page", defaultValue = "1") int page) {
+	public Map<String, Object> list(@RequestParam(value = "page", defaultValue = "1") int page, @RequestParam(value = "limit", defaultValue = "10") int limit) {
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
 		
-		List<Category> categories = categoryService.load(new String[] {"id", "category_name", "position", "is_visible"}, "id", "asc", page, LIMIT);
+		List<Category> categories = categoryService.load(new String[] {"id", "category_name", "position", "is_visible"}, "id", "asc", page, limit);
 		long count = categoryService.count();
 		
 		jsonMap.put("rows", categories);
@@ -54,13 +55,13 @@ public class CategoryController extends BaseController {
 
 	@ResponseBody
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	public void create(@RequestBody CategoryDTO categoryDTO) {
+	public void create(@ModelAttribute CategoryDTO categoryDTO) {
 		categoryService.save(categoryDTO.toModel());
 	}
 
 	@ResponseBody
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public void update(@PathVariable("id") Integer id, @RequestBody CategoryDTO categoryDTO, Model model) {
+	public void update(@PathVariable("id") Integer id, @ModelAttribute CategoryDTO categoryDTO, Model model) {
 		Category category = categoryDTO.toModel();
 		category.setId(id);
 		categoryService.update(category);
@@ -73,7 +74,7 @@ public class CategoryController extends BaseController {
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/deletes", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/deletes", method = RequestMethod.POST)
 	public void deletes(@RequestParam("ids[]") List<Integer> ids) {
 		for (Integer id : ids) {
 			categoryService.delete(id);

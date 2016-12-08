@@ -24,12 +24,13 @@ app.config(function($routeProvider) {
 		});
 });
 app.service("service", function($http, $q) {
-	this.basePath = "../";
+	var basePath = "../";
+	this.basePath = basePath;
 	this.ajax = function(method, url, data) {
 		var defer = $q.defer();
 		$http({
 			method: method,
-			url: url,
+			url: (url.indexOf("http://") !== -1 || url.indexOf("https://") !== -1) ? url : basePath + url,
 			data: data,
 			headers: {
 				"Content-Type": "application/x-www-form-urlencoded"
@@ -50,16 +51,31 @@ app.service("service", function($http, $q) {
 });
 app.controller("controller", function($scope) {});
 
-!function ($) {
-    $(document).on("click","ul.nav li.parent > a > span.icon", function(){          
-        $(this).find("em:first").toggleClass("glyphicon-minus");      
-    }); 
-    $(".sidebar span.icon").find("em:first").addClass("glyphicon-plus");
-}(window.jQuery);
-
-$(window).on("resize", function () {
-  if ($(window).width() > 768) $("#sidebar-collapse").collapse("show");
-});
-$(window).on("resize", function () {
-  if ($(window).width() <= 767) $("#sidebar-collapse").collapse("hide");
+$(function() {
+	if (window.bootbox) {
+		bootbox.addLocale("zh_CN", {OK: "好", CONFIRM: "确认", CANCEL: "取消"});
+		bootbox.setLocale("zh_CN");
+	}
+	if ($ && $.notify) {
+		$.notifyDefaults({
+			delay: 3000,
+			z_index: 1080,
+			mouse_over: "pause"
+		});
+	}
+	
+	if (window.Util) {
+		Util.systemName = "轻博客";
+	}
+	
+	$(document).on("click","ul.nav li.parent > a > span.icon", function() {
+		$(this).find("em:first").toggleClass("glyphicon-minus");
+	});
+	$(".sidebar span.icon").find("em:first").addClass("glyphicon-plus");
+	$(window).on("resize", function () {
+		if ($(window).width() > 768) $("#sidebar-collapse").collapse("show");
+	});
+	$(window).on("resize", function () {
+		if ($(window).width() <= 767) $("#sidebar-collapse").collapse("hide");
+	});
 });
