@@ -17,7 +17,7 @@ app.service("categoryService", function(service) {
 	};
 });
 app.controller("categoryController", function($scope, $routeParams, categoryService) {
-	Util.setTitle("分类");
+	Util.setTitle("分类管理");
 	
 	$scope.defaults = {
 		IS_VISIBLE: [{
@@ -28,7 +28,12 @@ app.controller("categoryController", function($scope, $routeParams, categoryServ
 			value: false
 		}]
 	};
+	$scope.lock = false;
+	$scope.backToParent = function() {
+		window.location.hash = "#/category";
+	};
 	$scope.saveRecord = function() {
+		$scope.lock = true;
 		var category = {
 			categoryName: $.trim($scope.category.categoryName),
 			position: $scope.category.position,
@@ -36,9 +41,16 @@ app.controller("categoryController", function($scope, $routeParams, categoryServ
 		};
 		var saveFunction = $scope.category.id == null ? categoryService.saveCategory(category) : categoryService.updateCategory($scope.category.id, category);
 		saveFunction.then(function(data) {
-			$("#category-modal").modal("hide");
+			$scope.lock = false;
 			$.notify("保存成功！", {type: "success"});
-			$("#category-table").bootstrapTable("refresh");
+			if ($("#category-table").length > 0) {
+				$("#category-modal").modal("hide");
+				$("#category-table").bootstrapTable("refresh");
+			} else {
+				$scope.backToParent();
+			}
+		}, function(data) {
+			$scope.lock = false;
 		});
 	};
 	$scope.showRecord = function(id) {
@@ -88,7 +100,7 @@ app.controller("categoryController", function($scope, $routeParams, categoryServ
 		}
 	};
 	
-	if (isNaN($routeParams["id"])) {
+	if ($routeParams["id"] == null) {
 		$("#category-modal").on("hidden.bs.modal", function(e) {
 			$scope.category = {};
 			$scope.$apply();
@@ -132,13 +144,16 @@ app.controller("categoryController", function($scope, $routeParams, categoryServ
 				align: "center",
 				formatter: function(value, row, index) {
 					return '<div class="buttons">' +
-							'<a href="javascript:;" onclick="app.scopes.categoryScope.showRecord(\'' + value + '\')"><span class="fa fa-pencil"></span></a>' +
-							'<a href="javascript:;" onclick="app.scopes.categoryScope.deleteRecord(\'' + value + '\')"><span class="fa fa-trash"></span></a>' +
+							'<a href="javascript:;" title="编辑" onclick="app.scopes.categoryScope.showRecord(\'' + value + '\')"><span class="fa fa-pencil"></span></a>' +
+							'<a href="javascript:;" title="删除" onclick="app.scopes.categoryScope.deleteRecord(\'' + value + '\')"><span class="fa fa-trash"></span></a>' +
 							'</div>';
 				}
 			}]
 		});
-	} else {}
+	} else if ($routeParams["id"] !== "create") {
+		var recordId = $routeParams["id"];
+		$scope.showRecord(recordId);
+	}
 	
 	app.scopes.categoryScope = {
 		showRecord: $scope.showRecord,

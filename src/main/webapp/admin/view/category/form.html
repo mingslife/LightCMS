@@ -1,0 +1,34 @@
+<div class="row">
+	<ol class="breadcrumb">
+		<li><a href="#/"><span class="fa fa-home"></span></a></li>
+		<li><a href="#/category">分类管理</a></li>
+		<li class="active" data-ng-bind="category.id == null ? '新增分类' : '编辑分类'"></li>
+	</ol>
+</div><!--/.row-->
+
+<div class="row">
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<form name="categoryForm">
+					<div class="form-group">
+						<label for="category-category-name">分类名称</label>
+						<input type="text" class="form-control" id="category-category-name" name="categoryName" data-ng-model="category.categoryName" required />
+					</div>
+					<div class="form-group">
+						<label for="category-position">排序</label>
+						<input type="number" class="form-control" id="category-position" name="position" data-ng-model="category.position" required />
+					</div>
+					<div class="form-group">
+						<label for="category-is-visible">是否可见</label>
+						<select class="form-control" id="category-is-visible" name="isVisible" data-ng-model="category.isVisible" data-ng-options="option.value as option.key for option in defaults.IS_VISIBLE" data-required></select>
+					</div>
+				</form>
+			</div>
+			<div class="panel-footer text-right">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				<button type="button" class="btn btn-primary" data-ng-click="saveRecord()" data-ng-disabled="categoryForm.$invalid || $scope.lock">保存</button>
+			</div>
+		</div>
+	</div>
+</div>

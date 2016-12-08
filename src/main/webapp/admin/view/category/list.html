@@ -1,7 +1,7 @@
 <div class="row">
 	<ol class="breadcrumb">
-		<li><a href="#"><span class="fa fa-home"></span></a></li>
-		<li class="active">分类</li>
+		<li><a href="#/"><span class="fa fa-home"></span></a></li>
+		<li class="active">分类管理</li>
 	</ol>
 </div><!--/.row-->
 
@@ -10,8 +10,8 @@
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<div class="btn-group pull-left" id="category-toolbar">
-					<button type="button" class="btn btn-default" data-toggle="modal" data-target="#category-modal"><span class="fa fa-plus"></span></button>
-					<button type="button" class="btn btn-default" onclick="app.scopes.categoryScope.deleteRecords()"><span class="fa fa-trash"></span></button>
+					<button type="button" class="btn btn-default" title="新增" data-toggle="modal" data-target="#category-modal"><span class="fa fa-plus"></span></button>
+					<button type="button" class="btn btn-default" title="删除" onclick="app.scopes.categoryScope.deleteRecords()"><span class="fa fa-trash"></span></button>
 				</div>
 				<table id="category-table"></table>
 			</div>
@@ -24,27 +24,27 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span></button>
-				<h4 class="modal-title" id="category-modal-label">分类</h4>
+				<h4 class="modal-title" id="category-modal-label" data-ng-bind="category.id == null ? '新增分类' : '编辑分类'"></h4>
 			</div>
 			<div class="modal-body">
-				<form>
+				<form name="categoryForm">
 					<div class="form-group">
 						<label for="category-category-name">分类名称</label>
-						<input type="text" class="form-control" id="category-category-name" data-ng-model="category.categoryName" />
+						<input type="text" class="form-control" id="category-category-name" name="categoryName" data-ng-model="category.categoryName" required />
 					</div>
 					<div class="form-group">
 						<label for="category-position">排序</label>
-						<input type="number" class="form-control" id="category-position" data-ng-model="category.position" />
+						<input type="number" class="form-control" id="category-position" name="position" data-ng-model="category.position" required />
 					</div>
 					<div class="form-group">
 						<label for="category-is-visible">是否可见</label>
-						<select class="form-control" id="category-is-visible" data-ng-model="category.isVisible" data-ng-options="option.value as option.key for option in defaults.IS_VISIBLE"></select>
+						<select class="form-control" id="category-is-visible" name="isVisible" data-ng-model="category.isVisible" data-ng-options="option.value as option.key for option in defaults.IS_VISIBLE" data-required></select>
 					</div>
 				</form>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-				<button type="button" class="btn btn-primary" data-ng-click="saveRecord()">保存</button>
+				<button type="button" class="btn btn-primary" data-ng-click="saveRecord()" data-ng-disabled="categoryForm.$invalid || $scope.lock">保存</button>
 			</div>
 		</div>
 	</div>
