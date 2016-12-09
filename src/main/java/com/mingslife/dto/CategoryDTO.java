@@ -2,14 +2,23 @@ package com.mingslife.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+
 import com.mingslife.model.Category;
 
 public class CategoryDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer id;
+	@NotEmpty
+	@Length(max = 20)
 	private String categoryName;
+	@NotNull
 	private Integer position;
+	@NotNull
 	private Boolean isVisible;
 
 	public Integer getId() {
