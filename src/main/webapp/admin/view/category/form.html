@@ -4,7 +4,7 @@
 		<li><a href="#/category">分类管理</a></li>
 		<li class="active" data-ng-bind="category.id == null ? '新增分类' : '编辑分类'"></li>
 	</ol>
-</div><!--/.row-->
+</div>
 
 <div class="row">
 	<div class="col-lg-12">
@@ -29,7 +29,7 @@
 				</form>
 			</div>
 			<div class="panel-footer text-right">
-				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				<button type="button" class="btn btn-default" data-ng-click="backToParent()">取消</button>
 				<button type="button" class="btn btn-primary" data-ng-click="saveRecord()" data-ng-disabled="categoryForm.$invalid || $scope.lock">保存</button>
 			</div>
 		</div>

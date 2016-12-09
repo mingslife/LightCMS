@@ -3,21 +3,21 @@
 		<li><a href="#/"><span class="fa fa-home"></span></a></li>
 		<li class="active">分类管理</li>
 	</ol>
-</div><!--/.row-->
+</div>
 
 <div class="row">
 	<div class="col-lg-12">
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<div class="btn-group pull-left" id="category-toolbar">
-					<button type="button" class="btn btn-default" title="新增" data-toggle="modal" data-target="#category-modal"><span class="fa fa-plus"></span></button>
+					<button type="button" class="btn btn-default" title="新增" onclick="app.scopes.categoryScope.newRecord()"><span class="fa fa-plus"></span></button>
 					<button type="button" class="btn btn-default" title="删除" onclick="app.scopes.categoryScope.deleteRecords()"><span class="fa fa-trash"></span></button>
 				</div>
 				<table id="category-table"></table>
 			</div>
 		</div>
 	</div>
-</div><!--/.row-->
+</div>
 
 <div class="modal fade" id="category-modal" tabindex="-1" role="dialog" aria-labelledby="categry-modal-label" aria-hidden="true" data-backdrop="static">
 	<div class="modal-dialog">

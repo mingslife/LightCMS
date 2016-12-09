@@ -30,7 +30,15 @@ app.controller("categoryController", function($scope, $routeParams, categoryServ
 	};
 	$scope.lock = false;
 	$scope.backToParent = function() {
+		$scope.category = {};
 		window.location.hash = "#/category";
+	};
+	$scope.newRecord = function() {
+		if (app.configurations && app.configurations.singlePage) {
+			window.location.hash = "#/category/create";
+		} else {
+			$("#category-modal").modal("show");
+		}
 	};
 	$scope.saveRecord = function() {
 		$scope.lock = true;
@@ -56,7 +64,11 @@ app.controller("categoryController", function($scope, $routeParams, categoryServ
 	$scope.showRecord = function(id) {
 		categoryService.showCategory(id).then(function(data) {
 			$scope.category = data;
-			$("#category-modal").modal("show");
+			if (app.configurations && app.configurations.singlePage) {
+				window.location.hash = "#/category/" + id;
+			} else {
+				$("#category-modal").modal("show");
+			}
 		});
 	};
 	$scope.deleteRecord = function(id) {
@@ -156,6 +168,7 @@ app.controller("categoryController", function($scope, $routeParams, categoryServ
 	}
 	
 	app.scopes.categoryScope = {
+		newRecord: $scope.newRecord,
 		showRecord: $scope.showRecord,
 		deleteRecord: $scope.deleteRecord,
 		deleteRecords: $scope.deleteRecords

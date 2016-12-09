@@ -1,5 +1,8 @@
 var app = angular.module("app", ["ngRoute"]);
 app.scopes = {};
+app.configurations = {
+	singlePage: false
+};
 app.config(function($routeProvider) {
 	$routeProvider
 		.when("/", {
