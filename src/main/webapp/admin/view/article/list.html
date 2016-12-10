@@ -20,7 +20,7 @@
 </div>
 
 <div class="modal fade" id="article-modal" tabindex="-1" role="dialog" aria-labelledby="article-modal-label" aria-hidden="true" data-backdrop="static">
-	<div class="modal-dialog">
+	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span></button>
@@ -28,20 +28,55 @@
 			</div>
 			<div class="modal-body">
 				<form name="articleForm">
-					<div class="form-group" data-ng-class="{true: 'has-error'}[category.categoryName != null && categoryForm.categoryName.$invalid]">
-						<label class="control-label" for="category-category-name">������� <span class="text-danger">*</span></label>
-						<input type="text" class="form-control" id="category-category-name" name="categoryName" data-ng-model="category.categoryName" placeholder="{{tips.category.categoryName}}" maxlength="20" required />
-						<p class="help-block" data-ng-show="category.categoryName != null && categoryForm.categoryName.$invalid" data-ng-init="tips.category.categoryName = '����'" data-ng-bind="tips.category.categoryName"></p>
+					<div class="form-group" data-ng-class="{true: 'has-error'}[article.title != null && articleForm.title.$invalid]">
+						<label class="control-label" for="article-title">标题 <span class="text-danger">*</span></label>
+						<input type="text" class="form-control" id="article-title" name="title" data-ng-model="article.title" placeholder="{{tips.article.title}}" maxlength="20" required />
+						<p class="help-block" data-ng-show="article.title != null && articleForm.title.$invalid" data-ng-init="tips.article.title = '必填'" data-ng-bind="tips.article.title"></p>
 					</div>
-					<div class="form-group" data-ng-class="{true: 'has-error'}[category.position != null && categoryForm.position.$invalid]">
-						<label class="control-label" for="category-position">���� <span class="text-danger">*</span></label>
-						<input type="number" class="form-control" id="category-position" name="position" data-ng-model="category.position" placeholder="{{tips.category.position}}" maxlength="10" required />
-						<p class="help-block" data-ng-show="category.position != null && categoryForm.position.$invalid" data-ng-init="tips.category.position = '����'" data-ng-bind="tips.category.position"></p>
+					<div class="form-group" data-ng-class="{true: 'has-error'}[article.categoryId != null && articleForm.categoryId.$invalid]">
+						<label class="control-label" for="article-category-id">分类 <span class="text-danger">*</span></label>
+						<input type="text" class="form-control" id="article-category-id" name="categoryId" data-ng-model="article.categoryId" placeholder="{{tips.article.categoryId}}" maxlength="10" required />
+						<p class="help-block" data-ng-show="article.categoryId != null && articleForm.categoryId.$invalid" data-ng-init="tips.article.categoryId = '必填'" data-ng-bind="tips.article.categoryId"></p>
 					</div>
-					<div class="form-group" data-ng-class="{true: 'has-error'}[category.isVisible != null && categoryForm.isVisible.$invalid]">
-						<label class="control-label" for="category-is-visible">�Ƿ�ɼ� <span class="text-danger">*</span></label>
-						<select class="form-control" id="category-is-visible" name="isVisible" data-ng-model="category.isVisible" data-ng-options="option.value as option.key for option in defaults.IS_VISIBLE" data-required></select>
-						<p class="help-block" data-ng-show="category.isVisible != null && categoryForm.isVisible.$invalid" data-ng-init="tips.category.isVisible = '����'" data-ng-bind="tips.category.isVisible"></p>
+					<div class="form-group" data-ng-class="{true: 'has-error'}[article.isVisible != null && articleForm.isVisible.$invalid]">
+						<label class="control-label" for="article-is-visible">是否可见 <span class="text-danger">*</span></label>
+						<select class="form-control" id="article-is-visible" name="isVisible" data-ng-model="article.isVisible" data-ng-options="option.value as option.key for option in defaults.IS_VISIBLE" data-required></select>
+						<p class="help-block" data-ng-show="article.isVisible != null && articleForm.isVisible.$invalid" data-ng-init="tips.article.isVisible = '必填'" data-ng-bind="tips.article.isVisible"></p>
+					</div>
+					<div class="form-group" data-ng-class="{true: 'has-error'}[article.onTop != null && articleForm.onTop.$invalid]">
+						<label class="control-label" for="article-on-top">是否置顶 <span class="text-danger">*</span></label>
+						<select class="form-control" id="article-on-top" name="onTop" data-ng-model="article.onTop" data-ng-options="option.value as option.key for option in defaults.ON_TOP" data-required></select>
+						<p class="help-block" data-ng-show="article.onTop != null && articleForm.onTop.$invalid" data-ng-init="tips.article.onTop = '必填'" data-ng-bind="tips.article.onTop"></p>
+					</div>
+					<div class="form-group" data-ng-class="{true: 'has-error'}[article.password != null && articleForm.password.$invalid]">
+						<label class="control-label" for="article-password">访问密码</label>
+						<input type="text" class="form-control" id="article-password" name="password" data-ng-model="article.password" placeholder="{{tips.article.categoryId}}" />
+						<p class="help-block" data-ng-show="article.password != null && articleForm.password.$invalid" data-ng-init="tips.article.password = ''" data-ng-bind="tips.article.password"></p>
+					</div>
+					<div class="form-group" data-ng-class="{true: 'has-error'}[article.cover != null && articleForm.cover.$invalid]">
+						<label class="control-label" for="article-cover">封面</label>
+						<input type="text" class="form-control" id="article-cover" name="cover" data-ng-model="article.cover" placeholder="{{tips.article.cover}}" />
+						<p class="help-block" data-ng-show="article.cover != null && articleForm.cover.$invalid" data-ng-init="tips.article.cover = ''" data-ng-bind="tips.article.cover"></p>
+					</div>
+					<div class="form-group" data-ng-class="{true: 'has-error'}[article.keywords != null && articleForm.keywords.$invalid]">
+						<label class="control-label" for="article-keywords">关键词</label>
+						<input type="text" class="form-control" id="article-keywords" name="keywords" data-ng-model="article.keywords" placeholder="{{tips.article.keywords}}" />
+						<p class="help-block" data-ng-show="article.keywords != null && articleForm.keywords.$invalid" data-ng-init="tips.article.keywords = ''" data-ng-bind="tips.article.keywords"></p>
+					</div>
+					<div class="form-group" data-ng-class="{true: 'has-error'}[article.description != null && articleForm.description.$invalid]">
+						<label class="control-label" for="article.description">描述</label>
+						<input type="text" class="form-control" id="article-description" name="description" data-ng-model="article.description" placeholder="{{tips.article.description}}" />
+						<p class="help-block" data-ng-show="article.description != null && articleForm.description.$invalid" data-ng-init="tips.article.description = ''" data-ng-bind="tips.article.description"></p>
+					</div>
+					<div class="form-group" data-ng-class="{true: 'has-error'}[article.markdown != null && articleForm.markdown.$invalid]">
+						<label class="control-label" for="article.markdown">内容 <span class="text-danger">*</span></label>
+						<textarea class="form-control" id="article-markdown" name="markdown" data-ng-model="article.markdown" placeholder="{{tips.article.markdown}}" required style="height: 300px;"></textarea>
+						<p class="help-block" data-ng-show="article.markdown != null && articleForm.markdown.$invalid" data-ng-init="tips.article.markdown = ''" data-ng-bind="tips.article.markdown"></p>
+					</div>
+					<div class="form-group" data-ng-class="{true: 'has-error'}[article.content != null && articleForm.content.$invalid]">
+						<label class="control-label" for="article.content">内容 <span class="text-danger">*</span></label>
+						<textarea class="form-control" id="article-content" name="content" data-ng-model="article.content" placeholder="{{tips.article.content}}" required style="height: 300px;"></textarea>
+						<p class="help-block" data-ng-show="article.content != null && articleForm.content.$invalid" data-ng-init="tips.article.content = ''" data-ng-bind="tips.article.content"></p>
 					</div>
 				</form>
 			</div>

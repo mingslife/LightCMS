@@ -19,6 +19,9 @@ app.service("articleService", function(service) {
 app.controller("articleController", function($scope, $routeParams, articleService) {
 	Util.setTitle("文章管理");
 	
+	var articleMarkdownEditor = null;
+	var articleContentEditor = null;
+	
 	$scope.defaults = {
 		IS_VISIBLE: [{
 			key: "是",
@@ -135,7 +138,21 @@ app.controller("articleController", function($scope, $routeParams, articleServic
 	};
 	
 	if ($routeParams["id"] == null) {
+		$("#article-modal").on("shown.bs.modal", function(e) {
+			articleMarkdownEditor = new SimpleMDE({
+				autoDownloadFontAwesome: false,
+				element: $("#article-markdown")[0],
+				spellChecker: false,
+				toolbar: Patch.SimpleMDE.toolbar,
+				renderingConfig: {
+					singleLineBreaks: false,
+					codeSyntaxHighlighting: true,
+				}
+			});
+		});
 		$("#article-modal").on("hidden.bs.modal", function(e) {
+			articleMarkdownEditor.toTextArea();
+			articleMarkdownEditor = null;
 			$scope.article = {};
 			$scope.$apply();
 		});
