@@ -67,10 +67,16 @@ app.controller("articleController", function($scope, $routeParams, articleServic
 	$scope.saveRecord = function() {
 		$scope.lock = true;
 		var article = {
-			// TODO
-			categoryName: $.trim($scope.category.categoryName),
-			position: $scope.category.position,
-			isVisible: $scope.category.isVisible
+			title: $.trim($scope.article.title),
+			categoryId: $scope.article.categoryId,
+			isVisible: $scope.article.isVisible,
+			onTop: $scope.article.onTop,
+			password: $trim($scope.article.password),
+			cover: $scope.article.cover,
+			keywords: $trim($scope.article.keywords),
+			description: $.trim($scope.article.description),
+			markdown: $scope.article.markdown,
+			content: $scope.article.content
 		};
 		var saveFunction = $scope.article.id == null ? articleService.saveArticle(article) : articleService.updateArticle($scope.article.id, article);
 		saveFunction.then(function(data) {
