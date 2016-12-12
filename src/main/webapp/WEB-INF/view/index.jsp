@@ -78,7 +78,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<article class="post post-${status.index}">
 							<header class="entry-header">
 								<h1 class="entry-title">
-									<a href="single.html">${article.title}</a>
+									<a href="article/${article.uuid}">${article.title}</a>
 								</h1>
 								<div class="entry-meta">
 									<span class="post-category"><a href="#">${article.categoryName}</a></span>

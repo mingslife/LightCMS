@@ -71,12 +71,12 @@ app.controller("articleController", function($scope, $routeParams, articleServic
 			categoryId: $scope.article.categoryId,
 			isVisible: $scope.article.isVisible,
 			onTop: $scope.article.onTop,
-			password: $trim($scope.article.password),
+			password: $.trim($scope.article.password),
 			cover: $scope.article.cover,
-			keywords: $trim($scope.article.keywords),
+			keywords: $.trim($scope.article.keywords),
 			description: $.trim($scope.article.description),
-			markdown: $scope.article.markdown,
-			content: $scope.article.content
+			markdown: articleMarkdownEditor.value(),
+			content: articleMarkdownEditor.markdown(articleMarkdownEditor.value())
 		};
 		var saveFunction = $scope.article.id == null ? articleService.saveArticle(article) : articleService.updateArticle($scope.article.id, article);
 		saveFunction.then(function(data) {

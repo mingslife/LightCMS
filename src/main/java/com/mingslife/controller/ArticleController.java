@@ -9,8 +9,8 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -58,14 +58,14 @@ public class ArticleController extends BaseController {
 
 	@ResponseBody
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	public void create(@Valid @RequestBody ArticleDTO articleDTO) {
+	public void create(@Valid @ModelAttribute ArticleDTO articleDTO) {
 		Article article = articleDTO.toModel();
 		articleService.save(article);
 	}
 
 	@ResponseBody
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public void update(@PathVariable("id") Integer id, @RequestBody ArticleDTO articleDTO) {
+	public void update(@PathVariable("id") Integer id, @Valid @ModelAttribute ArticleDTO articleDTO) {
 		Article article = articleDTO.toModel();
 		article.setId(id);
 		article.setContent(AntiSamyUtil.getCleanHTML(article.getContent()));

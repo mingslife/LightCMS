@@ -50,7 +50,7 @@
 					</div>
 					<div class="form-group" data-ng-class="{true: 'has-error'}[article.password != null && articleForm.password.$invalid]">
 						<label class="control-label" for="article-password">访问密码</label>
-						<input type="text" class="form-control" id="article-password" name="password" data-ng-model="article.password" placeholder="{{tips.article.categoryId}}" />
+						<input type="text" class="form-control" id="article-password" name="password" data-ng-model="article.password" placeholder="{{tips.article.password}}" />
 						<p class="help-block" data-ng-show="article.password != null && articleForm.password.$invalid" data-ng-init="tips.article.password = ''" data-ng-bind="tips.article.password"></p>
 					</div>
 					<div class="form-group" data-ng-class="{true: 'has-error'}[article.cover != null && articleForm.cover.$invalid]">
@@ -69,13 +69,13 @@
 						<p class="help-block" data-ng-show="article.description != null && articleForm.description.$invalid" data-ng-init="tips.article.description = ''" data-ng-bind="tips.article.description"></p>
 					</div>
 					<div class="form-group" data-ng-class="{true: 'has-error'}[article.markdown != null && articleForm.markdown.$invalid]">
-						<label class="control-label" for="article.markdown">内容 <span class="text-danger">*</span></label>
-						<textarea class="form-control" id="article-markdown" name="markdown" data-ng-model="article.markdown" placeholder="{{tips.article.markdown}}" required style="height: 300px;"></textarea>
+						<label class="control-label" for="article.markdown">内容</label>
+						<textarea class="form-control" id="article-markdown" name="markdown" data-ng-model="article.markdown" placeholder="{{tips.article.markdown}}" style="height: 300px;"></textarea>
 						<p class="help-block" data-ng-show="article.markdown != null && articleForm.markdown.$invalid" data-ng-init="tips.article.markdown = ''" data-ng-bind="tips.article.markdown"></p>
 					</div>
 					<div class="form-group" data-ng-class="{true: 'has-error'}[article.content != null && articleForm.content.$invalid]">
-						<label class="control-label" for="article.content">内容 <span class="text-danger">*</span></label>
-						<textarea class="form-control" id="article-content" name="content" data-ng-model="article.content" placeholder="{{tips.article.content}}" required style="height: 300px;"></textarea>
+						<label class="control-label" for="article.content">内容</label>
+						<textarea class="form-control" id="article-content" name="content" data-ng-model="article.content" placeholder="{{tips.article.content}}" style="height: 300px;"></textarea>
 						<p class="help-block" data-ng-show="article.content != null && articleForm.content.$invalid" data-ng-init="tips.article.content = ''" data-ng-bind="tips.article.content"></p>
 					</div>
 				</form>
