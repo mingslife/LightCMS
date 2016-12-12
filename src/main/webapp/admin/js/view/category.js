@@ -15,6 +15,9 @@ app.service("categoryService", function(service) {
 	this.deleteCategories = function(ids) {
 		return service.ajax("POST", "categories/deletes.do", Util.arrayParam("ids[]", ids));
 	};
+	this.loadAll = function() {
+		return service.ajax("GET", "categories/all.do", null);
+	};
 });
 app.controller("categoryController", function($scope, $routeParams, categoryService) {
 	Util.setTitle("分类管理");

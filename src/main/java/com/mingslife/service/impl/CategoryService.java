@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.mingslife.dao.CategoryMapper;
 import com.mingslife.model.Category;
+import com.mingslife.pojo.CategorySimplePOJO;
 import com.mingslife.service.ICategoryService;
 import com.mingslife.web.util.SQLUtil;
 
@@ -168,5 +169,10 @@ public class CategoryService implements ICategoryService {
 	@Override
 	public List<Category> loadForMenu(int limit) {
 		return categoryMapper.loadForMenu(limit);
+	}
+
+	@Override
+	public List<CategorySimplePOJO> loadAll() {
+		return categoryMapper.loadAll();
 	}
 }

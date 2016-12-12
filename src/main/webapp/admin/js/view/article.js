@@ -16,7 +16,7 @@ app.service("articleService", function(service) {
 		return service.ajax("POST", "articles/deletes.do", Util.arrayParam("ids[]", ids));
 	};
 });
-app.controller("articleController", function($scope, $routeParams, articleService) {
+app.controller("articleController", function($scope, $routeParams, articleService, categoryService) {
 	Util.setTitle("文章管理");
 	
 	var articleMarkdownEditor = null;
@@ -142,6 +142,13 @@ app.controller("articleController", function($scope, $routeParams, articleServic
 			});
 		}
 	};
+	
+	$scope.loadAllCategories = function() {
+		categoryService.loadAll().then(function(data) {
+			$scope.defaults.categories = data;
+		});
+	};
+	$scope.loadAllCategories();
 	
 	if ($routeParams["id"] == null) {
 		$("#article-modal").on("shown.bs.modal", function(e) {

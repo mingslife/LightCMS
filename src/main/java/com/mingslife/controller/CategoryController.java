@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mingslife.dto.CategoryDTO;
 import com.mingslife.model.Category;
+import com.mingslife.pojo.CategorySimplePOJO;
 import com.mingslife.service.ICategoryService;
 import com.mingslife.web.controller.BaseController;
 
@@ -78,5 +79,12 @@ public class CategoryController extends BaseController {
 		for (Integer id : ids) {
 			categoryService.delete(id);
 		}
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/all", method = RequestMethod.GET)
+	public List<CategorySimplePOJO> all() {
+		List<CategorySimplePOJO> categories = categoryService.loadAll();
+		return categories;
 	}
 }

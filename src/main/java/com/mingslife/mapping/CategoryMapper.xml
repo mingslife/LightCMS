@@ -189,4 +189,11 @@
       limit #{limit,jdbcType=INTEGER}
     </if>
   </select>
+  <resultMap id="SimplePOJO" type="com.mingslife.pojo.CategorySimplePOJO">
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="category_name" property="categoryName" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="loadAll" resultMap="SimplePOJO">
+    select id, category_name from categories where is_visible = 1 order by position asc
+  </select>
 </mapper>

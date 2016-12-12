@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.mingslife.model.Category;
+import com.mingslife.pojo.CategorySimplePOJO;
 
 public interface CategoryMapper {
 	int deleteByPrimaryKey(Integer id);
@@ -19,4 +20,5 @@ public interface CategoryMapper {
 	Category find(@Param("id") Integer id, @Param("parameters") String parameters);
 
 	List<Category> loadForMenu(@Param("limit") int limit);
+	List<CategorySimplePOJO> loadAll();
 }
