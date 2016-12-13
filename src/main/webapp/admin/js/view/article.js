@@ -156,7 +156,7 @@ app.controller("articleController", function($scope, $routeParams, articleServic
 				autoDownloadFontAwesome: false,
 				element: $("#article-markdown")[0],
 				spellChecker: false,
-				toolbar: Patch.SimpleMDE.toolbar,
+				toolbar: Patch.SimpleMDE.toolbar(this),
 				renderingConfig: {
 					singleLineBreaks: false,
 					codeSyntaxHighlighting: true,
