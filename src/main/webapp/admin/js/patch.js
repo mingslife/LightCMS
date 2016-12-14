@@ -80,6 +80,11 @@ var Patch = {
 		    					console.info(result);
 		    				}
 		    			});
+		    			console.info(uploadDialog);
+		    			uploadDialog.on("hidden.bs.modal", function(e) {
+		    				console.info("Hidden!");
+		    				$("body").addClass("modal-open"); // 修复关闭上传模态框之后，上一级模态框无法滚动的bug
+		    			});
 		    			setInterval(function() {
 		    				$("#simplemde-image-upload-file").fileupload({
 			    				url: "../upload/image.do",
