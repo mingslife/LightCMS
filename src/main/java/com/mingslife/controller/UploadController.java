@@ -1,15 +1,16 @@
 package com.mingslife.controller;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -19,10 +20,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import com.mingslife.model.Image;
 import com.mingslife.service.IImageService;
@@ -37,6 +36,7 @@ public class UploadController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/image", method = RequestMethod.POST)
 	public Map<String, Object> image(HttpServletRequest request) {
+		@SuppressWarnings("unchecked")
 		Map<String, String> applicationMap = (Map<String, String>) application.getAttribute("application");
 		String uploadPath = applicationMap.get("uploadPath");
 		String uploadRoot = applicationMap.get("uploadRoot");
@@ -76,6 +76,10 @@ public class UploadController extends BaseController {
 //					String thumbPath = uploadPath + "/thumbs/" + relativePath;
 					String url = uploadRoot + "/images/" + relativePath;
 					
+					BufferedImage bufferedImage = ImageIO.read(file.getInputStream());
+					int width = bufferedImage.getWidth();
+					int height = bufferedImage.getHeight();
+					
 					image = new Image();
 					image.setName(fileName);
 					image.setPath(realPath);
@@ -83,6 +87,8 @@ public class UploadController extends BaseController {
 					image.setSize(file.getSize());
 					image.setContentType(file.getContentType());
 					image.setMd5(md5);
+					image.setWidth(width);
+					image.setHeight(height);
 					imageService.save(image);
 					
 					jsonMap.put("id", image.getId());
@@ -112,7 +118,7 @@ public class UploadController extends BaseController {
 		
 		return jsonMap;
 	}
-	@ResponseBody
+	/*@ResponseBody
 	@RequestMapping(value = "/image0", method = RequestMethod.POST)
 	public Map<String, Object> image0(HttpServletRequest request) {
 		Map<String, String> applicationMap = (Map<String, String>) application.getAttribute("application");
@@ -137,7 +143,7 @@ public class UploadController extends BaseController {
 				if (file != null) {
 					// 取得当前上传文件的文件名称
 					String fileName = file.getOriginalFilename();
-					/*String md5;
+					String md5;
 					try {
 						System.out.println("MD5计算开始: " + System.currentTimeMillis());
 						md5 = DigestUtils.md5Hex(file.getBytes());
@@ -146,7 +152,7 @@ public class UploadController extends BaseController {
 					} catch (Exception e) {
 						e.printStackTrace();
 						md5 = null;
-					}*/
+					}
 					
 					// 如果名称不为“”,说明该文件存在，否则说明该文件不存在
 					if (fileName.trim().length() != 0) {
@@ -179,7 +185,7 @@ public class UploadController extends BaseController {
 			}
 		}
 		return jsonMap;
-	}
+	}*/
 
 	@ResponseBody
 	@RequestMapping(value = "/image/{year}/{month}/{date}/{uuid}", method = RequestMethod.GET)

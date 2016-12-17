@@ -216,3 +216,15 @@ table>tbody>tr>td>div.buttons {
 table>tbody>tr>td>div.buttons a {
 	margin: 0 2px;
 }
+
+.fixed-table-toolbar .bs-bars, .fixed-table-toolbar .columns, .fixed-table-toolbar .search {
+	margin-top: 0;
+}
+.fixed-table-pagination .pagination-detail, .fixed-table-pagination div.pagination {
+	margin-bottom: 0;
+}
+
+.editor-preview img, .editor-preview-side img {
+	width: 100%;
+	height: auto;
+}

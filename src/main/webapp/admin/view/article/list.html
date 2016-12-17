@@ -73,11 +73,11 @@
 						<textarea class="form-control" id="article-markdown" name="markdown" data-ng-model="article.markdown" placeholder="{{tips.article.markdown}}" style="height: 300px;"></textarea>
 						<p class="help-block" data-ng-show="article.markdown != null && articleForm.markdown.$invalid" data-ng-init="tips.article.markdown = ''" data-ng-bind="tips.article.markdown"></p>
 					</div>
-					<div class="form-group" data-ng-class="{true: 'has-error'}[article.content != null && articleForm.content.$invalid]">
+					<!-- <div class="form-group" data-ng-class="{true: 'has-error'}[article.content != null && articleForm.content.$invalid]">
 						<label class="control-label" for="article.content">内容</label>
 						<textarea class="form-control" id="article-content" name="content" data-ng-model="article.content" placeholder="{{tips.article.content}}" style="height: 300px;"></textarea>
 						<p class="help-block" data-ng-show="article.content != null && articleForm.content.$invalid" data-ng-init="tips.article.content = ''" data-ng-bind="tips.article.content"></p>
-					</div>
+					</div> -->
 				</form>
 			</div>
 			<div class="modal-footer">
