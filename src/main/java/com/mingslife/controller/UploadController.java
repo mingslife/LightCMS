@@ -13,12 +13,15 @@ import java.util.UUID;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 
+import net.coobird.thumbnailator.Thumbnails;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
@@ -30,12 +33,15 @@ import com.mingslife.web.controller.BaseController;
 @Controller
 @RequestMapping("/upload")
 public class UploadController extends BaseController {
+	private static final int IMAGE_MAX_SIZE = 1000;
+	private static final double IMAGE_QUALITY = 0.8;
+
 	@Autowired
 	private IImageService imageService;
 
 	@ResponseBody
 	@RequestMapping(value = "/image", method = RequestMethod.POST)
-	public Map<String, Object> image(HttpServletRequest request) {
+	public Map<String, Object> image(HttpServletRequest request, @RequestParam(value = "compress", defaultValue = "true") boolean compress) {
 		@SuppressWarnings("unchecked")
 		Map<String, String> applicationMap = (Map<String, String>) application.getAttribute("application");
 		String uploadPath = applicationMap.get("uploadPath");
@@ -66,51 +72,97 @@ public class UploadController extends BaseController {
 			}
 			
 			String md5 = null;
+			Image image = null;
 			try {
-				md5 = DigestUtils.md5Hex(file.getBytes());
-				Image image = imageService.findByMd5(md5);
-				if (image == null) {
-//					String relativePath = generateRealPath() + "/" + generateRealName() + "_" + fileName;
-					String relativePath = generateRealPath() + "/" + generateRealName() + suffix;
-					String realPath = uploadPath + "/images/" + relativePath;
-//					String thumbPath = uploadPath + "/thumbs/" + relativePath;
-					String url = uploadRoot + "/images/" + relativePath;
+				if (compress) {
+					// 压缩
+					String savePath = generateRealPath();
+					String saveFileName = generateRealName();
+					String saveFullFileName = saveFileName + suffix;
+					String saveRealPath = uploadPath + "/images/" + savePath;
+					String url = uploadRoot + "/images/" + savePath + "/" + saveFullFileName;
 					
 					BufferedImage bufferedImage = ImageIO.read(file.getInputStream());
 					int width = bufferedImage.getWidth();
 					int height = bufferedImage.getHeight();
 					
-					image = new Image();
-					image.setName(fileName);
-					image.setPath(realPath);
-					image.setUrl(url);
-					image.setSize(file.getSize());
-					image.setContentType(file.getContentType());
-					image.setMd5(md5);
-					image.setWidth(width);
-					image.setHeight(height);
-					imageService.save(image);
-					
-					jsonMap.put("id", image.getId());
-					jsonMap.put("name", fileName);
-					jsonMap.put("url", url);
-					
-					File localFile = new File(realPath);
-//					File thumbFile = new File(thumbPath);
-					if (!localFile.exists()) {
-						localFile.mkdirs();
+					int max = Math.max(width, height);
+					if (max > IMAGE_MAX_SIZE) {
+						width = (int) Math.ceil(width * 1.0 / max * IMAGE_MAX_SIZE);
+						height = (int) Math.ceil(height * 1.0 / max * IMAGE_MAX_SIZE);
 					}
-					try {
-						file.transferTo(localFile);
-//						Thumbnails.of(localFile).outputQuality(0.8).toFile(thumbFile);
-					} catch (Exception e) {
-						e.printStackTrace();
+					
+					File localFile = new File(saveRealPath, saveFullFileName);
+					if (!localFile.exists() || localFile.isDirectory()) {
+						File parentFile = localFile.getParentFile();
+						if (!parentFile.exists()) {
+							parentFile.mkdirs();
+						}
+						localFile.createNewFile();
+					}
+					
+					System.out.println(width + "x" + height);
+					Thumbnails.of(bufferedImage).size(width, height).outputQuality(IMAGE_QUALITY).toFile(localFile);
+					
+					md5 = DigestUtils.md5Hex(new FileInputStream(localFile));
+					image = imageService.findByMd5(md5);
+					if (image == null) {
+						image = new Image();
+						image.setName(fileName);
+						image.setPath(saveRealPath);
+						image.setUrl(url);
+						image.setSize(localFile.length());
+						image.setContentType(contentType);
+						image.setMd5(md5);
+						image.setWidth(width);
+						image.setHeight(height);
+						imageService.save(image);
+					} else {
+						localFile.delete();
 					}
 				} else {
-					jsonMap.put("id", image.getId());
-					jsonMap.put("name", fileName);
-					jsonMap.put("url", image.getUrl());
+					// 不压缩
+					md5 = DigestUtils.md5Hex(file.getBytes());
+					image = imageService.findByMd5(md5);
+					if (image == null) {
+						// 图片不存在
+						String savePath = generateRealPath();
+						String saveFileName = generateRealName();
+						String saveFullFileName = saveFileName + suffix;
+						String saveRealPath = uploadPath + "/images/" + savePath;
+						String url = uploadRoot + "/images/" + savePath + "/" + saveFullFileName;
+						
+						BufferedImage bufferedImage = ImageIO.read(file.getInputStream());
+						int width = bufferedImage.getWidth();
+						int height = bufferedImage.getHeight();
+						
+						File localFile = new File(saveRealPath, saveFullFileName);
+						if (!localFile.exists() || localFile.isDirectory()) {
+							File parentFile = localFile.getParentFile();
+							if (!parentFile.exists()) {
+								parentFile.mkdirs();
+							}
+							localFile.createNewFile();
+						}
+						
+						file.transferTo(localFile);
+						
+						image = new Image();
+						image.setName(fileName);
+						image.setPath(saveRealPath);
+						image.setUrl(url);
+						image.setSize(file.getSize());
+						image.setContentType(contentType);
+						image.setMd5(md5);
+						image.setWidth(width);
+						image.setHeight(height);
+						imageService.save(image);
+					}
 				}
+				
+				jsonMap.put("id", image.getId());
+				jsonMap.put("name", fileName);
+				jsonMap.put("url", image.getUrl());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
