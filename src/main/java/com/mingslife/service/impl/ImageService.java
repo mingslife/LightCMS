@@ -169,4 +169,9 @@ public class ImageService implements IImageService {
 	public Image findByMd5(String md5) {
 		return imageMapper.findByMd5(md5);
 	}
+
+	@Override
+	public Image findBySourceMd5(String sourceMd5) {
+		return imageMapper.findBySourceMd5(sourceMd5);
+	}
 }

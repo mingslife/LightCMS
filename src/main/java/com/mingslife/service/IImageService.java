@@ -37,4 +37,5 @@ public interface IImageService {
 	double sum(String parameter, String condition, Object[] values, String order, String sort, int curPage, int limit, boolean isDistinct);
 
 	Image findByMd5(String md5);
+	Image findBySourceMd5(String sourceMd5);
 }

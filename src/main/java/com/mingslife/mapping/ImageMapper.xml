@@ -11,6 +11,7 @@
     <result column="md5" property="md5" jdbcType="VARCHAR" />
     <result column="width" property="width" jdbcType="INTEGER" />
     <result column="height" property="height" jdbcType="INTEGER" />
+    <result column="source_md5" property="sourceMd5" jdbcType="VARCHAR" />
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
     <result column="create_operator" property="createOperator" jdbcType="INTEGER" />
@@ -18,8 +19,8 @@
   </resultMap>
   <sql id="BaseColumnList">
     id, name, path, url, size, content_type,
-    md5, width, height, create_date, update_date, create_operator,
-    update_operator
+    md5, width, height, source_md5, create_date, update_date,
+    create_operator, update_operator
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
     select
@@ -35,14 +36,14 @@
       id, name, path,
       url, size, content_type,
       md5, width, height,
-      create_date, update_date, create_operator,
-      update_operator
+      source_md5, create_date, update_date,
+      create_operator, update_operator
     ) values (
       #{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR},
       #{url,jdbcType=VARCHAR}, #{size,jdbcType=VARCHAR}, #{contentType,jdbcType=VARCHAR},
       #{md5,jdbcType=VARCHAR}, #{width,jdbcType=INTEGER}, #{height,jdbcType=INTEGER},
-      #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, #{createOperator,jdbcType=INTEGER},
-      #{updateOperator,jdbcType=INTEGER}
+      #{sourceMd5,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP},
+      #{createOperator,jdbcType=INTEGER}, #{updateOperator,jdbcType=INTEGER}
     )
   </insert>
   <insert id="insertSelective" parameterType="com.mingslife.model.Image">
@@ -74,6 +75,9 @@
       </if>
       <if test="height != null">
         height,
+      </if>
+      <if test="sourceMd5 != null">
+        source_md5,
       </if>
       <if test="createDate != null">
         create_date,
@@ -116,6 +120,9 @@
       <if test="height != null">
         #{height,jdbcType=INTEGER},
       </if>
+      <if test="sourceMd5 != null">
+        #{sourceMd5,jdbcType=VARCHAR},
+      </if>
       <if test="createDate != null">
         #{createDate,jdbcType=TIMESTAMP},
       </if>
@@ -157,6 +164,9 @@
       <if test="height != null">
         height = #{height,jdbcType=INTEGER},
       </if>
+      <if test="sourceMd5 != null">
+        source_md5 = #{sourceMd5,jdbcType=VARCHAR},
+      </if>
       <if test="createDate != null">
         create_date = #{createDate,jdbcType=TIMESTAMP},
       </if>
@@ -183,6 +193,7 @@
       md5 = #{md5,jdbcType=VARCHAR},
       width = #{width,jdbcType=INTEGER},
       height = #{height,jdbcType=INTEGER},
+      source_md5 = #{sourceMd5,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=TIMESTAMP},
       update_date = #{updateDate,jdbcType=TIMESTAMP},
       create_operator = #{createOperator,jdbcType=INTEGER},
@@ -245,5 +256,8 @@
   </select>
   <select id="findByMd5" resultMap="BaseResultMap">
     select id, name, url, width, height from images where md5 = #{md5,jdbcType=VARCHAR}
+  </select>
+  <select id="findBySourceMd5" resultMap="BaseResultMap">
+    select id, name, url, width, height from images where source_md5 = #{sourceMd5,jdbcType=VARCHAR}
   </select>
 </mapper>

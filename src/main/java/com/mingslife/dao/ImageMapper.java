@@ -19,4 +19,5 @@ public interface ImageMapper {
 	Image find(@Param("id") Integer id, @Param("parameters") String parameters);
 
 	Image findByMd5(@Param("md5") String md5);
+	Image findBySourceMd5(@Param("sourceMd5") String sourceMd5);
 }

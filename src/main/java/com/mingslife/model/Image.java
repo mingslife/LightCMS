@@ -20,6 +20,7 @@ public class Image implements Serializable {
 	private String md5;
 	private Integer width;
 	private Integer height;
+	private String sourceMd5;
 	@CreationTimestamp
 	private Date createDate;
 	@UpdateTimestamp
@@ -99,6 +100,14 @@ public class Image implements Serializable {
 
 	public void setHeight(Integer height) {
 		this.height = height;
+	}
+
+	public String getSourceMd5() {
+		return sourceMd5;
+	}
+
+	public void setSourceMd5(String sourceMd5) {
+		this.sourceMd5 = sourceMd5;
 	}
 
 	public Date getCreateDate() {

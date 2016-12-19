@@ -76,49 +76,51 @@ public class UploadController extends BaseController {
 			try {
 				if (compress) {
 					// 压缩
-					String savePath = generateRealPath();
-					String saveFileName = generateRealName();
-					String saveFullFileName = saveFileName + suffix;
-					String saveRealPath = uploadPath + "/images/" + savePath;
-					String url = uploadRoot + "/images/" + savePath + "/" + saveFullFileName;
-					
-					BufferedImage bufferedImage = ImageIO.read(file.getInputStream());
-					int width = bufferedImage.getWidth();
-					int height = bufferedImage.getHeight();
-					
-					int max = Math.max(width, height);
-					if (max > IMAGE_MAX_SIZE) {
-						width = (int) Math.ceil(width * 1.0 / max * IMAGE_MAX_SIZE);
-						height = (int) Math.ceil(height * 1.0 / max * IMAGE_MAX_SIZE);
-					}
-					
-					File localFile = new File(saveRealPath, saveFullFileName);
-					if (!localFile.exists() || localFile.isDirectory()) {
-						File parentFile = localFile.getParentFile();
-						if (!parentFile.exists()) {
-							parentFile.mkdirs();
-						}
-						localFile.createNewFile();
-					}
-					
-					System.out.println(width + "x" + height);
-					Thumbnails.of(bufferedImage).size(width, height).outputQuality(IMAGE_QUALITY).toFile(localFile);
-					
-					md5 = DigestUtils.md5Hex(new FileInputStream(localFile));
-					image = imageService.findByMd5(md5);
+					String sourceMd5 = DigestUtils.md5Hex(file.getBytes());
+					image = imageService.findBySourceMd5(sourceMd5);
 					if (image == null) {
+						String savePath = generateRealPath();
+						String saveFileName = generateRealName();
+						String saveFullFileName = saveFileName + suffix;
+						String saveRealPath = uploadPath + "/images/" + savePath;
+						String url = uploadRoot + "/images/" + savePath + "/" + saveFullFileName;
+						String imagePath = savePath + "/" + saveFullFileName;
+						
+						BufferedImage bufferedImage = ImageIO.read(file.getInputStream());
+						int width = bufferedImage.getWidth();
+						int height = bufferedImage.getHeight();
+						
+						int max = Math.max(width, height);
+						if (max > IMAGE_MAX_SIZE) {
+							width = (int) Math.ceil(width * 1.0 / max * IMAGE_MAX_SIZE);
+							height = (int) Math.ceil(height * 1.0 / max * IMAGE_MAX_SIZE);
+						}
+						
+						File localFile = new File(saveRealPath, saveFullFileName);
+						if (!localFile.exists() || localFile.isDirectory()) {
+							File parentFile = localFile.getParentFile();
+							if (!parentFile.exists()) {
+								parentFile.mkdirs();
+							}
+							localFile.createNewFile();
+						}
+						
+						System.out.println(width + "x" + height);
+						Thumbnails.of(bufferedImage).size(width, height).outputQuality(IMAGE_QUALITY).toFile(localFile);
+						
+						md5 = DigestUtils.md5Hex(new FileInputStream(localFile));
+						
 						image = new Image();
 						image.setName(fileName);
-						image.setPath(saveRealPath);
+						image.setPath(imagePath);
 						image.setUrl(url);
 						image.setSize(localFile.length());
 						image.setContentType(contentType);
 						image.setMd5(md5);
+						image.setSourceMd5(sourceMd5); // 有原图MD5，即本身是缩略图
 						image.setWidth(width);
 						image.setHeight(height);
 						imageService.save(image);
-					} else {
-						localFile.delete();
 					}
 				} else {
 					// 不压缩
@@ -131,6 +133,7 @@ public class UploadController extends BaseController {
 						String saveFullFileName = saveFileName + suffix;
 						String saveRealPath = uploadPath + "/images/" + savePath;
 						String url = uploadRoot + "/images/" + savePath + "/" + saveFullFileName;
+						String imagePath = savePath + "/" + saveFullFileName;
 						
 						BufferedImage bufferedImage = ImageIO.read(file.getInputStream());
 						int width = bufferedImage.getWidth();
@@ -149,11 +152,12 @@ public class UploadController extends BaseController {
 						
 						image = new Image();
 						image.setName(fileName);
-						image.setPath(saveRealPath);
+						image.setPath(imagePath);
 						image.setUrl(url);
 						image.setSize(file.getSize());
 						image.setContentType(contentType);
 						image.setMd5(md5);
+						image.setSourceMd5(null); // 无原图MD5，即本身就是原图
 						image.setWidth(width);
 						image.setHeight(height);
 						imageService.save(image);
