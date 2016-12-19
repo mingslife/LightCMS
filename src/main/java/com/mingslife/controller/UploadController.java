@@ -15,6 +15,7 @@ import java.util.UUID;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import net.coobird.thumbnailator.Thumbnails;
 
@@ -261,13 +262,23 @@ public class UploadController extends BaseController {
 		String uploadPath = applicationMap.get("uploadPath");
 		File file = new File(uploadPath + "/images/" + year + "/" + month + "/" + date + "/" + uuid);
 		try {
-			FileInputStream inputStream = new FileInputStream(file);
-			OutputStream outputStream = response.getOutputStream();
-			response.setContentType("image/png");
+			// 开始加入浏览器缓存的支持
 			Date lastModifiedDate = new Date(file.lastModified());
 			DateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.ENGLISH);
 			dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-			System.out.println("Last-Modified: " + dateFormat.format(lastModifiedDate));
+			String lastModified = dateFormat.format(lastModifiedDate);
+			System.out.println("Last-Modified: " + lastModified);
+			String ifModifiedSince = request.getHeader("If-Modified-Since");
+			if (ifModifiedSince != null && lastModified.equals(ifModifiedSince)) {
+				response.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
+				return;
+			}
+			// 结束加入浏览器缓存的支持
+			
+			FileInputStream inputStream = new FileInputStream(file);
+			OutputStream outputStream = response.getOutputStream();
+			response.setContentType("image/png");
+			response.setHeader("Last-Modified", lastModified);
 			byte[] buffer = new byte[102400];
 			int len = 0;
 			while ((len = inputStream.read(buffer, 0, 102400)) != -1) {
