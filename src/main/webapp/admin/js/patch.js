@@ -62,6 +62,11 @@ var Patch = {
 		    							'<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">' +
 		    								'<span class="sr-only">完成0%</span>' +
 		    							'</div>' +
+		    						'</div>' +
+		    						'<div class="form-group checkbox">' +
+		    							'<label>' +
+		    								'<input type="checkbox" id="simplemde-image-upload-is-source" /> 原图' +
+		    							'</label>' +
 		    						'</div>',
 		    				buttons: {
 		    					cancel: {
@@ -90,7 +95,24 @@ var Patch = {
 			    				autoUpload: false,
 			    				add: function(e, data) {
 			    					var file = data.files[0];
-			    					var text = file.name + " (" + ")";
+			    					if (file.type.indexOf("image/") !== 0) {
+			    						bootbox.alert({
+			    							className: "modal-danger",
+			    							title: '<span class="fa fa-remove"></span> 错误',
+			    							message: "不支持的图片格式！"
+			    						});
+			    						return;
+			    					} else if (file.size > 1024 * 1024 * 10) {
+			    						bootbox.alert({
+			    							className: "modal-danger",
+			    							title: '<span class="fa fa-remove"></span> 错误',
+			    							message: "图片大小大于10M！"
+			    						});
+			    						return;
+			    					}
+			    					
+			    					var text = file.name + " (" + Util.bytesToSize(file.size) + ")";
+			    					$("#simplemde-image-upload-text").text(text);
 			    					console.info(data);
 			    					$("button.btn[data-bb-handler='upload']").removeClass("disabled").unbind("click").click(function() {
 			    						$(this).addClass("disabled");
@@ -118,6 +140,10 @@ var Patch = {
 			    					var progress = parseInt(data.loaded / data.total * 100, 10);
 				    				$("#simplemde-image-upload-progress .progress-bar").attr("aria-valuenow", progress).css("width", progress + "%").find("span.sr-only").text("完成" + progress + "%");
 			    				}
+			    			}).bind("fileuploadsubmit", function(e, data) {
+			    				data.formData = {
+			    					compress: !$("#simplemde-image-upload-is-source").is(":checked")
+			    				};
 			    			});
 		    			}, 0);
 		    		},
