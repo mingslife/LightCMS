@@ -49,4 +49,8 @@
 		<from>/rss.xml</from>
 		<to>/rss.do</to>
 	</rule>
+	<rule match-type="wildcard">
+		<from>/upload/images/*/*/*/*</from>
+		<to>/upload/images/$1/$2/$3/$4.do</to>
+	</rule>
 </urlrewrite>

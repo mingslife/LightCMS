@@ -4,10 +4,13 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.OutputStream;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.UUID;
 
 import javax.imageio.ImageIO;
@@ -244,7 +247,7 @@ public class UploadController extends BaseController {
 	}*/
 
 	@ResponseBody
-	@RequestMapping(value = "/image/{year}/{month}/{date}/{uuid}", method = RequestMethod.GET)
+	@RequestMapping(value = "/images/{year}/{month}/{date}/{uuid}", method = RequestMethod.GET)
 	public void image(@PathVariable String year, @PathVariable String month, @PathVariable String date, @PathVariable String uuid) {
 //		String referer = request.getHeader("Referer");
 //		System.out.println(referer);
@@ -253,13 +256,18 @@ public class UploadController extends BaseController {
 //		if (matcher.find()) {
 //			System.out.println(matcher.group());
 //		}
-		String uploadPath = (String) application.getAttribute("uploadPath");
-//		String uploadRoot = (String) application.getAttribute("uploadRoot");
-		File file = new File(uploadPath + "/" + year + "/" + month + "/" + date + "/" + uuid);
+		@SuppressWarnings("unchecked")
+		Map<String, String> applicationMap = (Map<String, String>) application.getAttribute("application");
+		String uploadPath = applicationMap.get("uploadPath");
+		File file = new File(uploadPath + "/images/" + year + "/" + month + "/" + date + "/" + uuid);
 		try {
 			FileInputStream inputStream = new FileInputStream(file);
 			OutputStream outputStream = response.getOutputStream();
 			response.setContentType("image/png");
+			Date lastModifiedDate = new Date(file.lastModified());
+			DateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.ENGLISH);
+			dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+			System.out.println("Last-Modified: " + dateFormat.format(lastModifiedDate));
 			byte[] buffer = new byte[102400];
 			int len = 0;
 			while ((len = inputStream.read(buffer, 0, 102400)) != -1) {
