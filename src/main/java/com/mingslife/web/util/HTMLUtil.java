@@ -69,6 +69,11 @@ public class HTMLUtil {
 			return null;
 		}
 	}
+	
+	public static String getSummary(String content, int length) {
+		String plainText = getPlainText(content);
+		return plainText.length() > length ? plainText.substring(0, length) : plainText;
+	}
 
 	public static void main(String[] args) {
 		String data = "<a href=\"https://www.baidu.com/\" onclick=\"alert('xss');\">baidu</a>\n"

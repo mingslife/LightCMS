@@ -12,6 +12,8 @@ import com.mingslife.web.annotation.UpdateTimestamp;
 public class Article implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	public static final int SUMMARY_LENGTH = 120;
+
 	private Integer id;
 	private String uuid;
 	private String title;

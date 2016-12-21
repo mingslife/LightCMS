@@ -13,7 +13,6 @@ public class ArticleDTO implements Serializable {
 	private Integer categoryId;
 	private Boolean isVisible;
 	private Boolean canComment;
-	private Boolean hasPassword;
 	private String password;
 	private String cover;
 	private String keywords;
@@ -61,17 +60,6 @@ public class ArticleDTO implements Serializable {
 	public void setCanComment(Boolean canComment) {
 		this.canComment = canComment;
 	}
-
-	public Boolean getHasPassword() {
-		if (hasPassword == null) {
-			hasPassword = password.equals("") ? false : true;
-		}
-		return hasPassword;
-	}
-
-	/*public void setHasPassword(Boolean hasPassword) {
-		this.hasPassword = hasPassword;
-	}*/
 
 	public String getPassword() {
 		return password;
@@ -143,6 +131,7 @@ public class ArticleDTO implements Serializable {
 		model.setContent(content);
 		model.setMarkdown(markdown);
 		model.setOnTop(onTop);
+		model.setSummary(HTMLUtil.getSummary(content, Article.SUMMARY_LENGTH));
 		return model;
 	}
 }
