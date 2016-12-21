@@ -20,7 +20,6 @@ import com.mingslife.dto.ArticleDTO;
 import com.mingslife.model.Article;
 import com.mingslife.service.IArticleService;
 import com.mingslife.web.controller.BaseController;
-import com.mingslife.web.util.AntiSamyUtil;
 
 @Controller
 @RequestMapping(value = "/articles")
@@ -68,12 +67,6 @@ public class ArticleController extends BaseController {
 	public void update(@PathVariable("id") Integer id, @Valid @ModelAttribute ArticleDTO articleDTO) {
 		Article article = articleDTO.toModel();
 		article.setId(id);
-		article.setContent(AntiSamyUtil.getCleanHTML(article.getContent()));
-		/*try {
-			article.setContent(new Markdown4jProcessor().process(article.getMarkdown()));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}*/
 		articleService.update(article);
 	}
 

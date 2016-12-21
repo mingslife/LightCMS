@@ -3,6 +3,7 @@ package com.mingslife.dto;
 import java.io.Serializable;
 
 import com.mingslife.model.Article;
+import com.mingslife.web.util.HTMLUtil;
 
 public class ArticleDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -12,6 +13,7 @@ public class ArticleDTO implements Serializable {
 	private Integer categoryId;
 	private Boolean isVisible;
 	private Boolean canComment;
+	private Boolean hasPassword;
 	private String password;
 	private String cover;
 	private String keywords;
@@ -60,6 +62,17 @@ public class ArticleDTO implements Serializable {
 		this.canComment = canComment;
 	}
 
+	public Boolean getHasPassword() {
+		if (hasPassword == null) {
+			hasPassword = password.equals("") ? false : true;
+		}
+		return hasPassword;
+	}
+
+	/*public void setHasPassword(Boolean hasPassword) {
+		this.hasPassword = hasPassword;
+	}*/
+
 	public String getPassword() {
 		return password;
 	}
@@ -97,7 +110,7 @@ public class ArticleDTO implements Serializable {
 	}
 
 	public void setContent(String content) {
-		this.content = content;
+		this.content = HTMLUtil.getCleanHTML(content);
 	}
 
 	public String getMarkdown() {
