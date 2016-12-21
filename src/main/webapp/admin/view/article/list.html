@@ -55,7 +55,12 @@
 					</div>
 					<div class="form-group" data-ng-class="{true: 'has-error'}[article.cover != null && articleForm.cover.$invalid]">
 						<label class="control-label" for="article-cover">封面</label>
-						<input type="text" class="form-control" id="article-cover" name="cover" data-ng-model="article.cover" placeholder="{{tips.article.cover}}" />
+						<div class="input-group">
+							<input type="text" class="form-control" id="article-cover" name="cover" data-ng-model="article.cover" placeholder="{{tips.article.cover}}" />
+							<span class="input-group-btn">
+								<button type="button" class="btn btn-default" data-ng-click="uploadCover()">上传图片</button>
+							</span>
+						</div>
 						<p class="help-block" data-ng-show="article.cover != null && articleForm.cover.$invalid" data-ng-init="tips.article.cover = ''" data-ng-bind="tips.article.cover"></p>
 					</div>
 					<div class="form-group" data-ng-class="{true: 'has-error'}[article.keywords != null && articleForm.keywords.$invalid]">

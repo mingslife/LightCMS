@@ -50,6 +50,10 @@ textarea.form-control {
 	resize: vertical;
 }
 
+.input-group-btn {
+	border: 1px solid #eee;
+}
+
 span.fa, i.fa {
 	width: 18px;
 	text-align: center;

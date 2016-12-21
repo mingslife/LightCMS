@@ -143,6 +143,104 @@ app.controller("articleController", function($scope, $routeParams, articleServic
 		}
 	};
 	
+	$scope.uploadCover = function() {
+		var uploadDialog = bootbox.dialog({
+			title: "上传图片",
+			message: '<span class="btn btn-primary btn-block fileinput-button" id="cover-image-upload-button">' +
+						'<span id="cover-image-upload-text">选择图片</span>' +
+						'<input type="file" id="cover-image-upload-file" name="file" accept="image/*" title="选择图片" />' +
+					'</span>' +
+					'<div class="progress" id="cover-image-upload-progress" style="display:none;">' +
+						'<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">' +
+							'<span class="sr-only">完成0%</span>' +
+						'</div>' +
+					'</div>' +
+					'<div class="form-group checkbox">' +
+						'<label>' +
+							'<input type="checkbox" id="cover-image-upload-is-source" /> 原图' +
+						'</label>' +
+					'</div>',
+			buttons: {
+				cancel: {
+					label: "取消",
+					className: "btn-default"
+				},
+				upload: {
+					label: "上传",
+					className: "btn-primary disabled",
+					callback: function() {
+						return false;
+					}
+				}
+			},
+			callback: function(result) {
+				console.info(result);
+			}
+		});
+		uploadDialog.on("hidden.bs.modal", function(e) {
+			$("body").addClass("modal-open"); // 修复关闭上传模态框之后，上一级模态框无法滚动的bug
+		});
+		setTimeout(function() {
+			$("#cover-image-upload-file").fileupload({
+				url: "../upload/image.do",
+				dataType: "json",
+				autoUpload: false,
+				add: function(e, data) {
+					var file = data.files[0];
+					if (file.type.indexOf("image/") !== 0) {
+						bootbox.alert({
+							className: "modal-danger",
+							title: '<span class="fa fa-remove"></span> 错误',
+							message: "不支持的图片格式！"
+						});
+						return;
+					} else if (file.size > 1024 * 1024 * 10) {
+						bootbox.alert({
+							className: "modal-danger",
+							title: '<span class="fa fa-remove"></span> 错误',
+							message: "图片大小大于10M！"
+						});
+						return;
+					}
+					
+					var text = file.name + " (" + Util.bytesToSize(file.size) + ")";
+					$("#cover-image-upload-text").text(text);
+					console.info(data);
+					$("button.btn[data-bb-handler='upload']").removeClass("disabled").unbind("click").click(function() {
+						$(this).addClass("disabled");
+						$("#cover-image-upload-button").hide();
+						$("#cover-image-upload-progress").show();
+						data.submit();
+					});
+				},
+				done: function(e, data) {
+					// data: {name, url}
+					$scope.article.cover = data.result.url;
+					$scope.$apply();
+					uploadDialog.modal("hide");
+				},
+				fail: function(e, data) {
+					setTimeout(function() {
+						var xhr = data.jqXHR;
+						var message = xhr.responseJSON && xhr.responseJSON.error ? xhr.responseJSON.error : "保存失败";
+						if ($.notify) {
+							$.notify(message, {type: "danger"});
+						} else {
+							alert(message);
+						}
+					}, 0);
+				},
+				progressall: function(e, data) {
+					var progress = parseInt(data.loaded / data.total * 100, 10);
+    				$("#cover-image-upload-progress .progress-bar").attr("aria-valuenow", progress).css("width", progress + "%").find("span.sr-only").text("完成" + progress + "%");
+				}
+			}).bind("fileuploadsubmit", function(e, data) {
+				data.formData = {
+					compress: !$("#cover-image-upload-is-source").is(":checked")
+				};
+			});
+		}, 0);
+	};
 	$scope.loadAllCategories = function() {
 		categoryService.loadAll().then(function(data) {
 			$scope.defaults.categories = data;
