@@ -26,7 +26,6 @@ public class Article implements Serializable {
 	private Boolean isVisible;
 	private Boolean canComment;
 	private Boolean hasPassword;
-	@JsonIgnore
 	private String password;
 	private Boolean hasAttachment;
 	private Boolean hasImage;

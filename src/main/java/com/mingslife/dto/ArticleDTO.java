@@ -131,7 +131,7 @@ public class ArticleDTO implements Serializable {
 		model.setContent(content);
 		model.setMarkdown(markdown);
 		model.setOnTop(onTop);
-		model.setSummary(HTMLUtil.getSummary(content, Article.SUMMARY_LENGTH));
+		model.setSummary(password.equals("") ? HTMLUtil.getSummary(content, Article.SUMMARY_LENGTH) : "<p class=\"text-muted\"><span class=\"ion-locked\"></span> 文章已加密</p>");
 		return model;
 	}
 }
