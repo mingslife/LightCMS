@@ -710,7 +710,7 @@ figure {
  * 12.0 - Ming Custom CSS
  */
 
-body {
+body, .markdown-body {
 	font-family: "Segoe UI Emoji","Segoe UI Symbol","Segoe UI","Segoe WP","Microsoft YaHei UI","Î¢ÈíÑÅºÚ",Tahoma,Arial,Roboto,"Droid Sans","Helvetica Neue","Droid Sans Fallback","Heiti SC","Hiragino Sans GB",Simsun,sans-self;
 }
 
