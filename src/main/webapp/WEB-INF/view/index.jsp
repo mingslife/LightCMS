@@ -93,7 +93,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<div class="entry-content clearfix">
 								<p>${article.summary}</p>
 								<div class="read-more cl-effect-14">
-									<a href="#" class="more-link">阅读全文 <span class="meta-nav">→</span></a>
+									<a href="article/${article.uuid}" class="more-link">阅读全文 <span class="meta-nav">→</span></a>
 								</div>
 							</div>
 						</article>
