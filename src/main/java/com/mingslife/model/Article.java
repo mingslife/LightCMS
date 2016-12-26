@@ -25,7 +25,6 @@ public class Article implements Serializable {
 	private Long commentNumber;
 	private Boolean isVisible;
 	private Boolean canComment;
-	private Boolean hasPassword;
 	private String password;
 	private Boolean hasAttachment;
 	private Boolean hasImage;
@@ -136,14 +135,6 @@ public class Article implements Serializable {
 
 	public void setCanComment(Boolean canComment) {
 		this.canComment = canComment;
-	}
-
-	public Boolean getHasPassword() {
-		return hasPassword;
-	}
-
-	public void setHasPassword(Boolean hasPassword) {
-		this.hasPassword = hasPassword;
 	}
 
 	public String getPassword() {

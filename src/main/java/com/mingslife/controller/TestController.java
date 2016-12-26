@@ -83,7 +83,6 @@ public class TestController extends BaseController {
 		article.setCommentNumber(0L);
 		article.setIsVisible(true);
 		article.setCanComment(true);
-		article.setHasPassword(false);
 		article.setPassword(null);
 		article.setHasAttachment(false);
 		article.setHasImage(false);

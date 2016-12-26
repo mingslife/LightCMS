@@ -19,7 +19,7 @@ public class ArticleForArticlePOJO implements Serializable {
 	private Long commentNumber;
 	private Boolean isVisible;
 	private Boolean canComment;
-	private Boolean hasPassword;
+	private String password;
 	private Boolean hasAttachment;
 	private Boolean hasImage;
 	private Boolean hasVideo;
@@ -127,12 +127,12 @@ public class ArticleForArticlePOJO implements Serializable {
 		this.canComment = canComment;
 	}
 
-	public Boolean getHasPassword() {
-		return hasPassword;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setHasPassword(Boolean hasPassword) {
-		this.hasPassword = hasPassword;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public Boolean getHasAttachment() {

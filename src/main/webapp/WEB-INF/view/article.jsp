@@ -88,7 +88,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<span class="comments-link"><a href="#">${article.commentNumber}条评论</a></span>
 								</div>
 							</header>
-							<div class="entry-content clearfix markdown-body">${article.content}</div>
+							<div class="entry-content clearfix markdown-body">
+<c:if test="article.password == ''">${article.content}</c:if>
+<c:if test="article.password != ''">
+								<div class="col-md-12 lock-article">
+									<p>该文章已加密，请输入密码：</p>
+									<form class="lock-article-form" onsubmit="return false">
+										<input type="password" id="lock-article-password" maxlength="6" required />
+										<button onclick="loadLockArticle()">→</button>
+									</form>
+								</div>
+</c:if>
+							</div>
 						</article>
 					</main>
 					<aside class="col-md-4">
