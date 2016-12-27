@@ -32,7 +32,7 @@ public class MainController extends BaseController {
 	private static final int MENU_ARCHIVES_LIMIT = 5;
 	private static final int MENU_CATEGORIES_LIMIT = -1;
 
-	private static final String MENU_URL_REGEXP = "/index|/article/(.*)";
+	private static final String MENU_URL_REGEXP = "/|/index|/article/(.*)";
 
 	@Autowired
 	private IArticleService articleService;
@@ -83,7 +83,6 @@ public class MainController extends BaseController {
 	@ModelAttribute
 	public void menu(Model model) {
 		String uri = getFormatRequestURI(request);
-		System.out.println(uri);
 		if (uri.matches(MENU_URL_REGEXP)) {
 			List<Article> articles = articleService.loadForMenu(MENU_ARTICLES_LIMIT);
 			List<ArchiveForMenuPOJO> archives = archiveService.loadForMenu(MENU_ARCHIVES_LIMIT);
@@ -98,6 +97,6 @@ public class MainController extends BaseController {
 		String path = request.getContextPath();
 		String uri = request.getRequestURI();
 		uri = uri.substring(path.length());
-		return uri.substring(0, uri.indexOf('.'));
+		return uri.length() > 1 ? uri.substring(0, uri.indexOf('.')) : uri;
 	}
 }
