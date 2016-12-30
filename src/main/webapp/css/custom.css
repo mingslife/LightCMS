@@ -829,7 +829,7 @@ body, .markdown-body {
 
 .agree {
 	margin-top: 60px;
-	margin-bottom: 90px;
+	margin-bottom: 60px;
 	text-align: center;
 }
 .agree a {
@@ -867,7 +867,7 @@ body, .markdown-body {
 	word-wrap: break-word; /* Firefox hack */
 }
 
-#reply-list .load-more a {
+.reply-list .load-more a {
 	display: block;
 	width: 100%;
 	height: 50px;
@@ -935,6 +935,9 @@ body, .markdown-body {
 
 .article-info {
 	margin-top: 35px;
+}
+.article-nav {
+	padding-bottom: 20px;
 }
 
 .error-code,

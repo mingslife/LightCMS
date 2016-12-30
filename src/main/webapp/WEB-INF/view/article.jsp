@@ -74,7 +74,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<div class="agree">
 							<a href="javascript:agreeArticle();"><span class="ion-heart"></span> <span id="agree-number">0</span></a>
 						</div>
-						<div id="reply-list">
+						<div class="article-nav">
+							<div class="col-xs-6 text-left"><a href=""><i class="ion-arrow-left-c"></i> <span class="hidden-xs">测试文章</span></a></div>
+							<div class="col-xs-6 text-right"><a href=""><span class="hidden-xs">测试文章</span> <i class="ion-arrow-right-c"></i></a></div>
+							<div class="clearfix"></div>
+						</div>
+						<div class="reply-list">
+							<section class="reply">
+								<div class="reply-info"><span class="reply-name"><span class="text-muted">匿名</span></span><span class="reply-time">2016-1-4 16:23</span></div>
+								<div class="reply-content">&lt;script type=&quot;text/javascript&quot;&gt;alert(&quot;nishi&quot;)&lt;/script&gt;</div>
+							</section>
 						</div>
 						<form class="reply-form" onsubmit="return false">
 							<input type="text" id="reply-name" placeholder="称呼，可不填" />
