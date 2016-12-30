@@ -97,6 +97,7 @@ public class MainController extends BaseController {
 		String path = request.getContextPath();
 		String uri = request.getRequestURI();
 		uri = uri.substring(path.length());
-		return uri.length() > 1 ? uri.substring(0, uri.indexOf('.')) : uri;
+		int indexOfDot = uri.indexOf(".");
+		return indexOfDot != -1 ? uri.substring(0, indexOfDot) : uri;
 	}
 }
