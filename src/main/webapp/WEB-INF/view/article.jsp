@@ -65,7 +65,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								</div>
 </c:if>
 							</div>
+							<div class="article-info text-muted">
+								<span>2016-9-25 00:42</span>
+								<span>阅读(98)</span>
+								<span>评论(0)</span>
+							</div>
 						</article>
+						<div class="agree">
+							<a href="javascript:agreeArticle();"><span class="ion-heart"></span> <span id="agree-number">0</span></a>
+						</div>
+						<div id="reply-list">
+						</div>
+						<form class="reply-form" onsubmit="return false">
+							<input type="text" id="reply-name" placeholder="称呼，可不填" />
+							<input type="email" id="reply-email" placeholder="邮箱，可不填" />
+							<textarea id="reply-content" placeholder="评论内容" required></textarea>
+							<button class="btn-send btn-5 btn-5b ion-checkmark btn-block" onclick="commentArticle()"><span>提交</span></button>
+						</form>
 					</main>
 					<aside class="col-md-4">
 						<div class="widget widget-recent-posts">
