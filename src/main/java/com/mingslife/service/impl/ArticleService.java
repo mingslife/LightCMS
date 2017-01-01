@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.mingslife.dao.ArticleMapper;
 import com.mingslife.model.Article;
+import com.mingslife.pojo.ArticleForArticleNavPOJO;
 import com.mingslife.pojo.ArticleForArticlePOJO;
 import com.mingslife.pojo.ArticleForBlogPOJO;
 import com.mingslife.pojo.ArticleForRssPOJO;
@@ -191,5 +192,15 @@ public class ArticleService implements IArticleService {
 	@Override
 	public List<ArticleForRssPOJO> loadForRss(int limit) {
 		return articleMapper.loadForRss(limit);
+	}
+
+	@Override
+	public ArticleForArticleNavPOJO findPrevArticleById(Integer id) {
+		return articleMapper.findPrevArticleById(id);
+	}
+
+	@Override
+	public ArticleForArticleNavPOJO findNextArticleById(Integer id) {
+		return articleMapper.findNextArticleById(id);
 	}
 }

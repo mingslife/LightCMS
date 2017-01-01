@@ -75,8 +75,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<a href="javascript:agreeArticle();"><span class="ion-heart"></span> <span id="agree-number">0</span></a>
 						</div>
 						<div class="article-nav">
-							<div class="col-xs-6 text-left"><a href=""><i class="ion-arrow-left-c"></i> <span class="hidden-xs">测试文章</span></a></div>
-							<div class="col-xs-6 text-right"><a href=""><span class="hidden-xs">测试文章</span> <i class="ion-arrow-right-c"></i></a></div>
+							<div class="col-xs-6 text-left">
+<c:if test="${prevArticle != null}">
+								<a href="article/${prevArticle.uuid}" title="${prevArticle.title}"><i class="ion-arrow-left-c"></i> <span class="hidden-xs">${prevArticle.title}</span></a>
+</c:if>
+							</div>
+							<div class="col-xs-6 text-right">
+<c:if test="${nextArticle != null}">
+								<a href="article/${nextArticle.uuid}" title="${nextArticle.title}"><span class="hidden-xs">${nextArticle.title}</span> <i class="ion-arrow-right-c"></i></a>
+</c:if>
+							</div>
 							<div class="clearfix"></div>
 						</div>
 						<div class="reply-list">

@@ -3,6 +3,7 @@ package com.mingslife.service;
 import java.util.List;
 
 import com.mingslife.model.Article;
+import com.mingslife.pojo.ArticleForArticleNavPOJO;
 import com.mingslife.pojo.ArticleForArticlePOJO;
 import com.mingslife.pojo.ArticleForBlogPOJO;
 import com.mingslife.pojo.ArticleForRssPOJO;
@@ -44,4 +45,6 @@ public interface IArticleService {
 	ArticleForArticlePOJO findByUUidForArticle(String uuid);
 	List<Article> loadForMenu(int limit);
 	List<ArticleForRssPOJO> loadForRss(int limit);
+	ArticleForArticleNavPOJO findPrevArticleById(Integer id);
+	ArticleForArticleNavPOJO findNextArticleById(Integer id);
 }

@@ -501,4 +501,15 @@
       limit #{limit,jdbcType=INTEGER}
     </if>
   </select>
+  <resultMap id="ArticleForArticleNavPOJO" type="com.mingslife.pojo.ArticleForArticleNavPOJO">
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="uuid" property="uuid" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="findPrevArticleById" resultMap="ArticleForArticleNavPOJO">
+    select a.id, a.uuid, a.title from articles a left join users u on a.author_id = u.id where a.id &lt; #{id,jdbcType=INTEGER} and a.is_visible = 1 and u.is_active = 1 order by id desc limit 1
+  </select>
+  <select id="findNextArticleById" resultMap="ArticleForArticleNavPOJO">
+    select a.id, a.uuid, a.title from articles a left join users u on a.author_id = u.id where a.id &gt; #{id,jdbcType=INTEGER} and a.is_visible = 1 and u.is_active = 1 order by id asc limit 1
+  </select>
 </mapper>

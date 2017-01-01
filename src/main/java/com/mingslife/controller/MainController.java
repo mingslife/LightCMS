@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.mingslife.model.Article;
 import com.mingslife.model.Category;
 import com.mingslife.pojo.ArchiveForMenuPOJO;
+import com.mingslife.pojo.ArticleForArticleNavPOJO;
 import com.mingslife.pojo.ArticleForArticlePOJO;
 import com.mingslife.pojo.ArticleForBlogPOJO;
 import com.mingslife.service.IArchiveService;
@@ -76,7 +77,12 @@ public class MainController extends BaseController {
 	@RequestMapping(value = "/article/{uuid}", method = RequestMethod.GET)
 	public String article(@PathVariable("uuid") String uuid, Model model) {
 		ArticleForArticlePOJO article = articleService.findByUUidForArticle(uuid);
+		Integer articleId = article.getId();
+		ArticleForArticleNavPOJO prevArticle = articleService.findPrevArticleById(articleId);
+		ArticleForArticleNavPOJO nextArticle = articleService.findNextArticleById(articleId);
 		model.addAttribute("article", article);
+		model.addAttribute("prevArticle", prevArticle);
+		model.addAttribute("nextArticle", nextArticle);
 		return "article";
 	}
 
