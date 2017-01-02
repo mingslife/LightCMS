@@ -47,15 +47,15 @@ $("#search-menu").click(function(e){
 	// Ming Pager
 	$(".pager .more").click(function() {
 		var thisElement = $(this);
-		var inputElement = thisElement.parent().find("input[type=text]");
+		var inputElement = thisElement.parent().find("input[type='text']");
 		var blankElement = thisElement.parent().find(".more-blank");
 		if (thisElement.attr("status") === "on") {
-			if (inputElement.val()) {
+			if ($.trim(inputElement.val())) {
 				$(this).parent().submit();
 			} else {
 				inputElement.css({opacity: "0"});
 				setTimeout(function() {
-					inputElement.css("display", "none");
+					inputElement.css("display", "none").val("");
 				}, 500);
 				blankElement.css("width", "36px");
 				thisElement.text("…").css("margin-left", "0").attr("status", "off");
@@ -67,7 +67,15 @@ $("#search-menu").click(function(e){
 //			inputElement.css({left: (left - 120) + "px", top: top + "px"}).show();
 			inputElement.css({display: "inline-block", opacity: "1"});
 			blankElement.css("width", "0");
-			thisElement.text("→").css("margin-left", "-80px").attr("status", "on");
+//			thisElement.text("→").css("margin-left", "-80px").attr("status", "on");
+			thisElement.text("×").css("margin-left", "-80px").attr("status", "on");
+		}
+	});
+	$(".pager input[type='text']").on("keyup", function() {
+		if ($.trim($(this).val())) {
+			$(".pager .more").text("→");
+		} else {
+			$(".pager .more").text("×");
 		}
 	});
 	
