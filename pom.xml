@@ -263,6 +263,16 @@
       <artifactId>htmlparser</artifactId>
       <version>2.1</version>
     </dependency>
+    <dependency>
+      <groupId>org.json</groupId>
+      <artifactId>json</artifactId>
+      <version>20160810</version>
+    </dependency>
+    <dependency>
+      <groupId>cn.songxinqiang</groupId>
+      <artifactId>com.baidu.ueditor</artifactId>
+      <version>1.1.2-offical</version>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
