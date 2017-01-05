@@ -8,6 +8,7 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Scanner;
 
 public class CodeGenerator {
 	protected static class ClassField {
@@ -798,7 +799,7 @@ public class CodeGenerator {
 		}
 	}
 	
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		final String projectPath = "E:/Workspaces/MyEclipse 2015 CI/LightCMS";
 		final String javaPath = "src/main/java";
 		final String modelPackage = "com.mingslife.model";
@@ -811,6 +812,33 @@ public class CodeGenerator {
 		
 		String targetClassName = "Image";
 		String tableName = "images";
+		String entityId = "id";
+		
+		Generator generator = new Generator(projectPath, javaPath, modelPackage, mappingPackage, daoPackage, servicePackage, serviceImplPackage, controllerPackage, dtoPackage, targetClassName, tableName, entityId);
+		generator.generateMapperFile();
+		generator.generateDaoFile();
+		generator.generateServiceFile();
+		generator.generateServiceImplFile();
+		generator.generateControllerFile();
+		generator.generateDtoFile();
+	}*/
+	
+	public static void main(String[] args) {
+		final String projectPath = "E:/Workspaces/MyEclipse 2015 CI/LightCMS";
+		final String javaPath = "src/main/java";
+		final String modelPackage = "com.mingslife.model";
+		final String mappingPackage = "com.mingslife.mapping";
+		final String daoPackage = "com.mingslife.dao";
+		final String servicePackage = "com.mingslife.service";
+		final String serviceImplPackage = "com.mingslife.service.impl";
+		final String controllerPackage = "com.mingslife.controller";
+		final String dtoPackage = "com.mingslife.dto";
+		
+		Scanner input = new Scanner(System.in);
+		System.out.print("Input class name: ");
+		String targetClassName = input.nextLine();
+		System.out.print("Input table name: ");
+		String tableName = input.nextLine();
 		String entityId = "id";
 		
 		Generator generator = new Generator(projectPath, javaPath, modelPackage, mappingPackage, daoPackage, servicePackage, serviceImplPackage, controllerPackage, dtoPackage, targetClassName, tableName, entityId);
