@@ -7,14 +7,16 @@
     <result column="parent_id" property="parentId" jdbcType="INTEGER" />
     <result column="position" property="position" jdbcType="INTEGER" />
     <result column="icon" property="icon" jdbcType="VARCHAR" />
+    <result column="is_visible" property="isVisible" jdbcType="BIT" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
     <result column="create_operator" property="createOperator" jdbcType="INTEGER" />
     <result column="update_operator" property="updateOperator" jdbcType="INTEGER" />
   </resultMap>
   <sql id="BaseColumnList">
-    id, name, parent_id, position, icon, create_date,
-    update_date, create_operator, update_operator
+    id, name, parent_id, position, icon, is_visible,
+    url, create_date, update_date, create_operator, update_operator
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
     select
@@ -28,14 +30,14 @@
   <insert id="insert" parameterType="com.mingslife.model.Menu" useGeneratedKeys="true" keyProperty="id">
     insert into menus (
       id, name, parent_id,
-      position, icon, create_date,
-      update_date, create_operator, update_operator,
-    
+      position, icon, is_visible,
+      url, create_date, update_date,
+      create_operator, update_operator
     ) values (
       #{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER},
-      #{position,jdbcType=INTEGER}, #{icon,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP},
-      #{updateDate,jdbcType=TIMESTAMP}, #{createOperator,jdbcType=INTEGER}, #{updateOperator,jdbcType=INTEGER},
-    
+      #{position,jdbcType=INTEGER}, #{icon,jdbcType=VARCHAR}, #{isVisible,jdbcType=BIT},
+      #{url,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP},
+      #{createOperator,jdbcType=INTEGER}, #{updateOperator,jdbcType=INTEGER}
     )
   </insert>
   <insert id="insertSelective" parameterType="com.mingslife.model.Menu">
@@ -55,6 +57,12 @@
       </if>
       <if test="icon != null">
         icon,
+      </if>
+      <if test="isVisible != null">
+        is_visible,
+      </if>
+      <if test="url != null">
+        url,
       </if>
       <if test="createDate != null">
         create_date,
@@ -85,6 +93,12 @@
       <if test="icon != null">
         #{icon,jdbcType=VARCHAR},
       </if>
+      <if test="isVisible != null">
+        #{isVisible,jdbcType=BIT},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
       <if test="createDate != null">
         #{createDate,jdbcType=TIMESTAMP},
       </if>
@@ -114,6 +128,12 @@
       <if test="icon != null">
         icon = #{icon,jdbcType=VARCHAR},
       </if>
+      <if test="isVisible != null">
+        is_visible = #{isVisible,jdbcType=BIT},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
       <if test="createDate != null">
         create_date = #{createDate,jdbcType=TIMESTAMP},
       </if>
@@ -136,6 +156,8 @@
       parent_id = #{parentId,jdbcType=INTEGER},
       position = #{position,jdbcType=INTEGER},
       icon = #{icon,jdbcType=VARCHAR},
+      is_visible = #{isVisible,jdbcType=BIT},
+      url = #{url,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=TIMESTAMP},
       update_date = #{updateDate,jdbcType=TIMESTAMP},
       create_operator = #{createOperator,jdbcType=INTEGER},

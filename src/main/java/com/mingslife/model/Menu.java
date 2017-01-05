@@ -16,6 +16,8 @@ public class Menu implements Serializable {
 	private Integer parentId;
 	private Integer position;
 	private String icon;
+	private Boolean isVisible;
+	private String url;
 	@CreationTimestamp
 	private Date createDate;
 	@UpdateTimestamp
@@ -63,6 +65,22 @@ public class Menu implements Serializable {
 
 	public void setIcon(String icon) {
 		this.icon = icon;
+	}
+
+	public Boolean getIsVisible() {
+		return isVisible;
+	}
+
+	public void setIsVisible(Boolean isVisible) {
+		this.isVisible = isVisible;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 	public Date getCreateDate() {
