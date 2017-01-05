@@ -29,12 +29,22 @@
 			<div class="modal-body">
 				<form name="menuForm">
 					<div class="form-group" data-ng-class="{true: 'has-error'}[menu.name != null && menuForm.name.$invalid]">
-						<label class="control-label" for="menu-name">菜单名称 <span class="text-danger">*</span></label>
+						<label class="control-label" for="menu-name">名称 <span class="text-danger">*</span></label>
 						<input type="text" class="form-control" id="menu-name" name="name" data-ng-model="menu.name" placeholder="{{tips.menu.name}}" maxlength="20" required />
 						<p class="help-block" data-ng-show="menu.name != null && menuForm.name.$invalid" data-ng-init="tips.menu.name = '必填'" data-ng-bind="tips.menu.name"></p>
 					</div>
+					<div class="form-group" data-ng-class="{true: 'has-error'}[menu.url != null && menuForm.url.$invalid]">
+						<label class="control-label" for="menu-url">链接 <span class="text-danger">*</span></label>
+						<input type="text" class="form-control" id="menu-url" name="url" data-ng-model="menu.url" placeholder="{{tips.menu.url}}" maxlength="255" required />
+						<p class="help-block" data-ng-show="menu.url != null && menuForm.url.$invalid" data-ng-init="tips.menu.url = '必填'" data-ng-bind="tips.menu.url"></p>
+					</div>
+					<div class="form-group" data-ng-class="{true: 'has-error'}[menu.isVisible != null && menuForm.isVisible.$invalid]">
+						<label class="control-label" for="menu-is-visible">是否可见 <span class="text-danger">*</span></label>
+						<select class="form-control" id="menu-is-visible" name="isVisible" data-ng-model="menu.isVisible" data-ng-options="option.value as option.key for option in defaults.IS_VISIBLE" data-required></select>
+						<p class="help-block" data-ng-show="menu.isVisible != null && menuForm.isVisible.$invalid" data-ng-init="tips.menu.isVisible = '必填'" data-ng-bind="tips.menu.isVisible"></p>
+					</div>
 					<div class="form-group" data-ng-class="{true: 'has-error'}[menu.position != null && menuForm.position.$invalid]">
-						<label class="control-label" for="menu-position">排序 <span class="text-danger">*</span></label>
+						<label class="control-label" for="menu-position">位置 <span class="text-danger">*</span></label>
 						<input type="number" class="form-control" id="menu-position" name="position" data-ng-model="menu.position" placeholder="{{tips.menu.position}}" maxlength="10" required />
 						<p class="help-block" data-ng-show="menu.position != null && menuForm.position.$invalid" data-ng-init="tips.menu.position = '必填'" data-ng-bind="tips.menu.position"></p>
 					</div>
@@ -42,16 +52,6 @@
 						<label class="control-label" for="menu-icon">图标</label>
 						<input type="text" class="form-control" id="menu-icon" name="icon" data-ng-model="menu.icon" placeholder="{{tips.menu.icon}}" maxlength="" />
 						<p class="help-block" data-ng-show="menu.icon != null && menuForm.icon.$invalid" data-ng-init="tips.menu.icon = ''" data-ng-bind="tips.menu.icon"></p>
-					</div>
-					<div class="form-group" data-ng-class="{true: 'has-error'}[menu.isVisible != null && menuForm.isVisible.$invalid]">
-						<label class="control-label" for="menu-is-visible">是否可见 <span class="text-danger">*</span></label>
-						<select class="form-control" id="menu-is-visible" name="isVisible" data-ng-model="menu.isVisible" data-ng-options="option.value as option.key for option in defaults.IS_VISIBLE" data-required></select>
-						<p class="help-block" data-ng-show="menu.isVisible != null && menuForm.isVisible.$invalid" data-ng-init="tips.menu.isVisible = '必填'" data-ng-bind="tips.menu.isVisible"></p>
-					</div>
-					<div class="form-group" data-ng-class="{true: 'has-error'}[menu.url != null && menuForm.url.$invalid]">
-						<label class="control-label" for="menu-url">链接 <span class="text-danger">*</span></label>
-						<input type="text" class="form-control" id="menu-url" name="url" data-ng-model="menu.url" placeholder="{{tips.menu.url}}" maxlength="255" required />
-						<p class="help-block" data-ng-show="menu.url != null && menuForm.url.$invalid" data-ng-init="tips.menu.url = '必填'" data-ng-bind="tips.menu.url"></p>
 					</div>
 				</form>
 			</div>

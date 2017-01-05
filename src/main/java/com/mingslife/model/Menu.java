@@ -13,11 +13,11 @@ public class Menu implements Serializable {
 
 	private Integer id;
 	private String name;
-	private Integer parentId;
+	private String url;
+	private Boolean isVisible;
 	private Integer position;
 	private String icon;
-	private Boolean isVisible;
-	private String url;
+	private Integer parentId;
 	@CreationTimestamp
 	private Date createDate;
 	@UpdateTimestamp
@@ -43,12 +43,20 @@ public class Menu implements Serializable {
 		this.name = name;
 	}
 
-	public Integer getParentId() {
-		return parentId;
+	public String getUrl() {
+		return url;
 	}
 
-	public void setParentId(Integer parentId) {
-		this.parentId = parentId;
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public Boolean getIsVisible() {
+		return isVisible;
+	}
+
+	public void setIsVisible(Boolean isVisible) {
+		this.isVisible = isVisible;
 	}
 
 	public Integer getPosition() {
@@ -67,20 +75,12 @@ public class Menu implements Serializable {
 		this.icon = icon;
 	}
 
-	public Boolean getIsVisible() {
-		return isVisible;
+	public Integer getParentId() {
+		return parentId;
 	}
 
-	public void setIsVisible(Boolean isVisible) {
-		this.isVisible = isVisible;
-	}
-
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
+	public void setParentId(Integer parentId) {
+		this.parentId = parentId;
 	}
 
 	public Date getCreateDate() {
