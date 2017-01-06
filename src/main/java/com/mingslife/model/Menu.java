@@ -14,8 +14,8 @@ public class Menu implements Serializable {
 	private Integer id;
 	private String name;
 	private String url;
-	private Boolean isVisible;
 	private Integer position;
+	private Boolean isVisible;
 	private String icon;
 	private Integer parentId;
 	@CreationTimestamp
@@ -51,20 +51,20 @@ public class Menu implements Serializable {
 		this.url = url;
 	}
 
-	public Boolean getIsVisible() {
-		return isVisible;
-	}
-
-	public void setIsVisible(Boolean isVisible) {
-		this.isVisible = isVisible;
-	}
-
 	public Integer getPosition() {
 		return position;
 	}
 
 	public void setPosition(Integer position) {
 		this.position = position;
+	}
+
+	public Boolean getIsVisible() {
+		return isVisible;
+	}
+
+	public void setIsVisible(Boolean isVisible) {
+		this.isVisible = isVisible;
 	}
 
 	public String getIcon() {

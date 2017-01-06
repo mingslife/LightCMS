@@ -5,8 +5,8 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="url" property="url" jdbcType="VARCHAR" />
-    <result column="is_visible" property="isVisible" jdbcType="BIT" />
     <result column="position" property="position" jdbcType="INTEGER" />
+    <result column="is_visible" property="isVisible" jdbcType="BIT" />
     <result column="icon" property="icon" jdbcType="VARCHAR" />
     <result column="parent_id" property="parentId" jdbcType="INTEGER" />
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
@@ -15,7 +15,7 @@
     <result column="update_operator" property="updateOperator" jdbcType="INTEGER" />
   </resultMap>
   <sql id="BaseColumnList">
-    id, name, url, is_visible, position, icon,
+    id, name, url, position, is_visible, icon,
     parent_id, create_date, update_date, create_operator, update_operator
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
@@ -30,12 +30,12 @@
   <insert id="insert" parameterType="com.mingslife.model.Menu" useGeneratedKeys="true" keyProperty="id">
     insert into menus (
       id, name, url,
-      is_visible, position, icon,
+      position, is_visible, icon,
       parent_id, create_date, update_date,
       create_operator, update_operator
     ) values (
       #{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR},
-      #{isVisible,jdbcType=BIT}, #{position,jdbcType=INTEGER}, #{icon,jdbcType=VARCHAR},
+      #{position,jdbcType=INTEGER}, #{isVisible,jdbcType=BIT}, #{icon,jdbcType=VARCHAR},
       #{parentId,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP},
       #{createOperator,jdbcType=INTEGER}, #{updateOperator,jdbcType=INTEGER}
     )
@@ -52,11 +52,11 @@
       <if test="url != null">
         url,
       </if>
-      <if test="isVisible != null">
-        is_visible,
-      </if>
       <if test="position != null">
         position,
+      </if>
+      <if test="isVisible != null">
+        is_visible,
       </if>
       <if test="icon != null">
         icon,
@@ -87,11 +87,11 @@
       <if test="url != null">
         #{url,jdbcType=VARCHAR},
       </if>
-      <if test="isVisible != null">
-        #{isVisible,jdbcType=BIT},
-      </if>
       <if test="position != null">
         #{position,jdbcType=INTEGER},
+      </if>
+      <if test="isVisible != null">
+        #{isVisible,jdbcType=BIT},
       </if>
       <if test="icon != null">
         #{icon,jdbcType=VARCHAR},
@@ -122,11 +122,11 @@
       <if test="url != null">
         url = #{url,jdbcType=VARCHAR},
       </if>
-      <if test="isVisible != null">
-        is_visible = #{isVisible,jdbcType=BIT},
-      </if>
       <if test="position != null">
         position = #{position,jdbcType=INTEGER},
+      </if>
+      <if test="isVisible != null">
+        is_visible = #{isVisible,jdbcType=BIT},
       </if>
       <if test="icon != null">
         icon = #{icon,jdbcType=VARCHAR},
@@ -154,8 +154,8 @@
     set
       name = #{name,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
-      is_visible = #{isVisible,jdbcType=BIT},
       position = #{position,jdbcType=INTEGER},
+      is_visible = #{isVisible,jdbcType=BIT},
       icon = #{icon,jdbcType=VARCHAR},
       parent_id = #{parentId,jdbcType=INTEGER},
       create_date = #{createDate,jdbcType=TIMESTAMP},
