@@ -68,4 +68,13 @@ public class SystemController extends BaseController {
 		
 		return jsonMap;
 	}
+	
+//	@Permission
+	@ResponseBody
+	@RequestMapping(value = "/menu", method = RequestMethod.GET)
+	public Map<String, Object> menu() {
+		Map<String, Object> jsonMap = new HashMap<String, Object>();
+		
+		return jsonMap;
+	}
 }
