@@ -38,7 +38,7 @@ public class MenuController extends BaseController {
 	public Map<String, Object> list(@RequestParam(value = "page", defaultValue = "1") int page) {
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
 		
-		List<Menu> menus = menuService.load(new String[] {"id"}, "id", "asc", page, LIMIT);
+		List<Menu> menus = menuService.load(new String[] {"id", "name", "url", "position", "is_visible", "icon"}, "id", "asc", page, LIMIT);
 		long count = menuService.count();
 		
 		jsonMap.put("rows", menus);
@@ -50,7 +50,7 @@ public class MenuController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public Menu show(@PathVariable("id") Integer id) {
-		Menu menu = menuService.find(id, new String[] {"id"});
+		Menu menu = menuService.find(id, new String[] {"id", "name", "url", "position", "is_visible", "icon"});
 		return menu;
 	}
 
