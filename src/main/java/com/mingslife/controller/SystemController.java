@@ -1,6 +1,8 @@
 package com.mingslife.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -13,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mingslife.dto.SystemLoginDTO;
+import com.mingslife.model.Menu;
 import com.mingslife.model.User;
+import com.mingslife.service.IMenuService;
 import com.mingslife.service.IUserService;
 import com.mingslife.web.annotation.Permission;
 import com.mingslife.web.component.UserManager;
@@ -29,6 +33,8 @@ public class SystemController extends BaseController {
 	
 	@Autowired
 	private IUserService userService;
+	@Autowired
+	private IMenuService menuService;
 	
 	@ResponseBody
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -74,6 +80,20 @@ public class SystemController extends BaseController {
 	@RequestMapping(value = "/menu", method = RequestMethod.GET)
 	public Map<String, Object> menu() {
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
+		
+		Integer roleId = 1;
+		List<Map<String, Object>> menus = new ArrayList<Map<String, Object>>();
+		List<Menu> parents = menuService.loadParentsByRoleId(roleId);
+		for (Menu parent : parents) {
+			Map<String, Object> menu = new HashMap<String, Object>();
+			List<Menu> children = menuService.loadChildrenByParentIdAndRoleId(parent.getId(), roleId);
+			menu.put("data", parent);
+			menu.put("children", children);
+			menu.put("hasChildren", children != null && children.size() > 0);
+			System.out.println(children != null && children.size() > 0);
+			menus.add(menu);
+		}
+		jsonMap.put("menus", menus);
 		
 		return jsonMap;
 	}

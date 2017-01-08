@@ -35,4 +35,7 @@ public interface IMenuService {
 	double sum(String parameter, String condition, Object[] values, int curPage, int limit);
 	double sum(String parameter, String condition, Object[] values, String order, String sort, int curPage, int limit);
 	double sum(String parameter, String condition, Object[] values, String order, String sort, int curPage, int limit, boolean isDistinct);
+
+	List<Menu> loadParentsByRoleId(Integer roleId);
+	List<Menu> loadChildrenByParentIdAndRoleId(Integer parentId, Integer roleId);
 }

@@ -164,4 +164,14 @@ public class MenuService implements IMenuService {
 	public double sum(String parameter, String condition, Object[] values, String order, String sort, int curPage, int limit, boolean isDistinct) {
 		return menuMapper.sum(parameter, SQLUtil.fillCondition(condition, values), order, sort, SQLUtil.getOffset(curPage, limit), limit, isDistinct);
 	}
+
+	@Override
+	public List<Menu> loadParentsByRoleId(Integer roleId) {
+		return menuMapper.loadParentsByRoleId(roleId);
+	}
+
+	@Override
+	public List<Menu> loadChildrenByParentIdAndRoleId(Integer parentId, Integer roleId) {
+		return menuMapper.loadChildrenByParentIdAndRoleId(parentId, roleId);
+	}
 }

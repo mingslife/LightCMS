@@ -218,4 +218,10 @@
   <select id="find" resultMap="BaseResultMap" parameterType="java.lang.Integer">
     select ${parameters} from menus where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="loadParentsByRoleId" resultMap="BaseResultMap">
+    select id, name, url, position, icon, parent_id from menus where parent_id is null and is_visible = 1 and id in (select menu_id from role_menus where role_id = #{roleId,jdbcType=INTEGER} and is_active = 1)
+  </select>
+  <select id="loadChildrenByParentIdAndRoleId" resultMap="BaseResultMap">
+    select id, name, url, position, icon, parent_id from menus where parent_id = #{parentId,jdbcType=INTEGER} and is_visible = 1 and id in (select menu_id from role_menus where role_id = #{roleId,jdbcType=INTEGER} and is_active = 1)
+  </select>
 </mapper>

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.mingslife.dto.MenuDTO;
 import com.mingslife.model.Menu;
 import com.mingslife.service.IMenuService;
+import com.mingslife.service.IRoleMenuService;
 import com.mingslife.web.controller.BaseController;
 
 @Controller
@@ -26,6 +27,8 @@ import com.mingslife.web.controller.BaseController;
 public class MenuController extends BaseController {
 	@Autowired
 	private IMenuService menuService;
+	@Autowired
+	private IRoleMenuService roleMenuService;
 
 	public String index(@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
 		List<Menu> menus = menuService.load(new String[] {"id"}, "id", "asc", page, LIMIT);
