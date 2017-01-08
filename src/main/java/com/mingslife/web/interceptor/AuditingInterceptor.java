@@ -16,10 +16,10 @@ import org.apache.ibatis.plugin.Invocation;
 import org.apache.ibatis.plugin.Plugin;
 import org.apache.ibatis.plugin.Signature;
 
-import com.mingslife.web.annotation.CreationOperator;
-import com.mingslife.web.annotation.CreationTimestamp;
+import com.mingslife.web.annotation.CreateOperator;
+import com.mingslife.web.annotation.CreateDate;
 import com.mingslife.web.annotation.UpdateOperator;
-import com.mingslife.web.annotation.UpdateTimestamp;
+import com.mingslife.web.annotation.UpdateDate;
 
 @Intercepts({@Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class})})
 public class AuditingInterceptor implements Interceptor {
@@ -37,8 +37,8 @@ public class AuditingInterceptor implements Interceptor {
 			Integer userId = 1;
 			
 			Object object = invocation.getArgs()[1];
-			doInjection(object, CreationTimestamp.class, now);
-			doInjection(object, CreationOperator.class, userId);
+			doInjection(object, CreateDate.class, now);
+			doInjection(object, CreateOperator.class, userId);
 		} else if (SqlCommandType.UPDATE == sqlCommandType) {
 //			System.out.println("UPDATE!!");
 			Date now = new Date();
@@ -47,7 +47,7 @@ public class AuditingInterceptor implements Interceptor {
 			Integer userId = 1;
 			
 			Object object = invocation.getArgs()[1];
-			doInjection(object, UpdateTimestamp.class, now);
+			doInjection(object, UpdateDate.class, now);
 			doInjection(object, UpdateOperator.class, userId);
 		}
 		return invocation.proceed();

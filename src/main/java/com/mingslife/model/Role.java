@@ -3,10 +3,10 @@ package com.mingslife.model;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.mingslife.web.annotation.CreationOperator;
-import com.mingslife.web.annotation.CreationTimestamp;
+import com.mingslife.web.annotation.CreateOperator;
+import com.mingslife.web.annotation.CreateDate;
 import com.mingslife.web.annotation.UpdateOperator;
-import com.mingslife.web.annotation.UpdateTimestamp;
+import com.mingslife.web.annotation.UpdateDate;
 
 public class Role implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -14,11 +14,11 @@ public class Role implements Serializable {
 	private Integer id;
 	private String roleName;
 	private Boolean isActive;
-	@CreationTimestamp
+	@CreateDate
 	private Date createDate;
-	@UpdateTimestamp
+	@UpdateDate
 	private Date updateDate;
-	@CreationOperator
+	@CreateOperator
 	private Integer createOperator;
 	@UpdateOperator
 	private Integer updateOperator;

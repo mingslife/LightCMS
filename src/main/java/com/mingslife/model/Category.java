@@ -4,10 +4,10 @@ import java.io.Serializable;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.mingslife.web.annotation.CreationOperator;
-import com.mingslife.web.annotation.CreationTimestamp;
+import com.mingslife.web.annotation.CreateOperator;
+import com.mingslife.web.annotation.CreateDate;
 import com.mingslife.web.annotation.UpdateOperator;
-import com.mingslife.web.annotation.UpdateTimestamp;
+import com.mingslife.web.annotation.UpdateDate;
 
 public class Category implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -17,13 +17,13 @@ public class Category implements Serializable {
 	private Integer position;
 	private Boolean isVisible;
 	@JsonIgnore
-	@CreationTimestamp
+	@CreateDate
 	private Date createDate;
 	@JsonIgnore
-	@UpdateTimestamp
+	@UpdateDate
 	private Date updateDate;
 	@JsonIgnore
-	@CreationOperator
+	@CreateOperator
 	private Integer createOperator;
 	@JsonIgnore
 	@UpdateOperator
