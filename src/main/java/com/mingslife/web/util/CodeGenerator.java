@@ -106,17 +106,17 @@ public class CodeGenerator {
 		
 		private String projectPath;
 		private String javaPath;
-		private String modelPackage;
-		private String mappingPackage;
-		private String daoPackage;
-		private String servicePackage;
-		private String serviceImplPackage;
-		private String controllerPackage;
-		private String dtoPackage;
-		private String targetClassName;
-		private String tableName;
-		private String entityId;
-		private String recordName;
+		private String modelPackage;			// com.mingslife.model
+		private String mappingPackage;			// com.mingslife.mapping
+		private String daoPackage;				// com.mingslife.dao
+		private String servicePackage;			// com.mingslife.servivce
+		private String serviceImplPackage;		// com.mingslife.service.impl
+		private String controllerPackage;		// com.mingslife.controller
+		private String dtoPackage;				// com.mingslife.dto
+		private String targetClassName;			// CodeGenerator
+		private String tableName;				// code_generators
+		private String entityId;				// id
+		private String recordName;				// codeGenerator
 		
 		private Class<?> targetClass;
 		private List<ClassField> classFields;
@@ -746,6 +746,67 @@ public class CodeGenerator {
 				e.printStackTrace();
 				return false;
 			}
+		}
+		
+		public boolean generateListFile() {
+			StringBuilder result = new StringBuilder();
+			
+			result.append("<div class=\"row\">" + CRLF);
+			result.append("\t<ol class=\"breadcrumb\">" + CRLF);
+			result.append("\t\t<li><a href=\"#/\"><span class=\"fa fa-home\"></span></a></li>" + CRLF);
+			result.append("\t\t<li class=\"active\">" + targetClassName + "管理</li>" + CRLF);
+			result.append("\t</ol>" + CRLF);
+			result.append("</div>" + CRLF);
+			result.append(CRLF);
+			result.append("<div class=\"row\">" + CRLF);
+			result.append("\t<div class=\"col-lg-12\">" + CRLF);
+			result.append("\t\t<div class=\"panel panel-default\">" + CRLF);
+			result.append("\t\t\t<div class=\"panel-body\">" + CRLF);
+			result.append("\t\t\t\t<div class=\"btn-group pull-left\" id=\"category-toolbar\">" + CRLF);
+			result.append("\t\t\t\t\t<button type=\"button\" class=\"btn btn-default\" title=\"新增\" onclick=\"app.scopes.categoryScope.newRecord()\"><span class=\"fa fa-plus\"></span></button>" + CRLF);
+			result.append("\t\t\t\t\t<button type=\"button\" class=\"btn btn-default\" title=\"删除\" onclick=\"app.scopes.categoryScope.deleteRecords()\"><span class=\"fa fa-trash\"></span></button>" + CRLF);
+			result.append("\t\t\t\t</div>" + CRLF);
+			result.append("\t\t\t\t<table id=\"category-table\"></table>" + CRLF);
+			result.append("\t\t\t</div>" + CRLF);
+			result.append("\t\t</div>" + CRLF);
+			result.append("\t</div>" + CRLF);
+			result.append("</div>" + CRLF);
+			result.append(CRLF);
+			result.append("<div class=\"modal fade\" id=\"category-modal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"category-modal-label\" aria-hidden=\"true\" data-backdrop=\"static\">" + CRLF);
+			result.append("\t<div class=\"modal-dialog\">" + CRLF);
+			result.append("\t\t<div class=\"modal-content\">" + CRLF);
+			result.append("\t\t\t<div class=\"modal-header\">" + CRLF);
+			result.append("\t\t\t\t<button type=\"button\" class=\"close\" data-dismiss=\"modal\"><span aria-hidden=\"true\">&times;</span><span class=\"sr-only\">关闭</span></button>" + CRLF);
+			result.append("\t\t\t\t<h4 class=\"modal-title\" id=\"category-modal-label\" data-ng-bind=\"category.id == null ? '新增" + targetClassName + "' : '编辑" + targetClassName + "'\"></h4>" + CRLF);
+			result.append("\t\t\t</div>" + CRLF);
+			result.append("\t\t\t<div class=\"modal-body\">" + CRLF);
+			result.append("\t\t\t\t<form name=\"categoryForm\">" + CRLF);
+			result.append("\t\t\t\t\t<div class=\"form-group\" data-ng-class=\"{true: 'has-error'}[category.categoryName != null && categoryForm.categoryName.$invalid]\">" + CRLF);
+			result.append("\t\t\t\t\t\t<label class=\"control-label\" for=\"category-category-name\">分类名称 <span class=\"text-danger\">*</span></label>" + CRLF);
+			result.append("\t\t\t\t\t\t<input type=\"text\" class=\"form-control\" id=\"category-category-name\" name=\"categoryName\" data-ng-model=\"category.categoryName\" placeholder=\"{{tips.category.categoryName}}\" maxlength=\"20\" required />" + CRLF);
+			result.append("\t\t\t\t\t\t<p class=\"help-block\" data-ng-show=\"category.categoryName != null && categoryForm.categoryName.$invalid\" data-ng-init=\"tips.category.categoryName = '必填'\" data-ng-bind=\"tips.category.categoryName\"></p>" + CRLF);
+			result.append("\t\t\t\t\t</div>" + CRLF);
+			result.append("\t\t\t\t</form>" + CRLF);
+			result.append("\t\t\t</div>" + CRLF);
+			result.append("\t\t\t<div class=\"modal-footer\">" + CRLF);
+			result.append("\t\t\t\t<button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">取消</button>" + CRLF);
+			result.append("\t\t\t\t<button type=\"button\" class=\"btn btn-primary\" data-ng-click=\"saveRecord()\" data-ng-disabled=\"categoryForm.$invalid || $scope.lock\">保存</button>" + CRLF);
+			result.append("\t\t\t</div>" + CRLF);
+			result.append("\t\t</div>" + CRLF);
+			result.append("\t</div>" + CRLF);
+			result.append("</div>");
+			
+			System.out.println(result);
+			
+			return true;
+		}
+		
+		public boolean generateFormFile() {
+			return true;
+		}
+		
+		public boolean generateJsFile() {
+			return true;
 		}
 		
 		private boolean init() {
