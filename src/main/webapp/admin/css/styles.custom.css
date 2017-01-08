@@ -4,6 +4,14 @@ body {
 	font-family: "Segoe UI Emoji","Segoe UI Symbol","Segoe UI","Segoe WP","Microsoft YaHei UI","微软雅黑",Tahoma,Arial,Roboto,"Droid Sans","Helvetica Neue","Droid Sans Fallback","Heiti SC","Hiragino Sans GB",Simsun,sans-self;
 }
 
+.nav>li.parent>a {
+	padding: 0;
+}
+.nav>li.parent>a>span {
+	display: block;
+	padding: 10px 15px;
+}
+
 .modal-content {
 	border: none;
 	/* -webkit-box-shadow: none;

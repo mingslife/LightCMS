@@ -54,10 +54,30 @@
 			</div>
 		</form>
 		<ul class="nav menu">
-			<li class="active"><a href="index.html"><span class="fa fa-home"></span> 首页</a></li>
+			<!-- <li class="active"><a href="index.html"><span class="fa fa-home"></span> 首页</a></li>
 			<li><a href="#/category"><span class="fa fa-archive"></span> 分类管理</a></li>
-			<li><a href="#/article"><span class="fa fa-file-text"></span> 文章管理</a></li>
-			<li role="presentation" class="divider"></li>
+			<li><a href="#/article"><span class="fa fa-file-text"></span> 文章管理</a></li> -->
+			<li data-ng-repeat="menu in menus" data-ng-class="menu.hasChildren ? 'parent' : isCurrentMenu(menu.data.url) ? 'active' : ''">
+				<a data-ng-href="{{menu.data.url}}" data-ng-if="!menu.hasChildren">
+					<span data-ng-class="'fa fa-' + menu.data.icon"></span>
+					<span data-ng-bind="menu.data.name"></span>
+				</a>
+				<a href="javascript:;" data-ng-if="menu.hasChildren">
+					<span data-toggle="collapse" data-ng-href="{{'#' + $index}}" data-ng-if="menu.hasChildren">
+						<span data-ng-class="'fa fa-' + menu.data.icon"></span>
+						<span data-ng-bind="menu.data.name"></span>
+					</span>
+				</a>
+				<ul class="children collapse" id="{{$index}}" data-ng-if="menu.hasChildren">
+					<li data-ng-repeat="child in menu.children" data-ng-class="{true: 'active'}[isCurrentMenu(child.url)]">
+						<a data-ng-href="{{child.url}}">
+							<span data-ng-class="'fa fa-' + child.icon"></span>
+							<span data-ng-bind="child.name"></span>
+						</a>
+					</li>
+				</ul>
+			</li>
+			<!-- <li role="presentation" class="divider"></li>
 			<li class="parent ">
 				<a href="javascript:;">
 					<span data-toggle="collapse" href="#sub-item-1"><span class="fa fa-cog"></span> 基础管理</span> 
@@ -79,7 +99,7 @@
 						</a>
 					</li>
 				</ul>
-			</li>
+			</li> -->
 		</ul>
 	</div><!--/.sidebar-->
 		

@@ -60,7 +60,24 @@ app.service("service", function($http, $q) {
 		return defer.promise;
 	};
 });
-app.controller("controller", function($scope) {});
+app.service("mainService", function(service) {
+	this.loadMenu = function() {
+		return service.ajax("GET", "system/menu.do", null);
+	};
+});
+app.controller("controller", function($scope, $location, mainService) {
+	$scope.loadMenu = function() {
+		mainService.loadMenu().then(function(data) {
+			$scope.menus = data.menus;
+		});
+	};
+	$scope.isCurrentMenu = function(url) {
+		return url === "#" + $location.path();
+	};
+	console.info($location.path());
+	
+	$scope.loadMenu();
+});
 
 $(function() {
 	if (window.bootbox) {
