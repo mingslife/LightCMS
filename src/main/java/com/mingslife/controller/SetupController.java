@@ -13,6 +13,11 @@ import com.mingslife.web.controller.BaseController;
 @Controller
 @RequestMapping("/setup")
 public class SetupController extends BaseController {
+	@RequestMapping(value = "", method = RequestMethod.GET)
+	public String index() {
+		return "../system/setup";
+	}
+	
 	@ResponseBody
 	@RequestMapping(value = "/version", method = RequestMethod.GET)
 	public Map<String, Object> version() {
