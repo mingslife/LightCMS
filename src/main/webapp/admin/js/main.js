@@ -9,6 +9,10 @@ app.config(function($routeProvider) {
 			templateUrl: "view/home.html",
 			controller: "homeController"
 		})
+		.when("/developer", {
+			templateUrl: "view/system/developer.html",
+			controller: "systemController"
+		})
 		.when("/menu", {
 			templateUrl: "view/menu/list.html",
 			controller: "menuController"
