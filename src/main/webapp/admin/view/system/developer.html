@@ -7,16 +7,46 @@
 
 <div class="row">
 	<div class="col-lg-12">
-		<button type="button" class="btn btn-default" data-toggle="modal" data-target="#model-modal">创建Model</button>
+		<div class="list-group">
+			<button type="button" class="list-group-item" data-toggle="modal" data-target="#model-modal">创建Model</button>
+			<button type="button" class="list-group-item" data-toggle="modal" data-target="#command-modal">命令行</button>
+		</div>
 	</div>
 </div>
 
-<div class="modal fade" id="model-modal" tabindex="-1" role="dialog" aria-labelledby="modal-modal-label" aria-hidden="true" data-backdrop="static">
+<div class="modal fade" id="model-modal" tabindex="-1" role="dialog" aria-labelledby="model-modal-label" aria-hidden="true" data-backdrop="static">
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<div class="modal-header"></div>
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span></button>
+				<h4 class="modal-title" id="model-modal-label">创建Model</h4>
+			</div>
+			<div class="modal-body">
+				<form name="modelForm">
+					<div class="form-group">
+						<label for="model-name">Model名称</label>
+						<input type="text" class="form-control" id="model-model-name" name="modelName" />
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="command-modal" tabindex="-1" role="dialog" aria-labelledby="command-modal-label" aria-hidden="true" data-backdrop="static">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span></button>
+				<h4 class="modal-title" id="command-modal-label">命令行</h4>
+			</div>
 			<div class="modal-body"></div>
-			<div class="modal-footer"></div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+			</div>
 		</div>
 	</div>
 </div>
