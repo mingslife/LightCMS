@@ -309,12 +309,12 @@ app.controller("articleController", function($scope, $routeParams, articleServic
 				formatter: function(value, row, index) {
 					return Util.enumFormatter($scope.defaults.CAN_COMMENT, value);
 				}
-			}, {
-				field: "hasPassword",
-				title: "是否加密",
-				formatter: function(value, row, index) {
-					return Util.enumFormatter($scope.defaults.HAS_PASSWORD, value);
-				}
+//			}, {
+//				field: "hasPassword",
+//				title: "是否加密",
+//				formatter: function(value, row, index) {
+//					return Util.enumFormatter($scope.defaults.HAS_PASSWORD, value);
+//				}
 			}, {
 				field: "onTop",
 				title: "是否置顶",

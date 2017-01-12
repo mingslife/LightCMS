@@ -1,0 +1,54 @@
+<div class="row">
+	<ol class="breadcrumb">
+		<li><a href="#/"><span class="fa fa-home"></span></a></li>
+		<li class="active">分类管理</li>
+	</ol>
+</div>
+
+<div class="row">
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<div class="btn-group pull-left" id="category-toolbar">
+					<button type="button" class="btn btn-default" title="新增" onclick="app.scopes.categoryScope.newRecord()"><span class="fa fa-plus"></span></button>
+					<button type="button" class="btn btn-default" title="删除" onclick="app.scopes.categoryScope.deleteRecords()"><span class="fa fa-trash"></span></button>
+				</div>
+				<table id="category-table"></table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="category-modal" tabindex="-1" role="dialog" aria-labelledby="category-modal-label" aria-hidden="true" data-backdrop="static">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span></button>
+				<h4 class="modal-title" id="category-modal-label" data-ng-bind="category.id == null ? '新增分类' : '编辑分类'"></h4>
+			</div>
+			<div class="modal-body">
+				<form name="categoryForm">
+					<div class="form-group" data-ng-class="{true: 'has-error'}[category.categoryName != null && categoryForm.categoryName.$invalid]">
+						<label class="control-label" for="category-category-name">分类名称 <span class="text-danger">*</span></label>
+						<input type="text" class="form-control" id="category-category-name" name="categoryName" data-ng-model="category.categoryName" placeholder="{{tips.category.categoryName}}" maxlength="20" required />
+						<p class="help-block" data-ng-show="category.categoryName != null && categoryForm.categoryName.$invalid" data-ng-init="tips.category.categoryName = '必填'" data-ng-bind="tips.category.categoryName"></p>
+					</div>
+					<div class="form-group" data-ng-class="{true: 'has-error'}[category.position != null && categoryForm.position.$invalid]">
+						<label class="control-label" for="category-position">排序 <span class="text-danger">*</span></label>
+						<input type="number" class="form-control" id="category-position" name="position" data-ng-model="category.position" placeholder="{{tips.category.position}}" maxlength="10" required />
+						<p class="help-block" data-ng-show="category.position != null && categoryForm.position.$invalid" data-ng-init="tips.category.position = '必填'" data-ng-bind="tips.category.position"></p>
+					</div>
+					<div class="form-group" data-ng-class="{true: 'has-error'}[category.isVisible != null && categoryForm.isVisible.$invalid]">
+						<label class="control-label" for="category-is-visible">是否可见 <span class="text-danger">*</span></label>
+						<select class="form-control" id="category-is-visible" name="isVisible" data-ng-model="category.isVisible" data-ng-options="option.value as option.key for option in defaults.IS_VISIBLE" data-required></select>
+						<p class="help-block" data-ng-show="category.isVisible != null && categoryForm.isVisible.$invalid" data-ng-init="tips.category.isVisible = '必填'" data-ng-bind="tips.category.isVisible"></p>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				<button type="button" class="btn btn-primary" data-ng-click="saveRecord()" data-ng-disabled="categoryForm.$invalid || $scope.lock">保存</button>
+			</div>
+		</div>
+	</div>
+</div>
