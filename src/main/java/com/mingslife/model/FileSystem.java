@@ -1,6 +1,7 @@
 package com.mingslife.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class FileSystem implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -10,6 +11,8 @@ public class FileSystem implements Serializable {
 	private Long fileSize;
 	private String contentType;
 	private Boolean isDirectory;
+	private Date lastModifiedDate;
+	private String path;
 
 	public Integer getId() {
 		return id;
@@ -49,5 +52,21 @@ public class FileSystem implements Serializable {
 
 	public void setIsDirectory(Boolean isDirectory) {
 		this.isDirectory = isDirectory;
+	}
+
+	public Date getLastModifiedDate() {
+		return lastModifiedDate;
+	}
+
+	public void setLastModifiedDate(Date lastModifiedDate) {
+		this.lastModifiedDate = lastModifiedDate;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
 	}
 }

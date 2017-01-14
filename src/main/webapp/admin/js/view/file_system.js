@@ -128,12 +128,15 @@ app.controller("fileSystemController", function($scope, $routeParams, fileSystem
 					title: "文件名称"
 				}, {
 					field: "fileSize",
-					title: "大小"
+					title: "大小",
+					formatter: function(value, row, index) {
+						return value == null ? null : Util.bytesToSize(value);
+					}
 				}, {
-					field: "lastModified",
+					field: "lastModifiedDate",
 					title: "修改日期",
 					formatter: function(value, row, index) {
-						return Util.enumFormatter($scope.defaults.IS_VISIBLE, value);
+						return moment(value).format("YYYY-MM-DD HH:mm:ss");
 					}
 				}, {
 					field: "id",
