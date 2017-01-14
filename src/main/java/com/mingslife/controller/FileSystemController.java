@@ -32,6 +32,11 @@ public class FileSystemController extends BaseController {
 		String uploadPath = applicationMap.get("uploadPath");
 		File root = new File(uploadPath);
 		File parentFile = new File(root, path);
+		if (!parentFile.equals(root)) {
+			FileSystem fileSystem = FileUtil.toFileSystem(root, parentFile.getParentFile());
+			fileSystem.setFileName("..");
+			fileSystems.add(fileSystem);
+		}
 		File[] files = parentFile.listFiles();
 		for (File file : files) {
 			System.out.println(file.getName() + " " + file.isDirectory() + " " + file.getAbsolutePath());
