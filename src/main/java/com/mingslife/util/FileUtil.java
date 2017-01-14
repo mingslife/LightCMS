@@ -17,11 +17,11 @@ public class FileUtil {
 		fileSystem.setIsDirectory(isDirectory);
 		if (!isDirectory) {
 			fileSystem.setFileSize(file.length());
-		}
-		try {
-			fileSystem.setContentType(Files.probeContentType(file.toPath()));
-		} catch (IOException e) {
-			e.printStackTrace();
+			try {
+				fileSystem.setContentType(Files.probeContentType(file.toPath()));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		return fileSystem;
 	}

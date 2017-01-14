@@ -106,26 +106,29 @@ app.controller("fileSystemController", function($scope, $routeParams, fileSystem
 				url: fileSystemService.loadListUrl,
 				cache: false,
 				striped: false,
-				pagination: true,
-				pageSize: 10,
-				pageList: [10, 20, 30],
-				sidePagination: "server",
+//				pagination: true,
+//				pageSize: 10,
+//				pageList: [10, 20, 30],
+//				sidePagination: "server",
 				showColumns: true,
 				showRefresh: true,
 				showToggle: true,
-				queryParams: function(params) {
-					var _params = {
-						page: params.offset / params.limit + 1,
-						limit: params.limit
-					};
-					return _params;
-				},
+//				queryParams: function(params) {
+//					var _params = {
+//						page: params.offset / params.limit + 1,
+//						limit: params.limit
+//					};
+//					return _params;
+//				},
 				toolbar: "#file-system-toolbar",
 				columns: [{
 					checkbox: true
 				}, {
 					field: "fileName",
-					title: "文件名称"
+					title: "文件名称",
+					formatter: function(value, row, index) {
+						return '<span class="' + Util.fileIcon(row) + '"></span> ' + value;
+					}
 				}, {
 					field: "fileSize",
 					title: "大小",
