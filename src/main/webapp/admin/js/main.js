@@ -13,6 +13,14 @@ app.config(function($routeProvider) {
 			templateUrl: "view/system/developer.html",
 			controller: "systemController"
 		})
+		.when("/file_system", {
+			templateUrl: "view/file_system/list.html",
+			controller: "fileSystemController"
+		})
+		.when("/file_system/:id", {
+			templateUrl: "view/file_system/form.html",
+			controller: "fileSystemController"
+		})
 		.when("/menu", {
 			templateUrl: "view/menu/list.html",
 			controller: "menuController"

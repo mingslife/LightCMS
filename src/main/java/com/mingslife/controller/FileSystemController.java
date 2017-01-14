@@ -20,7 +20,7 @@ import com.mingslife.web.controller.BaseController;
 @RequestMapping("/file_systems")
 public class FileSystemController extends BaseController {
 	@ResponseBody
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	@RequestMapping(value = "", method = RequestMethod.GET)
 	public Map<String, Object> list(@RequestParam(value = "page", defaultValue = "1") int page) {
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
 		
