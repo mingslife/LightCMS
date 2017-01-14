@@ -12,6 +12,10 @@ body {
 	padding: 10px 15px;
 }
 
+td a:hover, td a:active, td a:focus {
+	text-decoration: none;
+}
+
 .modal-content {
 	border: none;
 	/* -webkit-box-shadow: none;

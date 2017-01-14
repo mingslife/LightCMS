@@ -4,6 +4,7 @@ app.service("fileSystemService", function(service) {
 app.controller("fileSystemController", function($scope, $routeParams, fileSystemService) {
 	Util.setTitle("文件管理");
 	
+	$scope.path = "";
 	$scope.defaults = {
 			IS_VISIBLE: [{
 				key: "是",
@@ -16,13 +17,13 @@ app.controller("fileSystemController", function($scope, $routeParams, fileSystem
 		$scope.lock = false;
 		$scope.backToParent = function() {
 			$scope.category = {};
-			window.location.hash = "#/category";
+			window.location.hash = "#/file_system";
 		};
 		$scope.newRecord = function() {
 			if (app.configurations && app.configurations.singlePage) {
-				window.location.hash = "#/category/create";
+				window.location.hash = "#/file_system/create";
 			} else {
-				$("#category-modal").modal("show");
+				$("#file-system-modal").modal("show");
 			}
 		};
 		$scope.saveRecord = function() {
@@ -113,13 +114,14 @@ app.controller("fileSystemController", function($scope, $routeParams, fileSystem
 				showColumns: true,
 				showRefresh: true,
 				showToggle: true,
-//				queryParams: function(params) {
-//					var _params = {
+				queryParams: function(params) {
+					var _params = {
 //						page: params.offset / params.limit + 1,
 //						limit: params.limit
-//					};
-//					return _params;
-//				},
+						path: $scope.path
+					};
+					return _params;
+				},
 				toolbar: "#file-system-toolbar",
 				columns: [{
 					checkbox: true
@@ -127,7 +129,17 @@ app.controller("fileSystemController", function($scope, $routeParams, fileSystem
 					field: "fileName",
 					title: "文件名称",
 					formatter: function(value, row, index) {
-						return '<span class="' + Util.fileIcon(row) + '"></span> ' + value;
+						return '<a href="javascript:;" class="open"><span class="' + Util.fileIcon(row) + '"></span> ' + value + '</a>';
+					},
+					events: {
+						"click .open": function(e, value, row, index) {
+							if (row.isDirectory) {
+								$scope.path = row.path;
+								$("#file-system-table").bootstrapTable("refresh");
+							} else {
+								// TODO 文件下载
+							}
+						}
 					}
 				}, {
 					field: "fileSize",

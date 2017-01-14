@@ -3,6 +3,7 @@ package com.mingslife.controller;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,17 +20,22 @@ import com.mingslife.web.controller.BaseController;
 public class FileSystemController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public List<FileSystem> list(@RequestParam(value = "page", defaultValue = "1") int page) {
+	public List<FileSystem> list(@RequestParam(value = "path", defaultValue = "") String path) {
+		@SuppressWarnings({"unchecked"})
+		Map<String, String> applicationMap = (Map<String, String>) application.getAttribute("application");
+		
 		List<FileSystem> fileSystems = new ArrayList<FileSystem>();
 		
 		List<FileSystem> directoryFileSystems = new ArrayList<FileSystem>();
 		List<FileSystem> fileFileSystems = new ArrayList<FileSystem>();
 		
-		File rootFile = new File("C:/");
-		File[] files = rootFile.listFiles();
+		String uploadPath = applicationMap.get("uploadPath");
+		File root = new File(uploadPath);
+		File parentFile = new File(root, path);
+		File[] files = parentFile.listFiles();
 		for (File file : files) {
-			System.out.println(file.getName() + " " + file.isDirectory());
-			FileSystem fileSystem = FileUtil.toFileSystem(file);
+			System.out.println(file.getName() + " " + file.isDirectory() + " " + file.getAbsolutePath());
+			FileSystem fileSystem = FileUtil.toFileSystem(root, file);
 			if (fileSystem.getIsDirectory()) {
 				directoryFileSystems.add(fileSystem);
 			} else {
