@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.mingslife.model.FileSystem;
 import com.mingslife.util.FileUtil;
 import com.mingslife.web.controller.BaseController;
+import com.mingslife.web.exception.WebException;
 
 @Controller
 @RequestMapping("/file_systems")
@@ -21,6 +22,11 @@ public class FileSystemController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public List<FileSystem> list(@RequestParam(value = "path", defaultValue = "") String path) {
+		// 防止跳到非法目录
+		if (path.indexOf("..") != -1) {
+			throw new WebException("非法路径！");
+		}
+		
 		@SuppressWarnings({"unchecked"})
 		Map<String, String> applicationMap = (Map<String, String>) application.getAttribute("application");
 		
