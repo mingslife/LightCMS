@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Date;
 
+import org.springframework.http.MediaType;
+
 import com.mingslife.model.FileSystem;
 
 public class FileUtil {
@@ -45,5 +47,13 @@ public class FileUtil {
 			}
 		}
 		return fileSystem;
+	}
+	
+	public static MediaType getMediaType(String contentType) {
+		if (contentType == null || contentType.length() == 0) {
+			return MediaType.APPLICATION_OCTET_STREAM;
+		} else {
+			return MediaType.parseMediaType(contentType);
+		}
 	}
 }

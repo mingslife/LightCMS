@@ -1,5 +1,6 @@
 app.service("fileSystemService", function(service) {
 	this.loadListUrl = service.basePath + "file_systems.do";
+	this.downloadUrl = service.basePath + "file_systems/download.do";
 });
 app.controller("fileSystemController", function($scope, $routeParams, fileSystemService) {
 	Util.setTitle("文件管理");
@@ -137,7 +138,7 @@ app.controller("fileSystemController", function($scope, $routeParams, fileSystem
 								$scope.path = row.path;
 								$("#file-system-table").bootstrapTable("refresh");
 							} else {
-								// TODO 文件下载
+								window.open(fileSystemService.downloadUrl + "?path=" + row.path);
 							}
 						}
 					}
