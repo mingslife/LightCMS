@@ -10,7 +10,6 @@ import java.util.Map;
 import org.apache.commons.io.FileUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -95,13 +94,5 @@ public class FileSystemController extends BaseController {
 		httpHeaders.setContentType(FileUtil.getMediaType(contentType));
 		httpHeaders.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + new String(fileName.getBytes("UTF-8"), "ISO-8859-1") + "\""); // 解决IE和Edge下载失败的问题
 		return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(downloadFile), httpHeaders, HttpStatus.CREATED);
-	}
-	
-	private MediaType getMediaType(String contentType) {
-		if (contentType == null || contentType.length() == 0) {
-			return MediaType.APPLICATION_OCTET_STREAM;
-		} else {
-			return MediaType.parseMediaType(contentType);
-		}
 	}
 }
