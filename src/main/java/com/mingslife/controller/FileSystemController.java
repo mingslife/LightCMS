@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.io.FileUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import com.mingslife.model.FileSystem;
 import com.mingslife.util.FileUtil;
@@ -67,6 +70,29 @@ public class FileSystemController extends BaseController {
 		fileSystems.addAll(fileFileSystems);
 		
 		return fileSystems;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/upload", method = RequestMethod.POST)
+	public Map<String, Object> upload(@RequestParam("path") String path, HttpServletRequest request) {
+		// 防止跳到非法目录
+		if (path.indexOf("..") != -1) {
+			throw new WebException("非法路径！");
+		}
+		
+		@SuppressWarnings("unchecked")
+		Map<String, String> applicationMap = (Map<String, String>) application.getAttribute("application");
+		
+		String uploadPath = applicationMap.get("uploadPath");
+		File root = new File(uploadPath);
+		File parentFile = new File(uploadPath, path);
+		if (!parentFile.exists() || !parentFile.isDirectory()) {
+			throw new WebException("无效的路径！");
+		}
+		
+		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(application);
+		// TODO 今天先到这里，有空继续
+		return null;
 	}
 	
 	@ResponseBody
