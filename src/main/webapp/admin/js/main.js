@@ -105,7 +105,7 @@ $(function() {
 	}
 	
 	if (window.Util) {
-		Util.systemName = "轻博客";
+//		Util.systemName = "轻博客";
 	}
 	
 	$(document).on("click","ul.nav li.parent > a > span.icon", function() {
