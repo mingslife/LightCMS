@@ -2,8 +2,8 @@ package com.mingslife.web.interceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -12,6 +12,9 @@ import com.mingslife.web.annotation.Permission;
 import com.mingslife.web.component.UserManager;
 
 public class PermissionInterceptor implements HandlerInterceptor {
+	@Autowired
+	private UserManager userManager;
+
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception exception) throws Exception {
 	}
@@ -28,24 +31,18 @@ public class PermissionInterceptor implements HandlerInterceptor {
 //			Method method = handlerMethod.getMethod();
 			Permission permissionAnnotation = handlerMethod.getMethodAnnotation(Permission.class);
 			if (permissionAnnotation != null) {
-				int value = permissionAnnotation.value();
-				int[] roles = permissionAnnotation.roles();
-				if (value != -1) {
-					// TODO 单角色用户权限
-					;
-				} else if (roles.length > 0) {
-					// TODO 多角色用户权限
-					;
-				} else {
+				int[] value = permissionAnnotation.value();
+				if (value.length == 0) {
 					// 已登录用户权限
-					HttpSession session = request.getSession();
-					Integer userId = (Integer) session.getAttribute(UserManager.USER_ID);
+					Integer userId = userManager.getUserId();
 					if (userId == null) {
-//						System.out.println(value);
-//						System.out.println(roles.length);
 						response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
 						return false;
 					}
+				} else if (value.length == 1) {
+					// TODO 单角色用户权限
+				} else {
+					// TODO 多角色用户权限
 				}
 			}
 		}

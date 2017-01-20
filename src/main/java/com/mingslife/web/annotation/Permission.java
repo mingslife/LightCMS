@@ -8,6 +8,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Permission {
-	int value() default -1;
-	int[] roles() default {};
+	int[] value() default {};
 }
