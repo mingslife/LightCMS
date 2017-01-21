@@ -9,6 +9,8 @@ import java.text.SimpleDateFormat;
  *
  */
 public class SQLUtil {
+	private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
 	/**
 	 * 格式化字段
 	 * 
@@ -47,7 +49,6 @@ public class SQLUtil {
 			if (value instanceof String) {
 				param = "'" + ((String) value).replaceAll("'", "''") + "'";
 			} else if (value instanceof java.util.Date) {
-				SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				param = "'" + simpleDateFormat.format((java.util.Date) value) + "'";
 			} else if (value instanceof java.sql.Date) {
 				param = "'" + ((java.sql.Date) value).toLocaleString() + "'";
