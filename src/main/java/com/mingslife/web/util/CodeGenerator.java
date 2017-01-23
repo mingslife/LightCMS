@@ -296,8 +296,7 @@ public class CodeGenerator {
 			
 			System.out.println(result);
 			
-//			File file = new File(projectPath + "/" + javaPath);
-			File file = new File("F:/test" + "/" + javaPath + "/" + mappingPackage.replace('.', '/') + "/" + targetClassName + "Mapper.xml");
+			File file = new File(projectPath + "/" + javaPath + "/" + mappingPackage.replace('.', '/') + "/" + targetClassName + "Mapper.xml");
 			try {
 				OutputStream out = new FileOutputStream(file);
 				out.write(result.toString().getBytes());
@@ -337,8 +336,7 @@ public class CodeGenerator {
 			
 			System.out.println(result);
 			
-//			File file = new File(projectPath + "/" + javaPath);
-			File file = new File("F:/test" + "/" + javaPath + "/" + daoPackage.replace('.', '/') + "/" + targetClassName + "Mapper.java");
+			File file = new File(projectPath + "/" + javaPath + "/" + daoPackage.replace('.', '/') + "/" + targetClassName + "Mapper.java");
 			try {
 				OutputStream out = new FileOutputStream(file);
 				out.write(result.toString().getBytes());
@@ -396,8 +394,7 @@ public class CodeGenerator {
 			
 			System.out.println(result);
 			
-//			File file = new File(projectPath + "/" + javaPath);
-			File file = new File("F:/test" + "/" + javaPath + "/" + servicePackage.replace('.', '/') + "/I" + targetClassName + "Service.java");
+			File file = new File(projectPath + "/" + javaPath + "/" + servicePackage.replace('.', '/') + "/I" + targetClassName + "Service.java");
 			try {
 				OutputStream out = new FileOutputStream(file);
 				out.write(result.toString().getBytes());
@@ -584,8 +581,7 @@ public class CodeGenerator {
 			
 			System.out.println(result);
 			
-//			File file = new File(projectPath + "/" + javaPath);
-			File file = new File("F:/test" + "/" + javaPath + "/" + serviceImplPackage.replace('.', '/') + "/" + targetClassName + "Service.java");
+			File file = new File(projectPath + "/" + javaPath + "/" + serviceImplPackage.replace('.', '/') + "/" + targetClassName + "Service.java");
 			try {
 				OutputStream out = new FileOutputStream(file);
 				out.write(result.toString().getBytes());
@@ -687,7 +683,7 @@ public class CodeGenerator {
 			
 			System.out.println(result);
 			
-			File file = new File("F:/test" + "/" + javaPath + "/" + controllerPackage.replace('.', '/') + "/" + targetClassName + "Controller.java");
+			File file = new File(projectPath + "/" + javaPath + "/" + controllerPackage.replace('.', '/') + "/" + targetClassName + "Controller.java");
 			try {
 				OutputStream out = new FileOutputStream(file);
 				out.write(result.toString().getBytes());
@@ -734,7 +730,7 @@ public class CodeGenerator {
 			
 			System.out.println(result);
 			
-			File file = new File("F:/test" + "/" + javaPath + "/" + dtoPackage.replace('.', '/') + "/" + targetClassName + "DTO.java");
+			File file = new File(projectPath + "/" + javaPath + "/" + dtoPackage.replace('.', '/') + "/" + targetClassName + "DTO.java");
 			try {
 				OutputStream out = new FileOutputStream(file);
 				out.write(result.toString().getBytes());
@@ -885,7 +881,7 @@ public class CodeGenerator {
 	}*/
 	
 	public static void main(String[] args) {
-		final String projectPath = "E:/Workspaces/MyEclipse 2015 CI/LightCMS";
+		final String projectPath = "F:/test";
 		final String javaPath = "src/main/java";
 		final String modelPackage = "com.mingslife.model";
 		final String mappingPackage = "com.mingslife.mapping";
