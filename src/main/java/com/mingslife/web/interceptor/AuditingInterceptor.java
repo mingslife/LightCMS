@@ -6,6 +6,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.Properties;
+import java.util.UUID;
 
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.MappedStatement;
@@ -18,6 +19,7 @@ import org.apache.ibatis.plugin.Signature;
 
 import com.mingslife.web.annotation.CreateOperator;
 import com.mingslife.web.annotation.CreateDate;
+import com.mingslife.web.annotation.UUIDField;
 import com.mingslife.web.annotation.UpdateOperator;
 import com.mingslife.web.annotation.UpdateDate;
 
@@ -49,6 +51,7 @@ public class AuditingInterceptor implements Interceptor {
 			Object object = invocation.getArgs()[1];
 			doInjection(object, UpdateDate.class, now);
 			doInjection(object, UpdateOperator.class, userId);
+			doInjection(object, UUIDField.class, UUID.randomUUID().toString());
 		}
 		return invocation.proceed();
 	}
@@ -76,9 +79,10 @@ public class AuditingInterceptor implements Interceptor {
 					PropertyDescriptor propertyDescriptor = new PropertyDescriptor(field.getName(), objectClass);
 					Method writeMethod = propertyDescriptor.getWriteMethod();
 					writeMethod.invoke(object, injectData);
+					return true;
 				}
 			}
-			return true;
+			return false;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
