@@ -38,6 +38,11 @@ public class TestController extends BaseController {
 		return new ResponseEntity<String>("{}", HttpStatus.OK);
 	}
 
+	@RequestMapping(value = "/xss", method = RequestMethod.POST)
+	public void xss(@RequestParam("content") String content) {
+		System.out.println(content);
+	}
+
 	@RequestMapping(value = "/jcseg", method = RequestMethod.GET)
 	public ResponseEntity<String> jcseg() {
 //		System.out.println(System.currentTimeMillis());
