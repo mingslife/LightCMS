@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.FileUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.mingslife.model.FileSystem;
+import com.mingslife.service.IFileSystemService;
 import com.mingslife.util.FileUtil;
 import com.mingslife.web.controller.BaseController;
 import com.mingslife.web.exception.WebException;
@@ -30,6 +32,9 @@ import com.mingslife.web.exception.WebException;
 @Controller
 @RequestMapping("/file_systems")
 public class FileSystemController extends BaseController {
+	@Autowired
+	private IFileSystemService fileSystemService;
+
 	@ResponseBody
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public List<FileSystem> list(@RequestParam(value = "path", defaultValue = "") String path) {
