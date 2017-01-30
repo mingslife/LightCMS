@@ -2,8 +2,8 @@ package com.mingslife.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,43 +38,18 @@ public class FileSystemController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public List<FileSystem> list(@RequestParam(value = "path", defaultValue = "") String path) {
-		// 防止跳到非法目录
-		if (path.indexOf("..") != -1) {
-			throw new WebException("非法路径！");
-		}
-		
-		@SuppressWarnings({"unchecked"})
+		@SuppressWarnings("unchecked")
 		Map<String, String> applicationMap = (Map<String, String>) application.getAttribute("application");
-		
-		List<FileSystem> fileSystems = new ArrayList<FileSystem>();
-		
-		List<FileSystem> directoryFileSystems = new ArrayList<FileSystem>();
-		List<FileSystem> fileFileSystems = new ArrayList<FileSystem>();
-		
 		String uploadPath = applicationMap.get("uploadPath");
-		File root = new File(uploadPath);
-		File parentFile = new File(root, path);
-		if (!parentFile.exists()) {
-			throw new WebException("找不到该路径！");
-		}
-		if (!parentFile.equals(root)) {
-			FileSystem fileSystem = FileUtil.toFileSystem(root, parentFile.getParentFile());
-			fileSystem.setFileName("..");
-			fileSystems.add(fileSystem);
-		}
-		File[] files = parentFile.listFiles();
-		for (File file : files) {
-			System.out.println(file.getName() + " " + file.isDirectory() + " " + file.getAbsolutePath());
-			FileSystem fileSystem = FileUtil.toFileSystem(root, file);
-			if (fileSystem.getIsDirectory()) {
-				directoryFileSystems.add(fileSystem);
-			} else {
-				fileFileSystems.add(fileSystem);
-			}
+		String uploadRoot = applicationMap.get("uploadRoot");
+		try {
+			uploadPath = uploadPath.equals("") ? application.getResource(uploadRoot).getPath() : uploadPath;
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+			throw new WebException("上传配置错误！");
 		}
 		
-		fileSystems.addAll(directoryFileSystems);
-		fileSystems.addAll(fileFileSystems);
+		List<FileSystem> fileSystems = fileSystemService.loadList(uploadPath, path);
 		
 		return fileSystems;
 	}
