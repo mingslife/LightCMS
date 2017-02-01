@@ -30,18 +30,18 @@ public class MenuController extends BaseController {
 	@Autowired
 	private IRoleMenuService roleMenuService;
 
-	public String index(@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
-		List<Menu> menus = menuService.load(new String[] {"id"}, "id", "asc", page, LIMIT);
+	public String index(@RequestParam(value = "page", defaultValue = "1") int page, @RequestParam(value = "limit", defaultValue = "10") int limit, Model model) {
+		List<Menu> menus = menuService.load(new String[] {"id"}, "id", "asc", page, limit);
 		model.addAttribute("menus", menus);
 		return "menus/index";
 	}
 
 	@ResponseBody
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public Map<String, Object> list(@RequestParam(value = "page", defaultValue = "1") int page) {
+	public Map<String, Object> list(@RequestParam(value = "page", defaultValue = "1") int page, @RequestParam(value = "limit", defaultValue = "10") int limit) {
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
 		
-		List<Menu> menus = menuService.load(new String[] {"id", "name", "url", "position", "is_visible", "icon"}, "id", "asc", page, LIMIT);
+		List<Menu> menus = menuService.load(new String[] {"id", "name", "url", "position", "is_visible", "icon"}, "id", "asc", page, limit);
 		long count = menuService.count();
 		
 		jsonMap.put("rows", menus);

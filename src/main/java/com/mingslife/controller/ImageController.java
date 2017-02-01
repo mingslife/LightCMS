@@ -27,18 +27,18 @@ public class ImageController extends BaseController {
 	@Autowired
 	private IImageService imageService;
 
-	public String index(@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
-		List<Image> images = imageService.load(new String[] {"id"}, "id", "asc", page, LIMIT);
+	public String index(@RequestParam(value = "page", defaultValue = "1") int page, @RequestParam(value = "limit", defaultValue = "10") int limit, Model model) {
+		List<Image> images = imageService.load(new String[] {"id"}, "id", "asc", page, limit);
 		model.addAttribute("images", images);
 		return "images/index";
 	}
 
 	@ResponseBody
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public Map<String, Object> list(@RequestParam(value = "page", defaultValue = "1") int page) {
+	public Map<String, Object> list(@RequestParam(value = "page", defaultValue = "1") int page, @RequestParam(value = "limit", defaultValue = "10") int limit) {
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
 		
-		List<Image> images = imageService.load(new String[] {"id"}, "id", "asc", page, LIMIT);
+		List<Image> images = imageService.load(new String[] {"id"}, "id", "asc", page, limit);
 		long count = imageService.count();
 		
 		jsonMap.put("rows", images);

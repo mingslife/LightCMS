@@ -28,8 +28,8 @@ public class ArticleController extends BaseController {
 	private IArticleService articleService;
 
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public String index(@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
-		List<Article> articles = articleService.load(new String[] {"id", "uuid", "title"}, "id", "asc", page, LIMIT);
+	public String index(@RequestParam(value = "page", defaultValue = "1") int page, @RequestParam(value = "limit", defaultValue = "10") int limit, Model model) {
+		List<Article> articles = articleService.load(new String[] {"id", "uuid", "title"}, "id", "asc", page, limit);
 		model.addAttribute("articles", articles);
 		return "articles/index";
 	}

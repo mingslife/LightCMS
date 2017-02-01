@@ -27,18 +27,18 @@ public class ArchiveController extends BaseController {
 	@Autowired
 	private IArchiveService archiveService;
 
-	public String index(@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
-		List<Archive> archives = archiveService.load(new String[] {"id"}, "id", "asc", page, LIMIT);
+	public String index(@RequestParam(value = "page", defaultValue = "1") int page, @RequestParam(value = "limit", defaultValue = "10") int limit, Model model) {
+		List<Archive> archives = archiveService.load(new String[] {"id"}, "id", "asc", page, limit);
 		model.addAttribute("archives", archives);
 		return "archives/index";
 	}
 
 	@ResponseBody
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public Map<String, Object> list(@RequestParam(value = "page", defaultValue = "1") int page) {
+	public Map<String, Object> list(@RequestParam(value = "page", defaultValue = "1") int page, @RequestParam(value = "limit", defaultValue = "10") int limit) {
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
 		
-		List<Archive> archives = archiveService.load(new String[] {"id"}, "id", "asc", page, LIMIT);
+		List<Archive> archives = archiveService.load(new String[] {"id"}, "id", "asc", page, limit);
 		long count = archiveService.count();
 		
 		jsonMap.put("rows", archives);
