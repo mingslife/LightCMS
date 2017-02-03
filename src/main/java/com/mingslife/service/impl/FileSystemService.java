@@ -30,20 +30,30 @@ public class FileSystemService implements IFileSystemService {
 
 	@Override
 	public List<FileSystem> loadList(String uploadPath, String path) {
-		if (path == null || path.indexOf("..") != -1) {
-			throw new WebException("非法路径！");
-		}
 		File root = new File(uploadPath);
 		File parentFile = new File(uploadPath, path);
 		if (!parentFile.exists() || !parentFile.isDirectory()) {
 			throw new WebException("无效的路径！");
 		}
+		
 		File[] files = parentFile.listFiles();
-		List<FileSystem> fileSystems = new ArrayList<FileSystem>(files.length);
+		List<FileSystem> fileSystems = new ArrayList<FileSystem>(files.length + 1); // 预留parentFileSystem所占用的空间
+		List<FileSystem> fileSystemFiles = new ArrayList<FileSystem>(files.length);
+		if (!root.equals(parentFile)) {
+			FileSystem parentFileSystem = new FileSystem(root, parentFile.getParentFile());
+			parentFileSystem.setFileName("..");
+			fileSystems.add(parentFileSystem);
+		}
 		for (File file : files) {
 			FileSystem fileSystem = new FileSystem(root, file);
-			fileSystems.add(fileSystem);
+			// 区分文件和文件夹，达到文件夹能在列表排到前面的目的
+			if (fileSystem.getIsDirectory()) {
+				fileSystems.add(fileSystem);
+			} else {
+				fileSystemFiles.add(fileSystem);
+			}
 		}
+		fileSystems.addAll(fileSystemFiles);
 		return fileSystems;
 	}
 }
