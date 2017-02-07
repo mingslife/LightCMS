@@ -1,6 +1,8 @@
 package com.mingslife.controller;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -14,7 +16,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mingslife.dto.TestDTO;
 import com.mingslife.model.Article;
 import com.mingslife.service.IArticleService;
@@ -22,6 +27,7 @@ import com.mingslife.web.annotation.Permission;
 import com.mingslife.web.controller.BaseController;
 import com.mingslife.web.event.EmailEvent;
 import com.mingslife.web.exception.WebException;
+import com.mingslife.web.patch.StringEscapeObjectMapper;
 import com.mingslife.web.util.JcsegUtil;
 
 @Controller
@@ -38,9 +44,20 @@ public class TestController extends BaseController {
 		return new ResponseEntity<String>("{}", HttpStatus.OK);
 	}
 
+	@ResponseBody
 	@RequestMapping(value = "/xss", method = RequestMethod.POST)
-	public void xss(@RequestParam("content") String content) {
+	public Map<String, Object> xss(@RequestParam("content") String content) {
+		ObjectMapper objectMapper = new StringEscapeObjectMapper();
+		Map<String, Object> jsonMap = new HashMap<String, Object>();
+		jsonMap.put("content", content);
 		System.out.println(content);
+		try {
+			System.out.println(objectMapper.writeValueAsString(jsonMap));
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return jsonMap;
 	}
 
 	@RequestMapping(value = "/jcseg", method = RequestMethod.GET)

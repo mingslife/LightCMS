@@ -43,15 +43,17 @@
         <property name="supportedMediaTypes" value="text/html;charset=UTF-8" />
       </bean>
       <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-        <!-- <property name="objectMapper">
-          <bean class="com.fasterxml.jackson.databind.ObjectMapper">
+        <property name="objectMapper">
+          <!-- <bean class="com.fasterxml.jackson.databind.ObjectMapper">
             <property name="dateFormat">
               <bean class="java.text.SimpleDateFormat">
                 <constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm:ss"></constructor-arg>
               </bean>
             </property>
-          </bean>
-        </property> -->
+          </bean> -->
+          <bean class="com.mingslife.web.patch.StringEscapeObjectMapper" />
+        </property>
+        <property name="supportedMediaTypes" value="application/json;charset=UTF-8" />
       </bean>
     </mvc:message-converters>
   </mvc:annotation-driven>
