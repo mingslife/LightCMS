@@ -1,7 +1,9 @@
 package com.mingslife.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -58,6 +60,60 @@ public class TestController extends BaseController {
 			e.printStackTrace();
 		}
 		return jsonMap;
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/xss/article", method = RequestMethod.GET)
+	public List<Article> TestArticleXss(@RequestParam("content") String content) {
+		List<Article> articles = new ArrayList<Article>(2);
+		
+		Article article = new Article();
+		article.setId(1);
+		article.setUuid(UUID.randomUUID().toString());
+		article.setTitle("<p>测试<p>");
+		article.setAuthorId(1);
+		article.setCategoryId(1);
+		article.setPublishDate(new Date());
+		article.setMonth(201608);
+		article.setReadNumber(0L);
+		article.setCommentNumber(0L);
+		article.setIsVisible(true);
+		article.setCanComment(true);
+		article.setPassword(null);
+		article.setHasAttachment(false);
+		article.setHasImage(false);
+		article.setHasVideo(false);
+		article.setCover(null);
+		article.setSummary("测试");
+		article.setContent("<p>测试</p>");
+		article.setMarkdown("<p></p>");
+		article.setOnTop(false);
+		Article article2 = new Article();
+		article2.setId(2);
+		article2.setUuid(UUID.randomUUID().toString());
+		article2.setTitle("<p>测试<p>");
+		article2.setAuthorId(1);
+		article2.setCategoryId(1);
+		article2.setPublishDate(new Date());
+		article2.setMonth(201608);
+		article2.setReadNumber(0L);
+		article2.setCommentNumber(0L);
+		article2.setIsVisible(true);
+		article2.setCanComment(true);
+		article2.setPassword(null);
+		article2.setHasAttachment(false);
+		article2.setHasImage(false);
+		article2.setHasVideo(false);
+		article2.setCover(null);
+		article2.setSummary("测试");
+		article2.setContent("<p>测试</p>");
+		article2.setMarkdown("<p></p>");
+		article2.setOnTop(false);
+		
+		articles.add(article);
+		articles.add(article2);
+		
+		return articles;
 	}
 
 	@RequestMapping(value = "/jcseg", method = RequestMethod.GET)

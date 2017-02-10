@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.SerializableString;
 import com.fasterxml.jackson.core.io.CharacterEscapes;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+@Deprecated
 public class StringEscapeObjectMapper extends ObjectMapper {
 	private static final long serialVersionUID = 1L;
 

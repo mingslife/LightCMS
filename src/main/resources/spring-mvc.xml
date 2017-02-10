@@ -17,7 +17,7 @@
   <context:component-scan base-package="com.mingslife.controller" />
   <bean id="mappingJackson2HttpMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
     <property name="objectMapper">
-      <bean class="com.mingslife.web.patch.StringEscapeObjectMapper">
+      <bean class="com.mingslife.web.patch.CustomObjectMapper">
         <!-- <property name="dateFormat">
           <bean class="java.text.SimpleDateFormat">
             <constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm:ss"></constructor-arg>

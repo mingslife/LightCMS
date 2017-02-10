@@ -4,10 +4,11 @@ import java.io.Serializable;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.mingslife.web.annotation.CreateOperator;
 import com.mingslife.web.annotation.CreateDate;
-import com.mingslife.web.annotation.UpdateOperator;
+import com.mingslife.web.annotation.CreateOperator;
+import com.mingslife.web.annotation.HtmlSafe;
 import com.mingslife.web.annotation.UpdateDate;
+import com.mingslife.web.annotation.UpdateOperator;
 
 public class Article implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -33,7 +34,9 @@ public class Article implements Serializable {
 	private String keywords;
 	private String description;
 	private String summary;
+	@HtmlSafe
 	private String content;
+	@HtmlSafe
 	private String markdown;
 	private Boolean onTop;
 	@JsonIgnore
