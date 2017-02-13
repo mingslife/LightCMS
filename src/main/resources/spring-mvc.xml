@@ -99,6 +99,10 @@
     这里配置将使用上面国际化配置的messageSource
     <property name="validationMessageSource" ref="messageSource" />
   </bean> -->
+  <!-- 开启spring缓存 -->
+  <bean id="ehCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+    <property name="configLocation" value="classpath:ehcache.xml" />
+  </bean>
   <bean id="exceptionResolver" class="com.mingslife.web.resolver.CommonExceptionResolver">
     <property name="exceptionMappings">
       <props>
