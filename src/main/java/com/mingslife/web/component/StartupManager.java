@@ -20,6 +20,7 @@ public class StartupManager implements InitializingBean {
 		Properties properties = new Properties();
 		try {
 			properties.load(application.getResourceAsStream("WEB-INF/classes/application.properties"));
+			@SuppressWarnings({ "unchecked", "rawtypes" })
 			Map<String, String> applicationMap = new HashMap<String, String>((Map) properties);
 			application.setAttribute("application", applicationMap);
 		} catch (Exception e) {

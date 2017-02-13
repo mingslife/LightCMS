@@ -100,8 +100,11 @@
     <property name="validationMessageSource" ref="messageSource" />
   </bean> -->
   <!-- 开启spring缓存 -->
-  <bean id="ehCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+  <bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
     <property name="configLocation" value="classpath:ehcache.xml" />
+  </bean>
+  <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">  
+    <property name="cacheManager" ref="ehcache"></property>  
   </bean>
   <bean id="exceptionResolver" class="com.mingslife.web.resolver.CommonExceptionResolver">
     <property name="exceptionMappings">
