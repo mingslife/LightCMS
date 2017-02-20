@@ -134,7 +134,8 @@ public class Inflector {
 
 	public String tableize(Class<?> klass) {
 		// Strip away package name - we only want the 'base' class name.
-		String className = klass.getName().replace(klass.getPackage().getName() + ".", "");
+//		String className = klass.getName().replace(klass.getPackage().getName() + ".", "");
+		String className = klass.getSimpleName(); // fix bug
 		return tableize(className);
 	}
 
@@ -155,6 +156,19 @@ public class Inflector {
 		for (String word : words) {
 			uncountables.add(word);
 		}
+	}
+
+	private static class Person {
+	}
+
+	public static void main(String[] args) {
+		Inflector inflector = Inflector.getInstance();
+		String modelName = "RoleMenu";
+		String pluralizedName = inflector.pluralize(modelName);
+		String tableName = inflector.tableize(pluralizedName);
+		System.out.println(pluralizedName);
+		System.out.println(tableName);
+		System.out.println(inflector.tableize(Person.class));
 	}
 }
 
