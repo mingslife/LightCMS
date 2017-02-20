@@ -169,6 +169,8 @@ public class Inflector {
 		System.out.println(pluralizedName);
 		System.out.println(tableName);
 		System.out.println(inflector.tableize(Person.class));
+		System.out.println(inflector.pluralize("menu"));
+		System.out.println(inflector.singularize("menus"));
 	}
 }
 
