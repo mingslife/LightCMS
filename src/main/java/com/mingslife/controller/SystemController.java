@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mingslife.dto.SystemLoginDTO;
+import com.mingslife.dto.SystemRegisterDTO;
 import com.mingslife.model.Menu;
 import com.mingslife.model.User;
 import com.mingslife.service.IMenuService;
@@ -62,6 +63,14 @@ public class SystemController extends BaseController {
 	@RequestMapping(value = "/logout", method = RequestMethod.POST)
 	public void logout() {
 		userManager.logout();
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	public Map<String, Object> register(@Valid @ModelAttribute SystemRegisterDTO systemRegisterDTO) {
+		Map<String, Object> jsonMap = new HashMap<String, Object>();
+		
+		return jsonMap;
 	}
 	
 	@Permission
