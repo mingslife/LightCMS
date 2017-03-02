@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -114,5 +115,13 @@ public class FileSystemController extends BaseController {
 		httpHeaders.setContentType(FileUtil.getMediaType(contentType));
 		httpHeaders.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + new String(fileName.getBytes("UTF-8"), "ISO-8859-1") + "\""); // 解决IE和Edge下载失败的问题
 		return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(downloadFile), httpHeaders, HttpStatus.CREATED);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/image", method = RequestMethod.GET)
+	public List<Map<String, Object>> images() {
+		List<Map<String, Object>> images = new ArrayList<Map<String, Object>>();
+		
+		return images;
 	}
 }

@@ -32,7 +32,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</head>
 
 	<body id="single">
-		<div class="container">	
+		<div class="container">
 <jsp:include page="../jsp/header.jsp" />
 		</div>
 
