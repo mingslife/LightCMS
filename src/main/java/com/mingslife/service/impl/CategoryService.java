@@ -3,6 +3,7 @@ package com.mingslife.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.mingslife.dao.CategoryMapper;
@@ -167,6 +168,7 @@ public class CategoryService implements ICategoryService {
 	}
 
 	@Override
+	@Cacheable(value = "categoryCache")
 	public List<Category> loadForMenu(int limit) {
 		return categoryMapper.loadForMenu(limit);
 	}

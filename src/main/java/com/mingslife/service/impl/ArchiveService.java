@@ -3,6 +3,7 @@ package com.mingslife.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.mingslife.dao.ArchiveMapper;
@@ -167,6 +168,7 @@ public class ArchiveService implements IArchiveService {
 	}
 
 	@Override
+	@Cacheable(value="archiveCache")
 	public List<ArchiveForMenuPOJO> loadForMenu(int limit) {
 		return archiveMapper.loadForMenu(limit);
 	}
