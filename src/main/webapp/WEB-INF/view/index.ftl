@@ -48,7 +48,7 @@
 								</div>
 							</header>
 							<div class="entry-content clearfix">
-								<p>${article.summary}</p>
+								<p><#noescape>${article.summary}</#noescape></p>
 								<div class="read-more cl-effect-14">
 									<a href="article/${article.uuid}" class="more-link">阅读全文 <span class="meta-nav">→</span></a>
 								</div>
