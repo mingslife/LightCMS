@@ -168,7 +168,7 @@ public class CategoryService implements ICategoryService {
 	}
 
 	@Override
-	@Cacheable(value = "categoryCache")
+	@Cacheable(value = "categoryCache", key = "#limit")
 	public List<Category> loadForMenu(int limit) {
 		return categoryMapper.loadForMenu(limit);
 	}

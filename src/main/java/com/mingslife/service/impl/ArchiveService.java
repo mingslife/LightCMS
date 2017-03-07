@@ -168,7 +168,7 @@ public class ArchiveService implements IArchiveService {
 	}
 
 	@Override
-	@Cacheable(value="archiveCache")
+	@Cacheable(value = "archiveCache", key = "#limit")
 	public List<ArchiveForMenuPOJO> loadForMenu(int limit) {
 		return archiveMapper.loadForMenu(limit);
 	}

@@ -2,6 +2,8 @@ package com.mingslife.service;
 
 import java.util.List;
 
+import org.springframework.cache.annotation.Cacheable;
+
 import com.mingslife.model.Category;
 import com.mingslife.pojo.CategorySimplePOJO;
 
@@ -37,6 +39,7 @@ public interface ICategoryService {
 	double sum(String parameter, String condition, Object[] values, String order, String sort, int curPage, int limit);
 	double sum(String parameter, String condition, Object[] values, String order, String sort, int curPage, int limit, boolean isDistinct);
 
+	@Cacheable(value = "categoryCache")
 	List<Category> loadForMenu(int limit);
 	List<CategorySimplePOJO> loadAll();
 }
