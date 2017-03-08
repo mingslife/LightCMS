@@ -3,6 +3,8 @@ package com.mingslife.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.mingslife.dao.ArticleMapper;
@@ -20,21 +22,25 @@ public class ArticleService implements IArticleService {
 	private ArticleMapper articleMapper;
 	
 	@Override
+	@CacheEvict(value = "articleCache", allEntries = true)
 	public void save(Article article) {
 		articleMapper.insert(article);
 	}
 	
 	@Override
+	@CacheEvict(value = "articleCache", allEntries = true)
 	public void update(Article article) {
 		articleMapper.updateByPrimaryKeySelective(article);
 	}
 	
 	@Override
+	@CacheEvict(value = "articleCache", allEntries = true)
 	public void delete(Article article) {
 		articleMapper.deleteByPrimaryKey(article.getId());
 	}
 	
 	@Override
+	@CacheEvict(value = "articleCache", allEntries = true)
 	public void delete(Integer id) {
 		articleMapper.deleteByPrimaryKey(id);
 	}
@@ -170,6 +176,7 @@ public class ArticleService implements IArticleService {
 	}
 
 	@Override
+	@Cacheable(value = "articleCache")
 	public List<ArticleForBlogPOJO> loadForBlog(int curPage, int limit) {
 		return articleMapper.loadForBlog(SQLUtil.getOffset(curPage, limit), limit);
 	}
@@ -185,6 +192,7 @@ public class ArticleService implements IArticleService {
 	}
 
 	@Override
+	@Cacheable(value = "articleCache")
 	public List<Article> loadForMenu(int limit) {
 		return articleMapper.loadForMenu(limit);
 	}

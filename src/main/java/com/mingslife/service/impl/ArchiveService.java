@@ -3,6 +3,7 @@ package com.mingslife.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -18,21 +19,25 @@ public class ArchiveService implements IArchiveService {
 	private ArchiveMapper archiveMapper;
 
 	@Override
+	@CacheEvict(value = "archiveCache", allEntries = true)
 	public void save(Archive archive) {
 		archiveMapper.insert(archive);
 	}
 
 	@Override
+	@CacheEvict(value = "archiveCache", allEntries = true)
 	public void update(Archive archive) {
 		archiveMapper.updateByPrimaryKeySelective(archive);
 	}
 
 	@Override
+	@CacheEvict(value = "archiveCache", allEntries = true)
 	public void delete(Archive archive) {
 		archiveMapper.deleteByPrimaryKey(archive.getId());
 	}
 
 	@Override
+	@CacheEvict(value = "archiveCache", allEntries = true)
 	public void delete(Integer id) {
 		archiveMapper.deleteByPrimaryKey(id);
 	}
@@ -168,7 +173,7 @@ public class ArchiveService implements IArchiveService {
 	}
 
 	@Override
-	@Cacheable(value = "archiveCache", key = "#limit")
+	@Cacheable(value = "archiveCache")
 	public List<ArchiveForMenuPOJO> loadForMenu(int limit) {
 		return archiveMapper.loadForMenu(limit);
 	}

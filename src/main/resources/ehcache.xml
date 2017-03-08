@@ -11,14 +11,13 @@
             diskExpiryThreadIntervalSeconds="100"
             memoryStoreEvictionPolicy="LRU"
             />
-    <!-- <cache name="articleCache"
-           maxElementsInMemory="3000"
-           eternal="false"
-           overflowToDisk="true"
-           timeToIdleSeconds="3600"
-           timeToLiveSeconds="3600"
-           memoryStoreEvictionPolicy="LFU"
-           /> -->
+    <cache name="articleCache"   
+           maxElementsInMemory="1000"   
+           eternal="false"  
+           timeToIdleSeconds="120"  
+           timeToLiveSeconds="120"  
+           overflowToDisk="false"   
+           memoryStoreEvictionPolicy="LRU" />
     <cache name="archiveCache"   
            maxElementsInMemory="1000"   
            eternal="false"  

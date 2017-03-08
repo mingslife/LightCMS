@@ -3,6 +3,7 @@ package com.mingslife.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -18,21 +19,25 @@ public class CategoryService implements ICategoryService {
 	private CategoryMapper categoryMapper;
 
 	@Override
+	@CacheEvict(value = "categoryCache", allEntries = true)
 	public void save(Category category) {
 		categoryMapper.insert(category);
 	}
 
 	@Override
+	@CacheEvict(value = "categoryCache", allEntries = true)
 	public void update(Category category) {
 		categoryMapper.updateByPrimaryKeySelective(category);
 	}
 
 	@Override
+	@CacheEvict(value = "categoryCache", allEntries = true)
 	public void delete(Category category) {
 		categoryMapper.deleteByPrimaryKey(category.getId());
 	}
 
 	@Override
+	@CacheEvict(value = "categoryCache")
 	public void delete(Integer id) {
 		categoryMapper.deleteByPrimaryKey(id);
 	}
@@ -168,7 +173,7 @@ public class CategoryService implements ICategoryService {
 	}
 
 	@Override
-	@Cacheable(value = "categoryCache", key = "#limit")
+	@Cacheable(value = "categoryCache")
 	public List<Category> loadForMenu(int limit) {
 		return categoryMapper.loadForMenu(limit);
 	}
