@@ -8,6 +8,9 @@
 
 ## 关键技术
 
+* jQuery
+* Bootstrap
+* AngularJS
 * Spring
 * SpringMVC
 * MyBatis
