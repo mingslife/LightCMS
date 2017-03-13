@@ -15,6 +15,7 @@
 * SpringMVC
 * MyBatis
 * Ehcache
+* BCrypt
 * 等等
 
 ## 功能特性
